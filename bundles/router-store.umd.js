@@ -22,11 +22,13 @@ var ROUTER_ERROR = 'ROUTE_ERROR';
  * @return {?}
  */
 function routerReducer(state, action) {
-    if (action.type === 'ROUTER_NAVIGATION' || action.type === 'ROUTER_ERROR' || action.type === 'ROUTER_CANCEL') {
-        return ({ state: action.payload.routerState, navigationId: action.payload.event.id });
-    }
-    else {
-        return state;
+    switch (action.type) {
+        case ROUTER_NAVIGATION:
+        case ROUTER_ERROR:
+        case ROUTER_CANCEL:
+            return ({ state: action.payload.routerState, navigationId: action.payload.event.id });
+        default:
+            return state;
     }
 }
 /**

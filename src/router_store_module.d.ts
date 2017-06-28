@@ -12,6 +12,13 @@ export declare type RouterNavigationPayload = {
     event: RoutesRecognized;
 };
 /**
+ * An action dispatched when the router navigates.
+ */
+export declare type RouterNavigationAction = {
+    type: typeof ROUTER_NAVIGATION;
+    payload: RouterNavigationPayload;
+};
+/**
  * An action dispatched when the router cancels navigation.
  */
 export declare const ROUTER_CANCEL = "ROUTER_CANCEL";
@@ -22,6 +29,13 @@ export declare type RouterCancelPayload<T> = {
     routerState: RouterStateSnapshot;
     storeState: T;
     event: NavigationCancel;
+};
+/**
+ * An action dispatched when the router cancel navigation.
+ */
+export declare type RouterCancelAction<T> = {
+    type: typeof ROUTER_CANCEL;
+    payload: RouterCancelPayload<T>;
 };
 /**
  * An action dispatched when the router errors.
@@ -35,11 +49,22 @@ export declare type RouterErrorPayload<T> = {
     storeState: T;
     event: NavigationError;
 };
+/**
+ * An action dispatched when the router errors.
+ */
+export declare type RouterErrorAction<T> = {
+    type: typeof ROUTER_ERROR;
+    payload: RouterErrorPayload<T>;
+};
+/**
+ * An union type of router actions.
+ */
+export declare type RouterAction<T> = RouterNavigationAction | RouterCancelAction<T> | RouterErrorAction<T>;
 export declare type RouterReducerState = {
     state: RouterStateSnapshot;
     navigationId: number;
 };
-export declare function routerReducer(state: RouterReducerState, action: any): RouterReducerState;
+export declare function routerReducer(state: RouterReducerState, action: RouterAction<any>): RouterReducerState;
 /**
  * Connects RouterModule with StoreModule.
  *
