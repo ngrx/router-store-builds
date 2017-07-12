@@ -1,7 +1,7 @@
 (function (global, factory) {
 	typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@angular/core'), require('@angular/router'), require('@ngrx/store'), require('rxjs/observable/of')) :
 	typeof define === 'function' && define.amd ? define(['exports', '@angular/core', '@angular/router', '@ngrx/store', 'rxjs/observable/of'], factory) :
-	(factory((global.ngrx = global.ngrx || {}, global.ngrx.routerStore = {}),global.ng.core,global.ng.router,global.ngrx.store,global.Rx.Observable));
+	(factory((global.ngrx = global.ngrx || {}, global.ngrx.routerStore = global.ngrx.routerStore || {}),global.ng.core,global.ng.router,global.ngrx.store,global.Rx.Observable));
 }(this, (function (exports,_angular_core,_angular_router,_ngrx_store,rxjs_observable_of) { 'use strict';
 
 /**
