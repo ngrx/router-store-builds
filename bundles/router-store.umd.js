@@ -26,7 +26,10 @@ function routerReducer(state, action) {
         case ROUTER_NAVIGATION:
         case ROUTER_ERROR:
         case ROUTER_CANCEL:
-            return ({ state: action.payload.routerState, navigationId: action.payload.event.id });
+            return {
+                state: action.payload.routerState,
+                navigationId: action.payload.event.id,
+            };
         default:
             return state;
     }
@@ -116,7 +119,10 @@ var StoreRouterConnectingModule = (function () {
     StoreRouterConnectingModule.prototype.dispatchEvent = function () {
         this.dispatchTriggeredByRouter = true;
         try {
-            var /** @type {?} */ payload = { routerState: this.routerState, event: this.lastRoutesRecognized };
+            var /** @type {?} */ payload = {
+                routerState: this.routerState,
+                event: this.lastRoutesRecognized,
+            };
             this.store.dispatch({ type: ROUTER_NAVIGATION, payload: payload });
         }
         finally {
@@ -167,7 +173,11 @@ var StoreRouterConnectingModule = (function () {
      * @return {?}
      */
     StoreRouterConnectingModule.prototype.dispatchRouterCancel = function (event) {
-        var /** @type {?} */ payload = { routerState: this.routerState, storeState: this.storeState, event: event };
+        var /** @type {?} */ payload = {
+            routerState: this.routerState,
+            storeState: this.storeState,
+            event: event,
+        };
         this.store.dispatch({ type: ROUTER_CANCEL, payload: payload });
     };
     /**
@@ -175,7 +185,11 @@ var StoreRouterConnectingModule = (function () {
      * @return {?}
      */
     StoreRouterConnectingModule.prototype.dispatchRouterError = function (event) {
-        var /** @type {?} */ payload = { routerState: this.routerState, storeState: this.storeState, event: event };
+        var /** @type {?} */ payload = {
+            routerState: this.routerState,
+            storeState: this.storeState,
+            event: event,
+        };
         this.store.dispatch({ type: ROUTER_ERROR, payload: payload });
     };
     return StoreRouterConnectingModule;

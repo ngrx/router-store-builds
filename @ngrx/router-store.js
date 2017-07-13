@@ -25,7 +25,10 @@ function routerReducer(state, action) {
         case ROUTER_NAVIGATION:
         case ROUTER_ERROR:
         case ROUTER_CANCEL:
-            return ({ state: action.payload.routerState, navigationId: action.payload.event.id });
+            return {
+                state: action.payload.routerState,
+                navigationId: action.payload.event.id,
+            };
         default:
             return state;
     }
@@ -113,7 +116,10 @@ class StoreRouterConnectingModule {
     dispatchEvent() {
         this.dispatchTriggeredByRouter = true;
         try {
-            const /** @type {?} */ payload = { routerState: this.routerState, event: this.lastRoutesRecognized };
+            const /** @type {?} */ payload = {
+                routerState: this.routerState,
+                event: this.lastRoutesRecognized,
+            };
             this.store.dispatch({ type: ROUTER_NAVIGATION, payload });
         }
         finally {
@@ -163,7 +169,11 @@ class StoreRouterConnectingModule {
      * @return {?}
      */
     dispatchRouterCancel(event) {
-        const /** @type {?} */ payload = { routerState: this.routerState, storeState: this.storeState, event };
+        const /** @type {?} */ payload = {
+            routerState: this.routerState,
+            storeState: this.storeState,
+            event,
+        };
         this.store.dispatch({ type: ROUTER_CANCEL, payload });
     }
     /**
@@ -171,7 +181,11 @@ class StoreRouterConnectingModule {
      * @return {?}
      */
     dispatchRouterError(event) {
-        const /** @type {?} */ payload = { routerState: this.routerState, storeState: this.storeState, event };
+        const /** @type {?} */ payload = {
+            routerState: this.routerState,
+            storeState: this.storeState,
+            event,
+        };
         this.store.dispatch({ type: ROUTER_ERROR, payload });
     }
 }

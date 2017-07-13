@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { NavigationCancel, NavigationError, Router, RoutesRecognized } from '@angular/router';
+import { NavigationCancel, NavigationError, Router, RoutesRecognized, } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { of } from 'rxjs/observable/of';
 /**
@@ -24,7 +24,10 @@ export function routerReducer(state, action) {
         case ROUTER_NAVIGATION:
         case ROUTER_ERROR:
         case ROUTER_CANCEL:
-            return ({ state: action.payload.routerState, navigationId: action.payload.event.id });
+            return {
+                state: action.payload.routerState,
+                navigationId: action.payload.event.id,
+            };
         default:
             return state;
     }
@@ -112,7 +115,10 @@ export class StoreRouterConnectingModule {
     dispatchEvent() {
         this.dispatchTriggeredByRouter = true;
         try {
-            const /** @type {?} */ payload = { routerState: this.routerState, event: this.lastRoutesRecognized };
+            const /** @type {?} */ payload = {
+                routerState: this.routerState,
+                event: this.lastRoutesRecognized,
+            };
             this.store.dispatch({ type: ROUTER_NAVIGATION, payload });
         }
         finally {
@@ -162,7 +168,11 @@ export class StoreRouterConnectingModule {
      * @return {?}
      */
     dispatchRouterCancel(event) {
-        const /** @type {?} */ payload = { routerState: this.routerState, storeState: this.storeState, event };
+        const /** @type {?} */ payload = {
+            routerState: this.routerState,
+            storeState: this.storeState,
+            event,
+        };
         this.store.dispatch({ type: ROUTER_CANCEL, payload });
     }
     /**
@@ -170,7 +180,11 @@ export class StoreRouterConnectingModule {
      * @return {?}
      */
     dispatchRouterError(event) {
-        const /** @type {?} */ payload = { routerState: this.routerState, storeState: this.storeState, event };
+        const /** @type {?} */ payload = {
+            routerState: this.routerState,
+            storeState: this.storeState,
+            event,
+        };
         this.store.dispatch({ type: ROUTER_ERROR, payload });
     }
 }
