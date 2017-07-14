@@ -95,8 +95,8 @@ export class StoreRouterConnectingModule {
     setUpBeforePreactivationHook() {
         ((this.router)).hooks.beforePreactivation = (routerState) => {
             this.routerState = routerState;
-            if (this.shouldDispatch())
-                this.dispatchEvent();
+            if (this.shouldDispatchRouterNavigation())
+                this.dispatchRouterNavigation();
             return of(true);
         };
     }
@@ -112,24 +112,7 @@ export class StoreRouterConnectingModule {
     /**
      * @return {?}
      */
-    dispatchEvent() {
-        this.dispatchTriggeredByRouter = true;
-        try {
-            const /** @type {?} */ payload = {
-                routerState: this.routerState,
-                event: this.lastRoutesRecognized,
-            };
-            this.store.dispatch({ type: ROUTER_NAVIGATION, payload });
-        }
-        finally {
-            this.dispatchTriggeredByRouter = false;
-            this.navigationTriggeredByDispatch = false;
-        }
-    }
-    /**
-     * @return {?}
-     */
-    shouldDispatch() {
+    shouldDispatchRouterNavigation() {
         if (!this.storeState['routerReducer'])
             return true;
         return !this.navigationTriggeredByDispatch;
@@ -164,28 +147,50 @@ export class StoreRouterConnectingModule {
         });
     }
     /**
+     * @return {?}
+     */
+    dispatchRouterNavigation() {
+        this.dispatchRouterAction(ROUTER_NAVIGATION, {
+            routerState: this.routerState,
+            event: this.lastRoutesRecognized,
+        });
+    }
+    /**
      * @param {?} event
      * @return {?}
      */
     dispatchRouterCancel(event) {
-        const /** @type {?} */ payload = {
+        this.dispatchRouterAction(ROUTER_CANCEL, {
             routerState: this.routerState,
             storeState: this.storeState,
             event,
-        };
-        this.store.dispatch({ type: ROUTER_CANCEL, payload });
+        });
     }
     /**
      * @param {?} event
      * @return {?}
      */
     dispatchRouterError(event) {
-        const /** @type {?} */ payload = {
+        this.dispatchRouterAction(ROUTER_ERROR, {
             routerState: this.routerState,
             storeState: this.storeState,
             event,
-        };
-        this.store.dispatch({ type: ROUTER_ERROR, payload });
+        });
+    }
+    /**
+     * @param {?} type
+     * @param {?} payload
+     * @return {?}
+     */
+    dispatchRouterAction(type, payload) {
+        this.dispatchTriggeredByRouter = true;
+        try {
+            this.store.dispatch({ type, payload });
+        }
+        finally {
+            this.dispatchTriggeredByRouter = false;
+            this.navigationTriggeredByDispatch = false;
+        }
     }
 }
 StoreRouterConnectingModule.decorators = [

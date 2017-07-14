@@ -118,10 +118,11 @@ export declare class StoreRouterConnectingModule {
     constructor(store: Store<any>, router: Router);
     private setUpBeforePreactivationHook();
     private setUpStoreStateListener();
-    private dispatchEvent();
-    private shouldDispatch();
+    private shouldDispatchRouterNavigation();
     private navigateIfNeeded();
     private setUpStateRollbackEvents();
+    private dispatchRouterNavigation();
     private dispatchRouterCancel(event);
     private dispatchRouterError(event);
+    private dispatchRouterAction(type, payload);
 }

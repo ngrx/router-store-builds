@@ -98,8 +98,8 @@ var StoreRouterConnectingModule = (function () {
         var _this = this;
         ((this.router)).hooks.beforePreactivation = function (routerState) {
             _this.routerState = routerState;
-            if (_this.shouldDispatch())
-                _this.dispatchEvent();
+            if (_this.shouldDispatchRouterNavigation())
+                _this.dispatchRouterNavigation();
             return rxjs_observable_of.of(true);
         };
     };
@@ -116,24 +116,7 @@ var StoreRouterConnectingModule = (function () {
     /**
      * @return {?}
      */
-    StoreRouterConnectingModule.prototype.dispatchEvent = function () {
-        this.dispatchTriggeredByRouter = true;
-        try {
-            var /** @type {?} */ payload = {
-                routerState: this.routerState,
-                event: this.lastRoutesRecognized,
-            };
-            this.store.dispatch({ type: ROUTER_NAVIGATION, payload: payload });
-        }
-        finally {
-            this.dispatchTriggeredByRouter = false;
-            this.navigationTriggeredByDispatch = false;
-        }
-    };
-    /**
-     * @return {?}
-     */
-    StoreRouterConnectingModule.prototype.shouldDispatch = function () {
+    StoreRouterConnectingModule.prototype.shouldDispatchRouterNavigation = function () {
         if (!this.storeState['routerReducer'])
             return true;
         return !this.navigationTriggeredByDispatch;
@@ -169,28 +152,50 @@ var StoreRouterConnectingModule = (function () {
         });
     };
     /**
+     * @return {?}
+     */
+    StoreRouterConnectingModule.prototype.dispatchRouterNavigation = function () {
+        this.dispatchRouterAction(ROUTER_NAVIGATION, {
+            routerState: this.routerState,
+            event: this.lastRoutesRecognized,
+        });
+    };
+    /**
      * @param {?} event
      * @return {?}
      */
     StoreRouterConnectingModule.prototype.dispatchRouterCancel = function (event) {
-        var /** @type {?} */ payload = {
+        this.dispatchRouterAction(ROUTER_CANCEL, {
             routerState: this.routerState,
             storeState: this.storeState,
             event: event,
-        };
-        this.store.dispatch({ type: ROUTER_CANCEL, payload: payload });
+        });
     };
     /**
      * @param {?} event
      * @return {?}
      */
     StoreRouterConnectingModule.prototype.dispatchRouterError = function (event) {
-        var /** @type {?} */ payload = {
+        this.dispatchRouterAction(ROUTER_ERROR, {
             routerState: this.routerState,
             storeState: this.storeState,
             event: event,
-        };
-        this.store.dispatch({ type: ROUTER_ERROR, payload: payload });
+        });
+    };
+    /**
+     * @param {?} type
+     * @param {?} payload
+     * @return {?}
+     */
+    StoreRouterConnectingModule.prototype.dispatchRouterAction = function (type, payload) {
+        this.dispatchTriggeredByRouter = true;
+        try {
+            this.store.dispatch({ type: type, payload: payload });
+        }
+        finally {
+            this.dispatchTriggeredByRouter = false;
+            this.navigationTriggeredByDispatch = false;
+        }
     };
     return StoreRouterConnectingModule;
 }());
