@@ -122,8 +122,10 @@ class StoreRouterConnectingModule {
      * @return {?}
      */
     navigateIfNeeded() {
-        if (!this.storeState['routerReducer'])
+        if (!this.storeState['routerReducer'] ||
+            !this.storeState['routerReducer'].state) {
             return;
+        }
         if (this.dispatchTriggeredByRouter)
             return;
         if (this.router.url !== this.storeState['routerReducer'].state.url) {

@@ -123,8 +123,10 @@ var StoreRouterConnectingModule = (function () {
      * @return {?}
      */
     StoreRouterConnectingModule.prototype.navigateIfNeeded = function () {
-        if (!this.storeState['routerReducer'])
+        if (!this.storeState['routerReducer'] ||
+            !this.storeState['routerReducer'].state) {
             return;
+        }
         if (this.dispatchTriggeredByRouter)
             return;
         if (this.router.url !== this.storeState['routerReducer'].state.url) {
