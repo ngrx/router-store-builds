@@ -1,5 +1,6 @@
 import { NavigationCancel, NavigationError, Router, RouterStateSnapshot, RoutesRecognized } from '@angular/router';
 import { Store } from '@ngrx/store';
+import { RouterStateSerializer } from './serializer';
 /**
  * An action dispatched when the router navigates.
  */
@@ -7,16 +8,16 @@ export declare const ROUTER_NAVIGATION = "ROUTER_NAVIGATION";
 /**
  * Payload of ROUTER_NAVIGATION.
  */
-export declare type RouterNavigationPayload = {
-    routerState: RouterStateSnapshot;
+export declare type RouterNavigationPayload<T> = {
+    routerState: T;
     event: RoutesRecognized;
 };
 /**
  * An action dispatched when the router navigates.
  */
-export declare type RouterNavigationAction = {
+export declare type RouterNavigationAction<T> = {
     type: typeof ROUTER_NAVIGATION;
-    payload: RouterNavigationPayload;
+    payload: RouterNavigationPayload<T>;
 };
 /**
  * An action dispatched when the router cancels navigation.
@@ -59,7 +60,7 @@ export declare type RouterErrorAction<T> = {
 /**
  * An union type of router actions.
  */
-export declare type RouterAction<T> = RouterNavigationAction | RouterCancelAction<T> | RouterErrorAction<T>;
+export declare type RouterAction<T> = RouterNavigationAction<T> | RouterCancelAction<T> | RouterErrorAction<T>;
 export declare type RouterReducerState = {
     state: RouterStateSnapshot;
     navigationId: number;
@@ -94,7 +95,7 @@ export declare function routerReducer(state: RouterReducerState, action: RouterA
  *   declarations: [AppCmp, SimpleCmp],
  *   imports: [
  *     BrowserModule,
- *     StoreModule.provideStore(mapOfReducers),
+ *     StoreModule.forRoot(mapOfReducers),
  *     RouterModule.forRoot([
  *       { path: '', component: SimpleCmp },
  *       { path: 'next', component: SimpleCmp }
@@ -110,12 +111,13 @@ export declare function routerReducer(state: RouterReducerState, action: RouterA
 export declare class StoreRouterConnectingModule {
     private store;
     private router;
+    private serializer;
     private routerState;
     private storeState;
     private lastRoutesRecognized;
     private dispatchTriggeredByRouter;
     private navigationTriggeredByDispatch;
-    constructor(store: Store<any>, router: Router);
+    constructor(store: Store<any>, router: Router, serializer: RouterStateSerializer<RouterStateSnapshot>);
     private setUpBeforePreactivationHook();
     private setUpStoreStateListener();
     private shouldDispatchRouterNavigation();

@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { NavigationCancel, NavigationError, Router, RoutesRecognized, } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { of } from 'rxjs/observable/of';
+import { DefaultRouterStateSerializer, RouterStateSerializer, } from './serializer';
 /**
  * An action dispatched when the router navigates.
  */
@@ -61,7 +62,7 @@ export function routerReducer(state, action) {
  *   declarations: [AppCmp, SimpleCmp],
  *   imports: [
  *     BrowserModule,
- *     StoreModule.provideStore(mapOfReducers),
+ *     StoreModule.forRoot(mapOfReducers),
  *     RouterModule.forRoot([
  *       { path: '', component: SimpleCmp },
  *       { path: 'next', component: SimpleCmp }
@@ -78,11 +79,12 @@ export class StoreRouterConnectingModule {
     /**
      * @param {?} store
      * @param {?} router
+     * @param {?} serializer
      */
-    constructor(store, router) {
+    constructor(store, router, serializer) {
         this.store = store;
         this.router = router;
-        this.routerState = null;
+        this.serializer = serializer;
         this.dispatchTriggeredByRouter = false;
         this.navigationTriggeredByDispatch = false;
         this.setUpBeforePreactivationHook();
@@ -94,7 +96,7 @@ export class StoreRouterConnectingModule {
      */
     setUpBeforePreactivationHook() {
         ((this.router)).hooks.beforePreactivation = (routerState) => {
-            this.routerState = routerState;
+            this.routerState = this.serializer.serialize(routerState);
             if (this.shouldDispatchRouterNavigation())
                 this.dispatchRouterNavigation();
             return of(true);
@@ -154,7 +156,12 @@ export class StoreRouterConnectingModule {
     dispatchRouterNavigation() {
         this.dispatchRouterAction(ROUTER_NAVIGATION, {
             routerState: this.routerState,
-            event: this.lastRoutesRecognized,
+            event: /** @type {?} */ ({
+                id: this.lastRoutesRecognized.id,
+                url: this.lastRoutesRecognized.url,
+                urlAfterRedirects: this.lastRoutesRecognized.urlAfterRedirects,
+                state: this.serializer.serialize(this.routerState),
+            }),
         });
     }
     /**
@@ -196,7 +203,11 @@ export class StoreRouterConnectingModule {
     }
 }
 StoreRouterConnectingModule.decorators = [
-    { type: NgModule, args: [{},] },
+    { type: NgModule, args: [{
+                providers: [
+                    { provide: RouterStateSerializer, useClass: DefaultRouterStateSerializer },
+                ],
+            },] },
 ];
 /**
  * @nocollapse
@@ -204,6 +215,7 @@ StoreRouterConnectingModule.decorators = [
 StoreRouterConnectingModule.ctorParameters = () => [
     { type: Store, },
     { type: Router, },
+    { type: RouterStateSerializer, },
 ];
 function StoreRouterConnectingModule_tsickle_Closure_declarations() {
     /** @type {?} */
@@ -227,5 +239,7 @@ function StoreRouterConnectingModule_tsickle_Closure_declarations() {
     StoreRouterConnectingModule.prototype.store;
     /** @type {?} */
     StoreRouterConnectingModule.prototype.router;
+    /** @type {?} */
+    StoreRouterConnectingModule.prototype.serializer;
 }
 //# sourceMappingURL=router_store_module.js.map

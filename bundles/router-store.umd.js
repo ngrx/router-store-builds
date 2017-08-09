@@ -5,6 +5,32 @@
 }(this, (function (exports,_angular_core,_angular_router,_ngrx_store,rxjs_observable_of) { 'use strict';
 
 /**
+ * @abstract
+ */
+var RouterStateSerializer = (function () {
+    function RouterStateSerializer() {
+    }
+    /**
+     * @abstract
+     * @param {?} routerState
+     * @return {?}
+     */
+    RouterStateSerializer.prototype.serialize = function (routerState) { };
+    return RouterStateSerializer;
+}());
+var DefaultRouterStateSerializer = (function () {
+    function DefaultRouterStateSerializer() {
+    }
+    /**
+     * @param {?} routerState
+     * @return {?}
+     */
+    DefaultRouterStateSerializer.prototype.serialize = function (routerState) {
+        return routerState;
+    };
+    return DefaultRouterStateSerializer;
+}());
+/**
  * An action dispatched when the router navigates.
  */
 var ROUTER_NAVIGATION = 'ROUTER_NAVIGATION';
@@ -63,7 +89,7 @@ function routerReducer(state, action) {
  *   declarations: [AppCmp, SimpleCmp],
  *   imports: [
  *     BrowserModule,
- *     StoreModule.provideStore(mapOfReducers),
+ *     StoreModule.forRoot(mapOfReducers),
  *     RouterModule.forRoot([
  *       { path: '', component: SimpleCmp },
  *       { path: 'next', component: SimpleCmp }
@@ -80,11 +106,12 @@ var StoreRouterConnectingModule = (function () {
     /**
      * @param {?} store
      * @param {?} router
+     * @param {?} serializer
      */
-    function StoreRouterConnectingModule(store, router) {
+    function StoreRouterConnectingModule(store, router, serializer) {
         this.store = store;
         this.router = router;
-        this.routerState = null;
+        this.serializer = serializer;
         this.dispatchTriggeredByRouter = false;
         this.navigationTriggeredByDispatch = false;
         this.setUpBeforePreactivationHook();
@@ -97,7 +124,7 @@ var StoreRouterConnectingModule = (function () {
     StoreRouterConnectingModule.prototype.setUpBeforePreactivationHook = function () {
         var _this = this;
         ((this.router)).hooks.beforePreactivation = function (routerState) {
-            _this.routerState = routerState;
+            _this.routerState = _this.serializer.serialize(routerState);
             if (_this.shouldDispatchRouterNavigation())
                 _this.dispatchRouterNavigation();
             return rxjs_observable_of.of(true);
@@ -159,7 +186,12 @@ var StoreRouterConnectingModule = (function () {
     StoreRouterConnectingModule.prototype.dispatchRouterNavigation = function () {
         this.dispatchRouterAction(ROUTER_NAVIGATION, {
             routerState: this.routerState,
-            event: this.lastRoutesRecognized,
+            event: /** @type {?} */ ({
+                id: this.lastRoutesRecognized.id,
+                url: this.lastRoutesRecognized.url,
+                urlAfterRedirects: this.lastRoutesRecognized.urlAfterRedirects,
+                state: this.serializer.serialize(this.routerState),
+            }),
         });
     };
     /**
@@ -202,7 +234,11 @@ var StoreRouterConnectingModule = (function () {
     return StoreRouterConnectingModule;
 }());
 StoreRouterConnectingModule.decorators = [
-    { type: _angular_core.NgModule, args: [{},] },
+    { type: _angular_core.NgModule, args: [{
+                providers: [
+                    { provide: RouterStateSerializer, useClass: DefaultRouterStateSerializer },
+                ],
+            },] },
 ];
 /**
  * @nocollapse
@@ -210,6 +246,7 @@ StoreRouterConnectingModule.decorators = [
 StoreRouterConnectingModule.ctorParameters = function () { return [
     { type: _ngrx_store.Store, },
     { type: _angular_router.Router, },
+    { type: RouterStateSerializer, },
 ]; };
 
 exports.ROUTER_ERROR = ROUTER_ERROR;
@@ -217,6 +254,8 @@ exports.ROUTER_CANCEL = ROUTER_CANCEL;
 exports.ROUTER_NAVIGATION = ROUTER_NAVIGATION;
 exports.routerReducer = routerReducer;
 exports.StoreRouterConnectingModule = StoreRouterConnectingModule;
+exports.RouterStateSerializer = RouterStateSerializer;
+exports.DefaultRouterStateSerializer = DefaultRouterStateSerializer;
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
