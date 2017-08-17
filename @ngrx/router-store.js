@@ -177,12 +177,7 @@ class StoreRouterConnectingModule {
     dispatchRouterNavigation() {
         this.dispatchRouterAction(ROUTER_NAVIGATION, {
             routerState: this.routerState,
-            event: /** @type {?} */ ({
-                id: this.lastRoutesRecognized.id,
-                url: this.lastRoutesRecognized.url,
-                urlAfterRedirects: this.lastRoutesRecognized.urlAfterRedirects,
-                state: this.serializer.serialize(this.routerState),
-            }),
+            event: new RoutesRecognized(this.lastRoutesRecognized.id, this.lastRoutesRecognized.url, this.lastRoutesRecognized.urlAfterRedirects, this.routerState),
         });
     }
     /**
