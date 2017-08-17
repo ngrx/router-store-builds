@@ -37,6 +37,7 @@ const ROUTER_CANCEL = 'ROUTER_CANCEL';
  */
 const ROUTER_ERROR = 'ROUTE_ERROR';
 /**
+ * @template T
  * @param {?} state
  * @param {?} action
  * @return {?}

@@ -15,7 +15,7 @@ export declare type RouterNavigationPayload<T> = {
 /**
  * An action dispatched when the router navigates.
  */
-export declare type RouterNavigationAction<T> = {
+export declare type RouterNavigationAction<T = RouterStateSnapshot> = {
     type: typeof ROUTER_NAVIGATION;
     payload: RouterNavigationPayload<T>;
 };
@@ -26,17 +26,17 @@ export declare const ROUTER_CANCEL = "ROUTER_CANCEL";
 /**
  * Payload of ROUTER_CANCEL.
  */
-export declare type RouterCancelPayload<T> = {
-    routerState: RouterStateSnapshot;
+export declare type RouterCancelPayload<T, V> = {
+    routerState: V;
     storeState: T;
     event: NavigationCancel;
 };
 /**
  * An action dispatched when the router cancel navigation.
  */
-export declare type RouterCancelAction<T> = {
+export declare type RouterCancelAction<T, V = RouterStateSnapshot> = {
     type: typeof ROUTER_CANCEL;
-    payload: RouterCancelPayload<T>;
+    payload: RouterCancelPayload<T, V>;
 };
 /**
  * An action dispatched when the router errors.
@@ -45,27 +45,27 @@ export declare const ROUTER_ERROR = "ROUTE_ERROR";
 /**
  * Payload of ROUTER_ERROR.
  */
-export declare type RouterErrorPayload<T> = {
-    routerState: RouterStateSnapshot;
+export declare type RouterErrorPayload<T, V> = {
+    routerState: V;
     storeState: T;
     event: NavigationError;
 };
 /**
  * An action dispatched when the router errors.
  */
-export declare type RouterErrorAction<T> = {
+export declare type RouterErrorAction<T, V = RouterStateSnapshot> = {
     type: typeof ROUTER_ERROR;
-    payload: RouterErrorPayload<T>;
+    payload: RouterErrorPayload<T, V>;
 };
 /**
  * An union type of router actions.
  */
-export declare type RouterAction<T> = RouterNavigationAction<T> | RouterCancelAction<T> | RouterErrorAction<T>;
-export declare type RouterReducerState = {
-    state: RouterStateSnapshot;
+export declare type RouterAction<T, V = RouterStateSnapshot> = RouterNavigationAction<T> | RouterCancelAction<T, V> | RouterErrorAction<T, V>;
+export declare type RouterReducerState<T = RouterStateSnapshot> = {
+    state: T;
     navigationId: number;
 };
-export declare function routerReducer(state: RouterReducerState, action: RouterAction<any>): RouterReducerState;
+export declare function routerReducer<T = RouterStateSnapshot>(state: RouterReducerState<T>, action: RouterAction<any>): RouterReducerState<T>;
 /**
  * Connects RouterModule with StoreModule.
  *

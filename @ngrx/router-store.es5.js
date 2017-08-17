@@ -41,6 +41,7 @@ var ROUTER_CANCEL = 'ROUTER_CANCEL';
  */
 var ROUTER_ERROR = 'ROUTE_ERROR';
 /**
+ * @template T
  * @param {?} state
  * @param {?} action
  * @return {?}

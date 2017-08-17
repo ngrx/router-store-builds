@@ -16,6 +16,7 @@ export const ROUTER_CANCEL = 'ROUTER_CANCEL';
  */
 export const ROUTER_ERROR = 'ROUTE_ERROR';
 /**
+ * @template T
  * @param {?} state
  * @param {?} action
  * @return {?}
