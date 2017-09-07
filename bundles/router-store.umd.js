@@ -138,6 +138,8 @@ var StoreRouterConnectingModule = (function () {
         var _this = this;
         this.store.subscribe(function (s) {
             _this.storeState = s;
+        });
+        this.store.select('routerReducer').subscribe(function () {
             _this.navigateIfNeeded();
         });
     };
