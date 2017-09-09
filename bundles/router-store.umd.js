@@ -211,7 +211,7 @@ var StoreRouterConnectingModule = (function () {
         this.dispatchRouterAction(ROUTER_ERROR, {
             routerState: this.routerState,
             storeState: this.storeState,
-            event: event,
+            event: new _angular_router.NavigationError(event.id, event.url, "" + event),
         });
     };
     /**
