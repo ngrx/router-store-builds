@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { NavigationCancel, NavigationError, Router, RoutesRecognized } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { of } from 'rxjs/observable/of';
+import { of as of$1 } from 'rxjs/observable/of';
 
 /**
  * @abstract
@@ -103,9 +103,9 @@ class StoreRouterConnectingModule {
      * @param {?} router
      * @param {?} serializer
      */
-    constructor(store, router, serializer) {
-        this.store = store;
-        this.router = router;
+    constructor(store$$1, router$$1, serializer) {
+        this.store = store$$1;
+        this.router = router$$1;
         this.serializer = serializer;
         this.dispatchTriggeredByRouter = false;
         this.navigationTriggeredByDispatch = false;
@@ -121,7 +121,7 @@ class StoreRouterConnectingModule {
             this.routerState = this.serializer.serialize(routerState);
             if (this.shouldDispatchRouterNavigation())
                 this.dispatchRouterNavigation();
-            return of(true);
+            return of$1(true);
         };
     }
     /**

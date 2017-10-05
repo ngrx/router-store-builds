@@ -1,8 +1,8 @@
 (function (global, factory) {
 	typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@angular/core'), require('@angular/router'), require('@ngrx/store'), require('rxjs/observable/of')) :
 	typeof define === 'function' && define.amd ? define(['exports', '@angular/core', '@angular/router', '@ngrx/store', 'rxjs/observable/of'], factory) :
-	(factory((global.ngrx = global.ngrx || {}, global.ngrx.routerStore = global.ngrx.routerStore || {}),global.ng.core,global.ng.router,global.ngrx.store,global.Rx.Observable));
-}(this, (function (exports,_angular_core,_angular_router,_ngrx_store,rxjs_observable_of) { 'use strict';
+	(factory((global.ngrx = global.ngrx || {}, global.ngrx.routerStore = {}),global.ng.core,global.ng.router,global.ngrx.store,global.Rx.Observable));
+}(this, (function (exports,core,router,store,of) { 'use strict';
 
 /**
  * @abstract
@@ -109,9 +109,9 @@ var StoreRouterConnectingModule = (function () {
      * @param {?} router
      * @param {?} serializer
      */
-    function StoreRouterConnectingModule(store, router, serializer) {
-        this.store = store;
-        this.router = router;
+    function StoreRouterConnectingModule(store$$1, router$$1, serializer) {
+        this.store = store$$1;
+        this.router = router$$1;
         this.serializer = serializer;
         this.dispatchTriggeredByRouter = false;
         this.navigationTriggeredByDispatch = false;
@@ -128,7 +128,7 @@ var StoreRouterConnectingModule = (function () {
             _this.routerState = _this.serializer.serialize(routerState);
             if (_this.shouldDispatchRouterNavigation())
                 _this.dispatchRouterNavigation();
-            return rxjs_observable_of.of(true);
+            return of.of(true);
         };
     };
     /**
@@ -172,13 +172,13 @@ var StoreRouterConnectingModule = (function () {
     StoreRouterConnectingModule.prototype.setUpStateRollbackEvents = function () {
         var _this = this;
         this.router.events.subscribe(function (e) {
-            if (e instanceof _angular_router.RoutesRecognized) {
+            if (e instanceof router.RoutesRecognized) {
                 _this.lastRoutesRecognized = e;
             }
-            else if (e instanceof _angular_router.NavigationCancel) {
+            else if (e instanceof router.NavigationCancel) {
                 _this.dispatchRouterCancel(e);
             }
-            else if (e instanceof _angular_router.NavigationError) {
+            else if (e instanceof router.NavigationError) {
                 _this.dispatchRouterError(e);
             }
         });
@@ -189,7 +189,7 @@ var StoreRouterConnectingModule = (function () {
     StoreRouterConnectingModule.prototype.dispatchRouterNavigation = function () {
         this.dispatchRouterAction(ROUTER_NAVIGATION, {
             routerState: this.routerState,
-            event: new _angular_router.RoutesRecognized(this.lastRoutesRecognized.id, this.lastRoutesRecognized.url, this.lastRoutesRecognized.urlAfterRedirects, this.routerState),
+            event: new router.RoutesRecognized(this.lastRoutesRecognized.id, this.lastRoutesRecognized.url, this.lastRoutesRecognized.urlAfterRedirects, this.routerState),
         });
     };
     /**
@@ -211,7 +211,7 @@ var StoreRouterConnectingModule = (function () {
         this.dispatchRouterAction(ROUTER_ERROR, {
             routerState: this.routerState,
             storeState: this.storeState,
-            event: new _angular_router.NavigationError(event.id, event.url, "" + event),
+            event: new router.NavigationError(event.id, event.url, "" + event),
         });
     };
     /**
@@ -232,7 +232,7 @@ var StoreRouterConnectingModule = (function () {
     return StoreRouterConnectingModule;
 }());
 StoreRouterConnectingModule.decorators = [
-    { type: _angular_core.NgModule, args: [{
+    { type: core.NgModule, args: [{
                 providers: [
                     { provide: RouterStateSerializer, useClass: DefaultRouterStateSerializer },
                 ],
@@ -242,8 +242,8 @@ StoreRouterConnectingModule.decorators = [
  * @nocollapse
  */
 StoreRouterConnectingModule.ctorParameters = function () { return [
-    { type: _ngrx_store.Store, },
-    { type: _angular_router.Router, },
+    { type: store.Store, },
+    { type: router.Router, },
     { type: RouterStateSerializer, },
 ]; };
 
