@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, InjectionToken, Inject, } from '@angular/core';
 import { NavigationCancel, NavigationError, Router, RoutesRecognized, } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { of } from 'rxjs/observable/of';
@@ -33,6 +33,20 @@ export function routerReducer(state, action) {
         default:
             return state;
     }
+}
+export const /** @type {?} */ _ROUTER_CONFIG = new InjectionToken('@ngrx/router-store Internal Configuration');
+export const /** @type {?} */ ROUTER_CONFIG = new InjectionToken('@ngrx/router-store Configuration');
+export const /** @type {?} */ DEFAULT_ROUTER_FEATURENAME = 'routerReducer';
+/**
+ * @param {?} config
+ * @return {?}
+ */
+export function _createDefaultRouterConfig(config) {
+    let /** @type {?} */ _config = {};
+    if (typeof config === 'function') {
+        _config = config();
+    }
+    return Object.assign({ stateKey: DEFAULT_ROUTER_FEATURENAME }, _config);
 }
 /**
  * Connects RouterModule with StoreModule.
@@ -81,16 +95,36 @@ export class StoreRouterConnectingModule {
      * @param {?} store
      * @param {?} router
      * @param {?} serializer
+     * @param {?} config
      */
-    constructor(store, router, serializer) {
+    constructor(store, router, serializer, config) {
         this.store = store;
         this.router = router;
         this.serializer = serializer;
+        this.config = config;
         this.dispatchTriggeredByRouter = false;
         this.navigationTriggeredByDispatch = false;
+        this.stateKey = this.config.stateKey;
         this.setUpBeforePreactivationHook();
         this.setUpStoreStateListener();
         this.setUpStateRollbackEvents();
+    }
+    /**
+     * @param {?=} config
+     * @return {?}
+     */
+    static forRoot(config = {}) {
+        return {
+            ngModule: StoreRouterConnectingModule,
+            providers: [
+                { provide: _ROUTER_CONFIG, useValue: config },
+                {
+                    provide: ROUTER_CONFIG,
+                    useFactory: _createDefaultRouterConfig,
+                    deps: [_ROUTER_CONFIG],
+                },
+            ],
+        };
     }
     /**
      * @return {?}
@@ -110,7 +144,7 @@ export class StoreRouterConnectingModule {
         this.store.subscribe(s => {
             this.storeState = s;
         });
-        this.store.select('routerReducer').subscribe(() => {
+        this.store.select(this.stateKey).subscribe(() => {
             this.navigateIfNeeded();
         });
     }
@@ -118,7 +152,7 @@ export class StoreRouterConnectingModule {
      * @return {?}
      */
     shouldDispatchRouterNavigation() {
-        if (!this.storeState['routerReducer'])
+        if (!this.storeState[this.stateKey])
             return true;
         return !this.navigationTriggeredByDispatch;
     }
@@ -126,15 +160,15 @@ export class StoreRouterConnectingModule {
      * @return {?}
      */
     navigateIfNeeded() {
-        if (!this.storeState['routerReducer'] ||
-            !this.storeState['routerReducer'].state) {
+        if (!this.storeState[this.stateKey] ||
+            !this.storeState[this.stateKey].state) {
             return;
         }
         if (this.dispatchTriggeredByRouter)
             return;
-        if (this.router.url !== this.storeState['routerReducer'].state.url) {
+        if (this.router.url !== this.storeState[this.stateKey].state.url) {
             this.navigationTriggeredByDispatch = true;
-            this.router.navigateByUrl(this.storeState['routerReducer'].state.url);
+            this.router.navigateByUrl(this.storeState[this.stateKey].state.url);
         }
     }
     /**
@@ -204,6 +238,15 @@ StoreRouterConnectingModule.decorators = [
     { type: NgModule, args: [{
                 providers: [
                     { provide: RouterStateSerializer, useClass: DefaultRouterStateSerializer },
+                    {
+                        provide: _ROUTER_CONFIG,
+                        useValue: { stateKey: DEFAULT_ROUTER_FEATURENAME },
+                    },
+                    {
+                        provide: ROUTER_CONFIG,
+                        useFactory: _createDefaultRouterConfig,
+                        deps: [_ROUTER_CONFIG],
+                    },
                 ],
             },] },
 ];
@@ -214,6 +257,7 @@ StoreRouterConnectingModule.ctorParameters = () => [
     { type: Store, },
     { type: Router, },
     { type: RouterStateSerializer, },
+    { type: undefined, decorators: [{ type: Inject, args: [ROUTER_CONFIG,] },] },
 ];
 function StoreRouterConnectingModule_tsickle_Closure_declarations() {
     /** @type {?} */
@@ -234,10 +278,14 @@ function StoreRouterConnectingModule_tsickle_Closure_declarations() {
     /** @type {?} */
     StoreRouterConnectingModule.prototype.navigationTriggeredByDispatch;
     /** @type {?} */
+    StoreRouterConnectingModule.prototype.stateKey;
+    /** @type {?} */
     StoreRouterConnectingModule.prototype.store;
     /** @type {?} */
     StoreRouterConnectingModule.prototype.router;
     /** @type {?} */
     StoreRouterConnectingModule.prototype.serializer;
+    /** @type {?} */
+    StoreRouterConnectingModule.prototype.config;
 }
 //# sourceMappingURL=router_store_module.js.map

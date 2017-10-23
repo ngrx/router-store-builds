@@ -1,3 +1,4 @@
+import { ModuleWithProviders, InjectionToken } from '@angular/core';
 import { NavigationCancel, NavigationError, Router, RouterStateSnapshot, RoutesRecognized } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { RouterStateSerializer } from './serializer';
@@ -66,6 +67,14 @@ export declare type RouterReducerState<T = RouterStateSnapshot> = {
     navigationId: number;
 };
 export declare function routerReducer<T = RouterStateSnapshot>(state: RouterReducerState<T>, action: RouterAction<any>): RouterReducerState<T>;
+export declare type StoreRouterConfig = {
+    stateKey?: string;
+};
+export declare const _ROUTER_CONFIG: InjectionToken<{}>;
+export declare const ROUTER_CONFIG: InjectionToken<{}>;
+export declare const DEFAULT_ROUTER_FEATURENAME = "routerReducer";
+export declare function _createDefaultRouterConfig(config: any): StoreRouterConfig;
+export declare type StoreRouterConfigFunction = () => StoreRouterConfig;
 /**
  * Connects RouterModule with StoreModule.
  *
@@ -112,12 +121,15 @@ export declare class StoreRouterConnectingModule {
     private store;
     private router;
     private serializer;
+    private config;
+    static forRoot(config?: StoreRouterConfig | StoreRouterConfigFunction): ModuleWithProviders;
     private routerState;
     private storeState;
     private lastRoutesRecognized;
     private dispatchTriggeredByRouter;
     private navigationTriggeredByDispatch;
-    constructor(store: Store<any>, router: Router, serializer: RouterStateSerializer<RouterStateSnapshot>);
+    private stateKey;
+    constructor(store: Store<any>, router: Router, serializer: RouterStateSerializer<RouterStateSnapshot>, config: StoreRouterConfig);
     private setUpBeforePreactivationHook();
     private setUpStoreStateListener();
     private shouldDispatchRouterNavigation();
