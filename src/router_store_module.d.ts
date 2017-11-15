@@ -61,12 +61,12 @@ export declare type RouterErrorAction<T, V = RouterStateSnapshot> = {
 /**
  * An union type of router actions.
  */
-export declare type RouterAction<T, V = RouterStateSnapshot> = RouterNavigationAction<T> | RouterCancelAction<T, V> | RouterErrorAction<T, V>;
+export declare type RouterAction<T, V = RouterStateSnapshot> = RouterNavigationAction<V> | RouterCancelAction<T, V> | RouterErrorAction<T, V>;
 export declare type RouterReducerState<T = RouterStateSnapshot> = {
     state: T;
     navigationId: number;
 };
-export declare function routerReducer<T = RouterStateSnapshot>(state: RouterReducerState<T>, action: RouterAction<any>): RouterReducerState<T>;
+export declare function routerReducer<T = RouterStateSnapshot>(state: RouterReducerState<T>, action: RouterAction<any, T>): RouterReducerState<T>;
 export declare type StoreRouterConfig = {
     stateKey?: string;
 };
