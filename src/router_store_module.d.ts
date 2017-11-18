@@ -73,7 +73,7 @@ export declare type StoreRouterConfig = {
 export declare const _ROUTER_CONFIG: InjectionToken<{}>;
 export declare const ROUTER_CONFIG: InjectionToken<{}>;
 export declare const DEFAULT_ROUTER_FEATURENAME = "routerReducer";
-export declare function _createDefaultRouterConfig(config: any): StoreRouterConfig;
+export declare function _createDefaultRouterConfig(config: StoreRouterConfig | StoreRouterConfigFunction): StoreRouterConfig;
 export declare type StoreRouterConfigFunction = () => StoreRouterConfig;
 /**
  * Connects RouterModule with StoreModule.

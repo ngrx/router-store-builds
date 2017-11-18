@@ -42,9 +42,12 @@ export const /** @type {?} */ DEFAULT_ROUTER_FEATURENAME = 'routerReducer';
  * @return {?}
  */
 export function _createDefaultRouterConfig(config) {
-    let /** @type {?} */ _config = {};
+    let /** @type {?} */ _config;
     if (typeof config === 'function') {
         _config = config();
+    }
+    else {
+        _config = config || {};
     }
     return Object.assign({ stateKey: DEFAULT_ROUTER_FEATURENAME }, _config);
 }
