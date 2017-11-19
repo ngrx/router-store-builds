@@ -4,15 +4,13 @@ import { Store } from '@ngrx/store';
 import { of as of$1 } from 'rxjs/observable/of';
 
 /**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes} checked by tsc
+ */
+/**
  * @abstract
  */
 class RouterStateSerializer {
-    /**
-     * @abstract
-     * @param {?} routerState
-     * @return {?}
-     */
-    serialize(routerState) { }
 }
 class DefaultRouterStateSerializer {
     /**
@@ -24,6 +22,10 @@ class DefaultRouterStateSerializer {
     }
 }
 
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes} checked by tsc
+ */
 /**
  * An action dispatched when the router navigates.
  */
@@ -55,6 +57,10 @@ function routerReducer(state, action) {
             return state;
     }
 }
+/**
+ * @record
+ */
+
 const _ROUTER_CONFIG = new InjectionToken('@ngrx/router-store Internal Configuration');
 const ROUTER_CONFIG = new InjectionToken('@ngrx/router-store Configuration');
 const DEFAULT_ROUTER_FEATURENAME = 'routerReducer';
@@ -72,6 +78,7 @@ function _createDefaultRouterConfig(config) {
     }
     return Object.assign({ stateKey: DEFAULT_ROUTER_FEATURENAME }, _config);
 }
+const ɵ0 = { stateKey: DEFAULT_ROUTER_FEATURENAME };
 /**
  * Connects RouterModule with StoreModule.
  *
@@ -128,7 +135,7 @@ class StoreRouterConnectingModule {
         this.config = config;
         this.dispatchTriggeredByRouter = false;
         this.navigationTriggeredByDispatch = false;
-        this.stateKey = this.config.stateKey;
+        this.stateKey = /** @type {?} */ (this.config.stateKey);
         this.setUpBeforePreactivationHook();
         this.setUpStoreStateListener();
         this.setUpStateRollbackEvents();
@@ -154,7 +161,7 @@ class StoreRouterConnectingModule {
      * @return {?}
      */
     setUpBeforePreactivationHook() {
-        ((this.router)).hooks.beforePreactivation = (routerState) => {
+        (/** @type {?} */ (this.router)).hooks.beforePreactivation = (routerState) => {
             this.routerState = this.serializer.serialize(routerState);
             if (this.shouldDispatchRouterNavigation())
                 this.dispatchRouterNavigation();
@@ -264,7 +271,7 @@ StoreRouterConnectingModule.decorators = [
                     { provide: RouterStateSerializer, useClass: DefaultRouterStateSerializer },
                     {
                         provide: _ROUTER_CONFIG,
-                        useValue: { stateKey: DEFAULT_ROUTER_FEATURENAME },
+                        useValue: ɵ0,
                     },
                     {
                         provide: ROUTER_CONFIG,
@@ -274,9 +281,7 @@ StoreRouterConnectingModule.decorators = [
                 ],
             },] },
 ];
-/**
- * @nocollapse
- */
+/** @nocollapse */
 StoreRouterConnectingModule.ctorParameters = () => [
     { type: Store, },
     { type: Router, },
@@ -284,6 +289,20 @@ StoreRouterConnectingModule.ctorParameters = () => [
     { type: undefined, decorators: [{ type: Inject, args: [ROUTER_CONFIG,] },] },
 ];
 
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes} checked by tsc
+ */
+
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes} checked by tsc
+ */
+
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes} checked by tsc
+ */
 /**
  * Generated bundle index. Do not edit.
  */

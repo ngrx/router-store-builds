@@ -67,9 +67,9 @@ export declare type RouterReducerState<T = RouterStateSnapshot> = {
     navigationId: number;
 };
 export declare function routerReducer<T = RouterStateSnapshot>(state: RouterReducerState<T>, action: RouterAction<any, T>): RouterReducerState<T>;
-export declare type StoreRouterConfig = {
+export interface StoreRouterConfig {
     stateKey?: string;
-};
+}
 export declare const _ROUTER_CONFIG: InjectionToken<{}>;
 export declare const ROUTER_CONFIG: InjectionToken<{}>;
 export declare const DEFAULT_ROUTER_FEATURENAME = "routerReducer";

@@ -1,20 +1,24 @@
-import { NgModule, InjectionToken, Inject, } from '@angular/core';
-import { NavigationCancel, NavigationError, Router, RoutesRecognized, } from '@angular/router';
-import { Store } from '@ngrx/store';
-import { of } from 'rxjs/observable/of';
-import { DefaultRouterStateSerializer, RouterStateSerializer, } from './serializer';
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes} checked by tsc
+ */
+import { NgModule, InjectionToken, Inject, } from "@angular/core";
+import { NavigationCancel, NavigationError, Router, RoutesRecognized, } from "@angular/router";
+import { Store } from "@ngrx/store";
+import { of } from "rxjs/observable/of";
+import { DefaultRouterStateSerializer, RouterStateSerializer, } from "./serializer";
 /**
  * An action dispatched when the router navigates.
  */
-export const ROUTER_NAVIGATION = 'ROUTER_NAVIGATION';
+export const /** @type {?} */ ROUTER_NAVIGATION = 'ROUTER_NAVIGATION';
 /**
  * An action dispatched when the router cancels navigation.
  */
-export const ROUTER_CANCEL = 'ROUTER_CANCEL';
+export const /** @type {?} */ ROUTER_CANCEL = 'ROUTER_CANCEL';
 /**
  * An action dispatched when the router errors.
  */
-export const ROUTER_ERROR = 'ROUTE_ERROR';
+export const /** @type {?} */ ROUTER_ERROR = 'ROUTE_ERROR';
 /**
  * @template T
  * @param {?} state
@@ -34,6 +38,14 @@ export function routerReducer(state, action) {
             return state;
     }
 }
+/**
+ * @record
+ */
+export function StoreRouterConfig() { }
+function StoreRouterConfig_tsickle_Closure_declarations() {
+    /** @type {?|undefined} */
+    StoreRouterConfig.prototype.stateKey;
+}
 export const /** @type {?} */ _ROUTER_CONFIG = new InjectionToken('@ngrx/router-store Internal Configuration');
 export const /** @type {?} */ ROUTER_CONFIG = new InjectionToken('@ngrx/router-store Configuration');
 export const /** @type {?} */ DEFAULT_ROUTER_FEATURENAME = 'routerReducer';
@@ -51,6 +63,7 @@ export function _createDefaultRouterConfig(config) {
     }
     return Object.assign({ stateKey: DEFAULT_ROUTER_FEATURENAME }, _config);
 }
+const ɵ0 = { stateKey: DEFAULT_ROUTER_FEATURENAME };
 /**
  * Connects RouterModule with StoreModule.
  *
@@ -107,7 +120,7 @@ export class StoreRouterConnectingModule {
         this.config = config;
         this.dispatchTriggeredByRouter = false;
         this.navigationTriggeredByDispatch = false;
-        this.stateKey = this.config.stateKey;
+        this.stateKey = /** @type {?} */ (this.config.stateKey);
         this.setUpBeforePreactivationHook();
         this.setUpStoreStateListener();
         this.setUpStateRollbackEvents();
@@ -133,7 +146,7 @@ export class StoreRouterConnectingModule {
      * @return {?}
      */
     setUpBeforePreactivationHook() {
-        ((this.router)).hooks.beforePreactivation = (routerState) => {
+        (/** @type {?} */ (this.router)).hooks.beforePreactivation = (routerState) => {
             this.routerState = this.serializer.serialize(routerState);
             if (this.shouldDispatchRouterNavigation())
                 this.dispatchRouterNavigation();
@@ -243,7 +256,7 @@ StoreRouterConnectingModule.decorators = [
                     { provide: RouterStateSerializer, useClass: DefaultRouterStateSerializer },
                     {
                         provide: _ROUTER_CONFIG,
-                        useValue: { stateKey: DEFAULT_ROUTER_FEATURENAME },
+                        useValue: ɵ0,
                     },
                     {
                         provide: ROUTER_CONFIG,
@@ -253,9 +266,7 @@ StoreRouterConnectingModule.decorators = [
                 ],
             },] },
 ];
-/**
- * @nocollapse
- */
+/** @nocollapse */
 StoreRouterConnectingModule.ctorParameters = () => [
     { type: Store, },
     { type: Router, },
@@ -263,11 +274,11 @@ StoreRouterConnectingModule.ctorParameters = () => [
     { type: undefined, decorators: [{ type: Inject, args: [ROUTER_CONFIG,] },] },
 ];
 function StoreRouterConnectingModule_tsickle_Closure_declarations() {
-    /** @type {?} */
+    /** @type {!Array<{type: !Function, args: (undefined|!Array<?>)}>} */
     StoreRouterConnectingModule.decorators;
     /**
      * @nocollapse
-     * @type {?}
+     * @type {function(): !Array<(null|{type: ?, decorators: (undefined|!Array<{type: !Function, args: (undefined|!Array<?>)}>)})>}
      */
     StoreRouterConnectingModule.ctorParameters;
     /** @type {?} */
@@ -291,4 +302,5 @@ function StoreRouterConnectingModule_tsickle_Closure_declarations() {
     /** @type {?} */
     StoreRouterConnectingModule.prototype.config;
 }
+export { ɵ0 };
 //# sourceMappingURL=router_store_module.js.map

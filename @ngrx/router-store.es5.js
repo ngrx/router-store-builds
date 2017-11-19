@@ -3,17 +3,15 @@ import { NavigationCancel, NavigationError, Router, RoutesRecognized } from '@an
 import { Store } from '@ngrx/store';
 import { of as of$1 } from 'rxjs/observable/of';
 /**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes} checked by tsc
+ */
+/**
  * @abstract
  */
 var RouterStateSerializer = (function () {
     function RouterStateSerializer() {
     }
-    /**
-     * @abstract
-     * @param {?} routerState
-     * @return {?}
-     */
-    RouterStateSerializer.prototype.serialize = function (routerState) { };
     return RouterStateSerializer;
 }());
 var DefaultRouterStateSerializer = (function () {
@@ -28,6 +26,10 @@ var DefaultRouterStateSerializer = (function () {
     };
     return DefaultRouterStateSerializer;
 }());
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes} checked by tsc
+ */
 /**
  * An action dispatched when the router navigates.
  */
@@ -59,6 +61,9 @@ function routerReducer(state, action) {
             return state;
     }
 }
+/**
+ * @record
+ */
 var _ROUTER_CONFIG = new InjectionToken('@ngrx/router-store Internal Configuration');
 var ROUTER_CONFIG = new InjectionToken('@ngrx/router-store Configuration');
 var DEFAULT_ROUTER_FEATURENAME = 'routerReducer';
@@ -76,6 +81,7 @@ function _createDefaultRouterConfig(config) {
     }
     return Object.assign({ stateKey: DEFAULT_ROUTER_FEATURENAME }, _config);
 }
+var ɵ0 = { stateKey: DEFAULT_ROUTER_FEATURENAME };
 /**
  * Connects RouterModule with StoreModule.
  *
@@ -132,7 +138,7 @@ var StoreRouterConnectingModule = (function () {
         this.config = config;
         this.dispatchTriggeredByRouter = false;
         this.navigationTriggeredByDispatch = false;
-        this.stateKey = this.config.stateKey;
+        this.stateKey = (this.config.stateKey);
         this.setUpBeforePreactivationHook();
         this.setUpStoreStateListener();
         this.setUpStateRollbackEvents();
@@ -273,7 +279,7 @@ StoreRouterConnectingModule.decorators = [
                     { provide: RouterStateSerializer, useClass: DefaultRouterStateSerializer },
                     {
                         provide: _ROUTER_CONFIG,
-                        useValue: { stateKey: DEFAULT_ROUTER_FEATURENAME },
+                        useValue: ɵ0,
                     },
                     {
                         provide: ROUTER_CONFIG,
@@ -283,15 +289,25 @@ StoreRouterConnectingModule.decorators = [
                 ],
             },] },
 ];
-/**
- * @nocollapse
- */
+/** @nocollapse */
 StoreRouterConnectingModule.ctorParameters = function () { return [
     { type: Store, },
     { type: Router, },
     { type: RouterStateSerializer, },
     { type: undefined, decorators: [{ type: Inject, args: [ROUTER_CONFIG,] },] },
 ]; };
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes} checked by tsc
+ */
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes} checked by tsc
+ */
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes} checked by tsc
+ */
 /**
  * Generated bundle index. Do not edit.
  */
