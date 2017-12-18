@@ -1,6 +1,6 @@
 import { Inject, InjectionToken, NgModule } from '@angular/core';
 import { NavigationCancel, NavigationError, Router, RoutesRecognized } from '@angular/router';
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
 import { of as of$1 } from 'rxjs/observable/of';
 
 /**
@@ -175,7 +175,7 @@ class StoreRouterConnectingModule {
         this.store.subscribe(s => {
             this.storeState = s;
         });
-        this.store.select(this.stateKey).subscribe(() => {
+        this.store.pipe(select(this.stateKey)).subscribe(() => {
             this.navigateIfNeeded();
         });
     }

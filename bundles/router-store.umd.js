@@ -183,7 +183,7 @@ var StoreRouterConnectingModule = (function () {
         this.store.subscribe(function (s) {
             _this.storeState = s;
         });
-        this.store.select(this.stateKey).subscribe(function () {
+        this.store.pipe(store.select(this.stateKey)).subscribe(function () {
             _this.navigateIfNeeded();
         });
     };
