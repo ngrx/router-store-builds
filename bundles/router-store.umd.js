@@ -11,12 +11,12 @@
 /**
  * @abstract
  */
-var RouterStateSerializer = (function () {
+var RouterStateSerializer = /** @class */ (function () {
     function RouterStateSerializer() {
     }
     return RouterStateSerializer;
 }());
-var DefaultRouterStateSerializer = (function () {
+var DefaultRouterStateSerializer = /** @class */ (function () {
     function DefaultRouterStateSerializer() {
     }
     /**
@@ -126,7 +126,7 @@ var ɵ0 = { stateKey: DEFAULT_ROUTER_FEATURENAME };
  * }
  * ```
  */
-var StoreRouterConnectingModule = (function () {
+var StoreRouterConnectingModule = /** @class */ (function () {
     /**
      * @param {?} store
      * @param {?} router
@@ -140,7 +140,7 @@ var StoreRouterConnectingModule = (function () {
         this.config = config;
         this.dispatchTriggeredByRouter = false;
         this.navigationTriggeredByDispatch = false;
-        this.stateKey = (this.config.stateKey);
+        this.stateKey = /** @type {?} */ (this.config.stateKey);
         this.setUpBeforePreactivationHook();
         this.setUpStoreStateListener();
         this.setUpStateRollbackEvents();
