@@ -66,7 +66,7 @@ export declare type RouterReducerState<T = RouterStateSnapshot> = {
     state: T;
     navigationId: number;
 };
-export declare function routerReducer<T = RouterStateSnapshot>(state: RouterReducerState<T>, action: RouterAction<any, T>): RouterReducerState<T>;
+export declare function routerReducer<T = RouterStateSnapshot>(state: RouterReducerState<T> | undefined, action: RouterAction<any, T>): RouterReducerState<T>;
 export interface StoreRouterConfig {
     stateKey?: string;
 }

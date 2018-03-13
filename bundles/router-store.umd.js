@@ -60,7 +60,7 @@ function routerReducer(state, action) {
                 navigationId: action.payload.event.id,
             };
         default:
-            return state;
+            return /** @type {?} */ (state);
     }
 }
 /**
