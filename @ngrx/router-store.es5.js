@@ -1,19 +1,23 @@
 import { Inject, InjectionToken, NgModule } from '@angular/core';
 import { NavigationCancel, NavigationError, Router, RoutesRecognized } from '@angular/router';
 import { Store, select } from '@ngrx/store';
-import { of as of$1 } from 'rxjs/observable/of';
+import { of } from 'rxjs';
 /**
  * @fileoverview added by tsickle
  * @suppress {checkTypes} checked by tsc
  */
 /**
  * @abstract
+ * @template T
  */
 var RouterStateSerializer = /** @class */ (function () {
     function RouterStateSerializer() {
     }
     return RouterStateSerializer;
 }());
+/**
+ * @record
+ */
 var DefaultRouterStateSerializer = /** @class */ (function () {
     function DefaultRouterStateSerializer() {
     }
@@ -22,7 +26,39 @@ var DefaultRouterStateSerializer = /** @class */ (function () {
      * @return {?}
      */
     DefaultRouterStateSerializer.prototype.serialize = function (routerState) {
-        return routerState;
+        return {
+            root: this.serializeRoute(routerState.root),
+            url: routerState.url,
+        };
+    };
+    /**
+     * @param {?} route
+     * @return {?}
+     */
+    DefaultRouterStateSerializer.prototype.serializeRoute = function (route) {
+        var _this = this;
+        var /** @type {?} */ children = route.children.map(function (c) { return _this.serializeRoute(c); });
+        return {
+            params: route.params,
+            paramMap: route.paramMap,
+            data: route.data,
+            url: route.url,
+            outlet: route.outlet,
+            routeConfig: {
+                component: route.routeConfig ? route.routeConfig.component : undefined,
+            },
+            queryParams: route.queryParams,
+            queryParamMap: route.queryParamMap,
+            fragment: route.fragment,
+            component: /** @type {?} */ ((route.routeConfig
+                ? route.routeConfig.component
+                : undefined)),
+            root: /** @type {?} */ (undefined),
+            parent: /** @type {?} */ (undefined),
+            firstChild: children[0],
+            pathFromRoot: /** @type {?} */ (undefined),
+            children: children,
+        };
     };
     return DefaultRouterStateSerializer;
 }());
@@ -90,7 +126,7 @@ var ɵ0 = { stateKey: DEFAULT_ROUTER_FEATURENAME };
  *
  * ```
  * export type RouterNavigationPayload = {
- *   routerState: RouterStateSnapshot,
+ *   routerState: SerializedRouterStateSnapshot,
  *   event: RoutesRecognized
  * }
  * ```
@@ -170,7 +206,7 @@ var StoreRouterConnectingModule = /** @class */ (function () {
             _this.routerState = _this.serializer.serialize(routerState);
             if (_this.shouldDispatchRouterNavigation())
                 _this.dispatchRouterNavigation();
-            return of$1(true);
+            return of(true);
         };
     };
     /**

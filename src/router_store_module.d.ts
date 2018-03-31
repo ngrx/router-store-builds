@@ -1,7 +1,7 @@
-import { ModuleWithProviders, InjectionToken } from '@angular/core';
-import { NavigationCancel, NavigationError, Router, RouterStateSnapshot, RoutesRecognized } from '@angular/router';
+import { InjectionToken, ModuleWithProviders } from '@angular/core';
+import { NavigationCancel, NavigationError, Router, RoutesRecognized } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { RouterStateSerializer } from './serializer';
+import { RouterStateSerializer, SerializedRouterStateSnapshot } from './serializer';
 /**
  * An action dispatched when the router navigates.
  */
@@ -16,7 +16,7 @@ export declare type RouterNavigationPayload<T> = {
 /**
  * An action dispatched when the router navigates.
  */
-export declare type RouterNavigationAction<T = RouterStateSnapshot> = {
+export declare type RouterNavigationAction<T = SerializedRouterStateSnapshot> = {
     type: typeof ROUTER_NAVIGATION;
     payload: RouterNavigationPayload<T>;
 };
@@ -35,7 +35,7 @@ export declare type RouterCancelPayload<T, V> = {
 /**
  * An action dispatched when the router cancel navigation.
  */
-export declare type RouterCancelAction<T, V = RouterStateSnapshot> = {
+export declare type RouterCancelAction<T, V = SerializedRouterStateSnapshot> = {
     type: typeof ROUTER_CANCEL;
     payload: RouterCancelPayload<T, V>;
 };
@@ -54,19 +54,19 @@ export declare type RouterErrorPayload<T, V> = {
 /**
  * An action dispatched when the router errors.
  */
-export declare type RouterErrorAction<T, V = RouterStateSnapshot> = {
+export declare type RouterErrorAction<T, V = SerializedRouterStateSnapshot> = {
     type: typeof ROUTER_ERROR;
     payload: RouterErrorPayload<T, V>;
 };
 /**
  * An union type of router actions.
  */
-export declare type RouterAction<T, V = RouterStateSnapshot> = RouterNavigationAction<V> | RouterCancelAction<T, V> | RouterErrorAction<T, V>;
-export declare type RouterReducerState<T = RouterStateSnapshot> = {
+export declare type RouterAction<T, V = SerializedRouterStateSnapshot> = RouterNavigationAction<V> | RouterCancelAction<T, V> | RouterErrorAction<T, V>;
+export declare type RouterReducerState<T = SerializedRouterStateSnapshot> = {
     state: T;
     navigationId: number;
 };
-export declare function routerReducer<T = RouterStateSnapshot>(state: RouterReducerState<T> | undefined, action: RouterAction<any, T>): RouterReducerState<T>;
+export declare function routerReducer<T = SerializedRouterStateSnapshot>(state: RouterReducerState<T> | undefined, action: RouterAction<any, T>): RouterReducerState<T>;
 export interface StoreRouterConfig {
     stateKey?: string;
 }
@@ -83,7 +83,7 @@ export declare type StoreRouterConfigFunction = () => StoreRouterConfig;
  *
  * ```
  * export type RouterNavigationPayload = {
- *   routerState: RouterStateSnapshot,
+ *   routerState: SerializedRouterStateSnapshot,
  *   event: RoutesRecognized
  * }
  * ```
@@ -129,7 +129,7 @@ export declare class StoreRouterConnectingModule {
     private dispatchTriggeredByRouter;
     private navigationTriggeredByDispatch;
     private stateKey;
-    constructor(store: Store<any>, router: Router, serializer: RouterStateSerializer<RouterStateSnapshot>, config: StoreRouterConfig);
+    constructor(store: Store<any>, router: Router, serializer: RouterStateSerializer<SerializedRouterStateSnapshot>, config: StoreRouterConfig);
     private setUpBeforePreactivationHook();
     private setUpStoreStateListener();
     private shouldDispatchRouterNavigation();

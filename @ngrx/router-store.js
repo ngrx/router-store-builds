@@ -1,7 +1,7 @@
 import { Inject, InjectionToken, NgModule } from '@angular/core';
 import { NavigationCancel, NavigationError, Router, RoutesRecognized } from '@angular/router';
 import { Store, select } from '@ngrx/store';
-import { of as of$1 } from 'rxjs/observable/of';
+import { of } from 'rxjs';
 
 /**
  * @fileoverview added by tsickle
@@ -9,16 +9,52 @@ import { of as of$1 } from 'rxjs/observable/of';
  */
 /**
  * @abstract
+ * @template T
  */
 class RouterStateSerializer {
 }
+/**
+ * @record
+ */
+
 class DefaultRouterStateSerializer {
     /**
      * @param {?} routerState
      * @return {?}
      */
     serialize(routerState) {
-        return routerState;
+        return {
+            root: this.serializeRoute(routerState.root),
+            url: routerState.url,
+        };
+    }
+    /**
+     * @param {?} route
+     * @return {?}
+     */
+    serializeRoute(route) {
+        const /** @type {?} */ children = route.children.map(c => this.serializeRoute(c));
+        return {
+            params: route.params,
+            paramMap: route.paramMap,
+            data: route.data,
+            url: route.url,
+            outlet: route.outlet,
+            routeConfig: {
+                component: route.routeConfig ? route.routeConfig.component : undefined,
+            },
+            queryParams: route.queryParams,
+            queryParamMap: route.queryParamMap,
+            fragment: route.fragment,
+            component: /** @type {?} */ ((route.routeConfig
+                ? route.routeConfig.component
+                : undefined)),
+            root: /** @type {?} */ (undefined),
+            parent: /** @type {?} */ (undefined),
+            firstChild: children[0],
+            pathFromRoot: /** @type {?} */ (undefined),
+            children,
+        };
     }
 }
 
@@ -87,7 +123,7 @@ const ɵ0 = { stateKey: DEFAULT_ROUTER_FEATURENAME };
  *
  * ```
  * export type RouterNavigationPayload = {
- *   routerState: RouterStateSnapshot,
+ *   routerState: SerializedRouterStateSnapshot,
  *   event: RoutesRecognized
  * }
  * ```
@@ -165,7 +201,7 @@ class StoreRouterConnectingModule {
             this.routerState = this.serializer.serialize(routerState);
             if (this.shouldDispatchRouterNavigation())
                 this.dispatchRouterNavigation();
-            return of$1(true);
+            return of(true);
         };
     }
     /**
