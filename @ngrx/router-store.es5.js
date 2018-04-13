@@ -1,5 +1,5 @@
 import { Inject, InjectionToken, NgModule } from '@angular/core';
-import { NavigationCancel, NavigationError, Router, RoutesRecognized } from '@angular/router';
+import { NavigationCancel, NavigationEnd, NavigationError, Router, RoutesRecognized } from '@angular/router';
 import { Store, select } from '@ngrx/store';
 import { of } from 'rxjs';
 /**
@@ -204,8 +204,9 @@ var StoreRouterConnectingModule = /** @class */ (function () {
         var _this = this;
         ((this.router)).hooks.beforePreactivation = function (routerState) {
             _this.routerState = _this.serializer.serialize(routerState);
-            if (_this.shouldDispatchRouterNavigation())
+            if (_this.shouldDispatchRouterNavigation()) {
                 _this.dispatchRouterNavigation();
+            }
             return of(true);
         };
     };
@@ -258,6 +259,10 @@ var StoreRouterConnectingModule = /** @class */ (function () {
             }
             else if (e instanceof NavigationError) {
                 _this.dispatchRouterError(e);
+            }
+            else if (e instanceof NavigationEnd) {
+                _this.dispatchTriggeredByRouter = false;
+                _this.navigationTriggeredByDispatch = false;
             }
         });
     };
