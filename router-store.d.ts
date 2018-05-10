@@ -1,5 +1,5 @@
 /**
  * Generated bundle index. Do not edit.
  */
-export * from './public_api';
-export { _ROUTER_CONFIG as ɵa, _createDefaultRouterConfig as ɵb } from './src/router_store_module';
+export * from './index';
+export { _ROUTER_CONFIG as ɵngrx_modules_router_store_router_store_a, _createDefaultRouterConfig as ɵngrx_modules_router_store_router_store_b } from './src/router_store_module';

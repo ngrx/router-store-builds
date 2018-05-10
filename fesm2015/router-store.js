@@ -1,31 +1,91 @@
 /**
+ * @license NgRx v6.0.0-beta.1+35.sha-e711c28
+ * (c) 2015-2018 Brandon Roberts, Mike Ryan, Rob Wormald, Victor Savkin
+ * License: MIT
+ */
+import { Inject, InjectionToken, NgModule } from '@angular/core';
+import { NavigationCancel, NavigationEnd, NavigationError, Router, RoutesRecognized } from '@angular/router';
+import { Store, select } from '@ngrx/store';
+import { of } from 'rxjs';
+
+/**
  * @fileoverview added by tsickle
  * @suppress {checkTypes} checked by tsc
  */
-import { Inject, InjectionToken, NgModule, } from '@angular/core';
-import { NavigationCancel, NavigationError, NavigationEnd, Router, RoutesRecognized, } from '@angular/router';
-import { select, Store } from '@ngrx/store';
-import { of } from 'rxjs';
-import { DefaultRouterStateSerializer, RouterStateSerializer, } from './serializer';
+/**
+ * @abstract
+ * @template T
+ */
+class RouterStateSerializer {
+}
+/**
+ * @record
+ */
+
+class DefaultRouterStateSerializer {
+    /**
+     * @param {?} routerState
+     * @return {?}
+     */
+    serialize(routerState) {
+        return {
+            root: this.serializeRoute(routerState.root),
+            url: routerState.url,
+        };
+    }
+    /**
+     * @param {?} route
+     * @return {?}
+     */
+    serializeRoute(route) {
+        const /** @type {?} */ children = route.children.map(c => this.serializeRoute(c));
+        return {
+            params: route.params,
+            paramMap: route.paramMap,
+            data: route.data,
+            url: route.url,
+            outlet: route.outlet,
+            routeConfig: {
+                component: route.routeConfig ? route.routeConfig.component : undefined,
+            },
+            queryParams: route.queryParams,
+            queryParamMap: route.queryParamMap,
+            fragment: route.fragment,
+            component: /** @type {?} */ ((route.routeConfig
+                ? route.routeConfig.component
+                : undefined)),
+            root: /** @type {?} */ (undefined),
+            parent: /** @type {?} */ (undefined),
+            firstChild: children[0],
+            pathFromRoot: /** @type {?} */ (undefined),
+            children,
+        };
+    }
+}
+
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes} checked by tsc
+ */
 /**
  * An action dispatched when the router navigates.
  */
-export const /** @type {?} */ ROUTER_NAVIGATION = 'ROUTER_NAVIGATION';
+const ROUTER_NAVIGATION = 'ROUTER_NAVIGATION';
 /**
  * An action dispatched when the router cancels navigation.
  */
-export const /** @type {?} */ ROUTER_CANCEL = 'ROUTER_CANCEL';
+const ROUTER_CANCEL = 'ROUTER_CANCEL';
 /**
  * An action dispatched when the router errors.
  */
-export const /** @type {?} */ ROUTER_ERROR = 'ROUTE_ERROR';
+const ROUTER_ERROR = 'ROUTE_ERROR';
 /**
  * @template T
  * @param {?} state
  * @param {?} action
  * @return {?}
  */
-export function routerReducer(state, action) {
+function routerReducer(state, action) {
     switch (action.type) {
         case ROUTER_NAVIGATION:
         case ROUTER_ERROR:
@@ -41,19 +101,15 @@ export function routerReducer(state, action) {
 /**
  * @record
  */
-export function StoreRouterConfig() { }
-function StoreRouterConfig_tsickle_Closure_declarations() {
-    /** @type {?|undefined} */
-    StoreRouterConfig.prototype.stateKey;
-}
-export const /** @type {?} */ _ROUTER_CONFIG = new InjectionToken('@ngrx/router-store Internal Configuration');
-export const /** @type {?} */ ROUTER_CONFIG = new InjectionToken('@ngrx/router-store Configuration');
-export const /** @type {?} */ DEFAULT_ROUTER_FEATURENAME = 'routerReducer';
+
+const _ROUTER_CONFIG = new InjectionToken('@ngrx/router-store Internal Configuration');
+const ROUTER_CONFIG = new InjectionToken('@ngrx/router-store Configuration');
+const DEFAULT_ROUTER_FEATURENAME = 'routerReducer';
 /**
  * @param {?} config
  * @return {?}
  */
-export function _createDefaultRouterConfig(config) {
+function _createDefaultRouterConfig(config) {
     let /** @type {?} */ _config;
     if (typeof config === 'function') {
         _config = config();
@@ -106,16 +162,16 @@ const ɵ0 = { stateKey: DEFAULT_ROUTER_FEATURENAME };
  * }
  * ```
  */
-export class StoreRouterConnectingModule {
+class StoreRouterConnectingModule {
     /**
      * @param {?} store
      * @param {?} router
      * @param {?} serializer
      * @param {?} config
      */
-    constructor(store, router, serializer, config) {
-        this.store = store;
-        this.router = router;
+    constructor(store$$1, router$$1, serializer, config) {
+        this.store = store$$1;
+        this.router = router$$1;
         this.serializer = serializer;
         this.config = config;
         this.dispatchTriggeredByRouter = false;
@@ -269,7 +325,7 @@ StoreRouterConnectingModule.decorators = [
                         deps: [_ROUTER_CONFIG],
                     },
                 ],
-            },] },
+            },] }
 ];
 /** @nocollapse */
 StoreRouterConnectingModule.ctorParameters = () => [
@@ -278,34 +334,30 @@ StoreRouterConnectingModule.ctorParameters = () => [
     { type: RouterStateSerializer, },
     { type: undefined, decorators: [{ type: Inject, args: [ROUTER_CONFIG,] },] },
 ];
-function StoreRouterConnectingModule_tsickle_Closure_declarations() {
-    /** @type {!Array<{type: !Function, args: (undefined|!Array<?>)}>} */
-    StoreRouterConnectingModule.decorators;
-    /**
-     * @nocollapse
-     * @type {function(): !Array<(null|{type: ?, decorators: (undefined|!Array<{type: !Function, args: (undefined|!Array<?>)}>)})>}
-     */
-    StoreRouterConnectingModule.ctorParameters;
-    /** @type {?} */
-    StoreRouterConnectingModule.prototype.routerState;
-    /** @type {?} */
-    StoreRouterConnectingModule.prototype.storeState;
-    /** @type {?} */
-    StoreRouterConnectingModule.prototype.lastRoutesRecognized;
-    /** @type {?} */
-    StoreRouterConnectingModule.prototype.dispatchTriggeredByRouter;
-    /** @type {?} */
-    StoreRouterConnectingModule.prototype.navigationTriggeredByDispatch;
-    /** @type {?} */
-    StoreRouterConnectingModule.prototype.stateKey;
-    /** @type {?} */
-    StoreRouterConnectingModule.prototype.store;
-    /** @type {?} */
-    StoreRouterConnectingModule.prototype.router;
-    /** @type {?} */
-    StoreRouterConnectingModule.prototype.serializer;
-    /** @type {?} */
-    StoreRouterConnectingModule.prototype.config;
-}
-export { ɵ0 };
-//# sourceMappingURL=router_store_module.js.map
+
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes} checked by tsc
+ */
+
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes} checked by tsc
+ */
+
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes} checked by tsc
+ */
+/**
+ * DO NOT EDIT
+ *
+ * This file is automatically generated at build
+ */
+
+/**
+ * Generated bundle index. Do not edit.
+ */
+
+export { _ROUTER_CONFIG as ɵngrx_modules_router_store_router_store_a, _createDefaultRouterConfig as ɵngrx_modules_router_store_router_store_b, ROUTER_ERROR, ROUTER_CANCEL, ROUTER_NAVIGATION, routerReducer, StoreRouterConnectingModule, ROUTER_CONFIG, DEFAULT_ROUTER_FEATURENAME, RouterStateSerializer, DefaultRouterStateSerializer };
+//# sourceMappingURL=router-store.js.map

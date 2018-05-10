@@ -1,6 +1,6 @@
 {
   "name": "@ngrx/router-store",
-  "version": "0.0.0-PLACEHOLDER",
+  "version": "v6.0.0-beta.1+35.sha-e711c28",
   "description": "Bindings to connect @angular/router to @ngrx/store",
   "repository": {
     "type": "git",
@@ -18,14 +18,29 @@
   },
   "homepage": "https://github.com/ngrx/platform#readme",
   "peerDependencies": {
-    "@angular/common": "NG_VERSION",
-    "@angular/core": "NG_VERSION",
-    "@angular/router": "NG_VERSION",
-    "@ngrx/store": "0.0.0-PLACEHOLDER",
-    "rxjs": "RXJS_VERSION"
+    "@angular/common": "^6.0.0",
+    "@angular/core": "^6.0.0",
+    "@angular/router": "^6.0.0",
+    "@ngrx/store": "v6.0.0-beta.1+35.sha-e711c28",
+    "rxjs": "^5.6.0-forward-compat.0 || ^6.0.0"
   },
   "ng-update": {
-    "packageGroup": "NG_UPDATE_PACKAGE_GROUP"
+    "packageGroup": [
+      "@ngrx/effects",
+      "@ngrx/entity",
+      "@ngrx/router-store",
+      "@ngrx/schematics",
+      "@ngrx/store",
+      "@ngrx/store-devtools"
+    ]
   },
-  "sideEffects": false
+  "sideEffects": false,
+  "main": "./bundles/router-store.umd.js",
+  "fesm5": "./fesm5/router-store.js",
+  "fesm2015": "./fesm2015/router-store.js",
+  "esm5": "./esm5/router-store.js",
+  "esm2015": "./esm2015/router-store.js",
+  "typings": "./router-store.d.ts",
+  "module": "./fesm5/router-store.js",
+  "es2015": "./fesm2015/router-store.js"
 }
