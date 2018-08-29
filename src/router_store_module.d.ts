@@ -1,80 +1,27 @@
-import { InjectionToken, ModuleWithProviders } from '@angular/core';
-import { NavigationCancel, NavigationError, Router, RoutesRecognized } from '@angular/router';
+import { InjectionToken, ModuleWithProviders, ErrorHandler } from '@angular/core';
+import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { RouterStateSerializer, SerializedRouterStateSnapshot } from './serializer';
-/**
- * An action dispatched when the router navigates.
- */
-export declare const ROUTER_NAVIGATION = "ROUTER_NAVIGATION";
-/**
- * Payload of ROUTER_NAVIGATION.
- */
-export declare type RouterNavigationPayload<T> = {
-    routerState: T;
-    event: RoutesRecognized;
-};
-/**
- * An action dispatched when the router navigates.
- */
-export declare type RouterNavigationAction<T = SerializedRouterStateSnapshot> = {
-    type: typeof ROUTER_NAVIGATION;
-    payload: RouterNavigationPayload<T>;
-};
-/**
- * An action dispatched when the router cancels navigation.
- */
-export declare const ROUTER_CANCEL = "ROUTER_CANCEL";
-/**
- * Payload of ROUTER_CANCEL.
- */
-export declare type RouterCancelPayload<T, V> = {
-    routerState: V;
-    storeState: T;
-    event: NavigationCancel;
-};
-/**
- * An action dispatched when the router cancel navigation.
- */
-export declare type RouterCancelAction<T, V = SerializedRouterStateSnapshot> = {
-    type: typeof ROUTER_CANCEL;
-    payload: RouterCancelPayload<T, V>;
-};
-/**
- * An action dispatched when the router errors.
- */
-export declare const ROUTER_ERROR = "ROUTE_ERROR";
-/**
- * Payload of ROUTER_ERROR.
- */
-export declare type RouterErrorPayload<T, V> = {
-    routerState: V;
-    storeState: T;
-    event: NavigationError;
-};
-/**
- * An action dispatched when the router errors.
- */
-export declare type RouterErrorAction<T, V = SerializedRouterStateSnapshot> = {
-    type: typeof ROUTER_ERROR;
-    payload: RouterErrorPayload<T, V>;
-};
-/**
- * An union type of router actions.
- */
-export declare type RouterAction<T, V = SerializedRouterStateSnapshot> = RouterNavigationAction<V> | RouterCancelAction<T, V> | RouterErrorAction<T, V>;
-export declare type RouterReducerState<T = SerializedRouterStateSnapshot> = {
-    state: T;
-    navigationId: number;
-};
-export declare function routerReducer<T = SerializedRouterStateSnapshot>(state: RouterReducerState<T> | undefined, action: RouterAction<any, T>): RouterReducerState<T>;
 export interface StoreRouterConfig {
     stateKey?: string;
+    serializer?: new (...args: any[]) => RouterStateSerializer;
+    /**
+     * By default, ROUTER_NAVIGATION is dispatched before guards and resolvers run.
+     * Therefore, the action could run too soon, for example
+     * there may be a navigation cancel due to a guard saying the navigation is not allowed.
+     * To run ROUTER_NAVIGATION after guards and resolvers,
+     * set this property to NavigationActionTiming.PostActivation.
+     */
+    navigationActionTiming?: NavigationActionTiming;
+}
+export declare enum NavigationActionTiming {
+    PreActivation = 1,
+    PostActivation = 2,
 }
 export declare const _ROUTER_CONFIG: InjectionToken<{}>;
 export declare const ROUTER_CONFIG: InjectionToken<{}>;
-export declare const DEFAULT_ROUTER_FEATURENAME = "routerReducer";
-export declare function _createDefaultRouterConfig(config: StoreRouterConfig | StoreRouterConfigFunction): StoreRouterConfig;
-export declare type StoreRouterConfigFunction = () => StoreRouterConfig;
+export declare const DEFAULT_ROUTER_FEATURENAME = "router";
+export declare function _createRouterConfig(config: StoreRouterConfig): StoreRouterConfig;
 /**
  * Connects RouterModule with StoreModule.
  *
@@ -121,22 +68,22 @@ export declare class StoreRouterConnectingModule {
     private store;
     private router;
     private serializer;
+    private errorHandler;
     private config;
-    static forRoot(config?: StoreRouterConfig | StoreRouterConfigFunction): ModuleWithProviders;
+    static forRoot(config?: StoreRouterConfig): ModuleWithProviders;
     private routerState;
     private storeState;
-    private lastRoutesRecognized;
-    private dispatchTriggeredByRouter;
-    private navigationTriggeredByDispatch;
+    private trigger;
     private stateKey;
-    constructor(store: Store<any>, router: Router, serializer: RouterStateSerializer<SerializedRouterStateSnapshot>, config: StoreRouterConfig);
-    private setUpBeforePreactivationHook();
+    constructor(store: Store<any>, router: Router, serializer: RouterStateSerializer<SerializedRouterStateSnapshot>, errorHandler: ErrorHandler, config: StoreRouterConfig);
     private setUpStoreStateListener();
-    private shouldDispatchRouterNavigation();
-    private navigateIfNeeded();
-    private setUpStateRollbackEvents();
-    private dispatchRouterNavigation();
+    private navigateIfNeeded(routerStoreState, storeState);
+    private setUpRouterEventsListener();
+    private dispatchRouterRequest(event);
+    private dispatchRouterNavigation(lastRoutesRecognized);
     private dispatchRouterCancel(event);
     private dispatchRouterError(event);
+    private dispatchRouterNavigated(event);
     private dispatchRouterAction(type, payload);
+    private reset();
 }
