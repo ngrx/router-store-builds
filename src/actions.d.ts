@@ -48,7 +48,7 @@ export declare type RouterCancelPayload<T, V extends BaseRouterStoreState> = {
     event: NavigationCancel;
 };
 /**
- * An action dispatched when the router cancel navigation.
+ * An action dispatched when the router cancels navigation.
  */
 export declare type RouterCancelAction<T, V extends BaseRouterStoreState = SerializedRouterStateSnapshot> = {
     type: typeof ROUTER_CANCEL;
@@ -91,6 +91,6 @@ export declare type RouterNavigatedAction = {
     payload: RouterNavigatedPayload;
 };
 /**
- * An union type of router actions.
+ * A union type of router actions.
  */
 export declare type RouterAction<T, V extends BaseRouterStoreState = SerializedRouterStateSnapshot> = RouterRequestAction | RouterNavigationAction<V> | RouterCancelAction<T, V> | RouterErrorAction<T, V> | RouterNavigatedAction;
