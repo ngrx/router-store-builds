@@ -72,7 +72,7 @@ export declare class StoreRouterConnectingModule {
     private serializer;
     private errorHandler;
     private config;
-    static forRoot(config?: StoreRouterConfig): ModuleWithProviders;
+    static forRoot(config?: StoreRouterConfig): ModuleWithProviders<StoreRouterConnectingModule>;
     private routerState;
     private storeState;
     private trigger;
