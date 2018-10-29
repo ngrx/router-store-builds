@@ -1,5 +1,5 @@
 /**
- * @license NgRx 6.1.0+82.sha-626784e
+ * @license NgRx 6.1.0+83.sha-0e38673
  * (c) 2015-2018 Brandon Roberts, Mike Ryan, Rob Wormald, Victor Savkin
  * License: MIT
  */
@@ -30,13 +30,15 @@ var ROUTER_ERROR = '@ngrx/router-store/error';
 var ROUTER_NAVIGATED = '@ngrx/router-store/navigated';
 
 function routerReducer(state, action) {
-    switch (action.type) {
+    // Allow compilation with strictFunctionTypes - ref: #1344
+    var routerAction = action;
+    switch (routerAction.type) {
         case ROUTER_NAVIGATION:
         case ROUTER_ERROR:
         case ROUTER_CANCEL:
             return {
-                state: action.payload.routerState,
-                navigationId: action.payload.event.id,
+                state: routerAction.payload.routerState,
+                navigationId: routerAction.payload.event.id,
             };
         default:
             return state;
