@@ -1,5 +1,5 @@
 /**
- * @license NgRx 6.1.0+85.sha-a9e7cbd
+ * @license NgRx 0.0.0-PLACEHOLDER
  * (c) 2015-2018 Brandon Roberts, Mike Ryan, Rob Wormald, Victor Savkin
  * License: MIT
  */
@@ -94,13 +94,28 @@
         return DefaultRouterStateSerializer;
     }());
 
-    var __assign = (undefined && undefined.__assign) || Object.assign || function(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-                t[p] = s[p];
-        }
-        return t;
+    var __assign = (undefined && undefined.__assign) || function () {
+        __assign = Object.assign || function(t) {
+            for (var s, i = 1, n = arguments.length; i < n; i++) {
+                s = arguments[i];
+                for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                    t[p] = s[p];
+            }
+            return t;
+        };
+        return __assign.apply(this, arguments);
+    };
+    var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+        var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+        if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+        else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+        return c > 3 && r && Object.defineProperty(target, key, r), r;
+    };
+    var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+        if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+    };
+    var __param = (undefined && undefined.__param) || function (paramIndex, decorator) {
+        return function (target, key) { decorator(target, key, paramIndex); }
     };
     var __read = (undefined && undefined.__read) || function (o, n) {
         var m = typeof Symbol === "function" && o[Symbol.iterator];
@@ -184,15 +199,17 @@
             this.serializer = serializer;
             this.errorHandler = errorHandler;
             this.config = config;
+            this.lastEvent = null;
             this.trigger = RouterTrigger.NONE;
             this.stateKey = this.config.stateKey;
             this.setUpStoreStateListener();
             this.setUpRouterEventsListener();
         }
+        StoreRouterConnectingModule_1 = StoreRouterConnectingModule;
         StoreRouterConnectingModule.forRoot = function (config) {
             if (config === void 0) { config = {}; }
             return {
-                ngModule: StoreRouterConnectingModule,
+                ngModule: StoreRouterConnectingModule_1,
                 providers: [
                     { provide: _ROUTER_CONFIG, useValue: config },
                     {
@@ -221,6 +238,9 @@
             if (this.trigger === RouterTrigger.ROUTER) {
                 return;
             }
+            if (this.lastEvent instanceof router.NavigationStart) {
+                return;
+            }
             var url = routerStoreState.state.url;
             if (this.router.url !== url) {
                 this.storeState = storeState;
@@ -239,6 +259,7 @@
                 .pipe(operators.withLatestFrom(this.store))
                 .subscribe(function (_a) {
                 var _b = __read(_a, 2), event = _b[0], storeState = _b[1];
+                _this.lastEvent = event;
                 if (event instanceof router.NavigationStart) {
                     _this.routerState = _this.serializer.serialize(_this.router.routerState.snapshot);
                     if (_this.trigger !== RouterTrigger.STORE) {
@@ -312,33 +333,31 @@
             this.storeState = null;
             this.routerState = null;
         };
-        StoreRouterConnectingModule.decorators = [
-            { type: core.NgModule, args: [{
-                        providers: [
-                            {
-                                provide: _ROUTER_CONFIG,
-                                useValue: ɵ0,
-                            },
-                            {
-                                provide: ROUTER_CONFIG,
-                                useFactory: _createRouterConfig,
-                                deps: [_ROUTER_CONFIG],
-                            },
-                            {
-                                provide: RouterStateSerializer,
-                                useClass: DefaultRouterStateSerializer,
-                            },
-                        ],
-                    },] }
-        ];
-        /** @nocollapse */
-        StoreRouterConnectingModule.ctorParameters = function () { return [
-            { type: store.Store },
-            { type: router.Router },
-            { type: RouterStateSerializer },
-            { type: core.ErrorHandler },
-            { type: undefined, decorators: [{ type: core.Inject, args: [ROUTER_CONFIG,] }] }
-        ]; };
+        var StoreRouterConnectingModule_1;
+        StoreRouterConnectingModule = StoreRouterConnectingModule_1 = __decorate([
+            core.NgModule({
+                providers: [
+                    {
+                        provide: _ROUTER_CONFIG,
+                        useValue: ɵ0,
+                    },
+                    {
+                        provide: ROUTER_CONFIG,
+                        useFactory: _createRouterConfig,
+                        deps: [_ROUTER_CONFIG],
+                    },
+                    {
+                        provide: RouterStateSerializer,
+                        useClass: DefaultRouterStateSerializer,
+                    },
+                ],
+            }),
+            __param(4, core.Inject(ROUTER_CONFIG)),
+            __metadata("design:paramtypes", [store.Store,
+                router.Router,
+                RouterStateSerializer,
+                core.ErrorHandler, Object])
+        ], StoreRouterConnectingModule);
         return StoreRouterConnectingModule;
     }());
 

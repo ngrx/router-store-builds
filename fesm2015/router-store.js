@@ -1,5 +1,5 @@
 /**
- * @license NgRx 6.1.0+85.sha-a9e7cbd
+ * @license NgRx 0.0.0-PLACEHOLDER
  * (c) 2015-2018 Brandon Roberts, Mike Ryan, Rob Wormald, Victor Savkin
  * License: MIT
  */
@@ -123,7 +123,7 @@ class DefaultRouterStateSerializer {
  * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
  */
 /** @enum {number} */
-const NavigationActionTiming = {
+var NavigationActionTiming = {
     PreActivation: 1,
     PostActivation: 2,
 };
@@ -143,7 +143,7 @@ function _createRouterConfig(config) {
     return Object.assign({ stateKey: DEFAULT_ROUTER_FEATURENAME, serializer: DefaultRouterStateSerializer, navigationActionTiming: NavigationActionTiming.PreActivation }, config);
 }
 /** @enum {number} */
-const RouterTrigger = {
+var RouterTrigger = {
     NONE: 1,
     ROUTER: 2,
     STORE: 3,
@@ -208,6 +208,7 @@ class StoreRouterConnectingModule {
         this.serializer = serializer;
         this.errorHandler = errorHandler;
         this.config = config;
+        this.lastEvent = null;
         this.trigger = RouterTrigger.NONE;
         this.stateKey = /** @type {?} */ (this.config.stateKey);
         this.setUpStoreStateListener();
@@ -253,6 +254,9 @@ class StoreRouterConnectingModule {
         if (this.trigger === RouterTrigger.ROUTER) {
             return;
         }
+        if (this.lastEvent instanceof NavigationStart) {
+            return;
+        }
         /** @type {?} */
         const url = routerStoreState.state.url;
         if (this.router.url !== url) {
@@ -275,6 +279,7 @@ class StoreRouterConnectingModule {
         this.router.events
             .pipe(withLatestFrom(this.store))
             .subscribe(([event, storeState]) => {
+            this.lastEvent = event;
             if (event instanceof NavigationStart) {
                 this.routerState = this.serializer.serialize(this.router.routerState.snapshot);
                 if (this.trigger !== RouterTrigger.STORE) {

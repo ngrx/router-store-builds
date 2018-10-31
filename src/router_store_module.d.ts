@@ -18,7 +18,7 @@ export interface StoreRouterConfig {
 }
 export declare enum NavigationActionTiming {
     PreActivation = 1,
-    PostActivation = 2,
+    PostActivation = 2
 }
 export declare const _ROUTER_CONFIG: InjectionToken<{}>;
 export declare const ROUTER_CONFIG: InjectionToken<{}>;
@@ -73,19 +73,20 @@ export declare class StoreRouterConnectingModule {
     private errorHandler;
     private config;
     static forRoot(config?: StoreRouterConfig): ModuleWithProviders<StoreRouterConnectingModule>;
+    private lastEvent;
     private routerState;
     private storeState;
     private trigger;
     private stateKey;
     constructor(store: Store<any>, router: Router, serializer: RouterStateSerializer<SerializedRouterStateSnapshot>, errorHandler: ErrorHandler, config: StoreRouterConfig);
-    private setUpStoreStateListener();
-    private navigateIfNeeded(routerStoreState, storeState);
-    private setUpRouterEventsListener();
-    private dispatchRouterRequest(event);
-    private dispatchRouterNavigation(lastRoutesRecognized);
-    private dispatchRouterCancel(event);
-    private dispatchRouterError(event);
-    private dispatchRouterNavigated(event);
-    private dispatchRouterAction(type, payload);
-    private reset();
+    private setUpStoreStateListener;
+    private navigateIfNeeded;
+    private setUpRouterEventsListener;
+    private dispatchRouterRequest;
+    private dispatchRouterNavigation;
+    private dispatchRouterCancel;
+    private dispatchRouterError;
+    private dispatchRouterNavigated;
+    private dispatchRouterAction;
+    private reset;
 }
