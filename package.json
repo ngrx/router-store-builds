@@ -1,6 +1,6 @@
 {
   "name": "@ngrx/router-store",
-  "version": "0.0.0-PLACEHOLDER",
+  "version": "6.1.0+89.sha-bcf12b6",
   "description": "Bindings to connect @angular/router to @ngrx/store",
   "repository": {
     "type": "git",
@@ -21,7 +21,7 @@
     "@angular/common": "^7.0.0",
     "@angular/core": "^7.0.0",
     "@angular/router": "^7.0.0",
-    "@ngrx/store": "0.0.0-PLACEHOLDER",
+    "@ngrx/store": "6.1.0+89.sha-bcf12b6",
     "rxjs": "^6.0.0"
   },
   "ng-update": {
