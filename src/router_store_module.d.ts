@@ -2,10 +2,10 @@ import { InjectionToken, ModuleWithProviders, ErrorHandler } from '@angular/core
 import { Router } from '@angular/router';
 import { Selector, Store } from '@ngrx/store';
 import { RouterReducerState } from './reducer';
-import { RouterStateSerializer, SerializedRouterStateSnapshot } from './serializer';
-export declare type StateKeyOrSelector = string | Selector<any, RouterReducerState>;
-export interface StoreRouterConfig {
-    stateKey?: StateKeyOrSelector;
+import { RouterStateSerializer, SerializedRouterStateSnapshot, BaseRouterStoreState } from './serializer';
+export declare type StateKeyOrSelector<T extends BaseRouterStoreState = SerializedRouterStateSnapshot> = string | Selector<any, RouterReducerState<T>>;
+export interface StoreRouterConfig<T extends BaseRouterStoreState = SerializedRouterStateSnapshot> {
+    stateKey?: StateKeyOrSelector<T>;
     serializer?: new (...args: any[]) => RouterStateSerializer;
     /**
      * By default, ROUTER_NAVIGATION is dispatched before guards and resolvers run.
@@ -72,7 +72,7 @@ export declare class StoreRouterConnectingModule {
     private serializer;
     private errorHandler;
     private config;
-    static forRoot(config?: StoreRouterConfig): ModuleWithProviders<StoreRouterConnectingModule>;
+    static forRoot<T extends BaseRouterStoreState = SerializedRouterStateSnapshot>(config?: StoreRouterConfig<T>): ModuleWithProviders<StoreRouterConnectingModule>;
     private lastEvent;
     private routerState;
     private storeState;
