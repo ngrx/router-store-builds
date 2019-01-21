@@ -1,5 +1,5 @@
 /**
- * @license NgRx 7.0.0+16.sha-c8bc008.with-local-changes
+ * @license NgRx 7.0.0+17.sha-283424f.with-local-changes
  * (c) 2015-2018 Brandon Roberts, Mike Ryan, Rob Wormald, Victor Savkin
  * License: MIT
  */
@@ -338,7 +338,6 @@ class StoreRouterConnectingModule {
      */
     dispatchRouterCancel(event) {
         this.dispatchRouterAction(ROUTER_CANCEL, {
-            routerState: /** @type {?} */ ((this.routerState)),
             storeState: this.storeState,
             event,
         });
@@ -349,7 +348,6 @@ class StoreRouterConnectingModule {
      */
     dispatchRouterError(event) {
         this.dispatchRouterAction(ROUTER_ERROR, {
-            routerState: /** @type {?} */ ((this.routerState)),
             storeState: this.storeState,
             event: new NavigationError(event.id, event.url, `${event}`),
         });
@@ -359,7 +357,9 @@ class StoreRouterConnectingModule {
      * @return {?}
      */
     dispatchRouterNavigated(event) {
-        this.dispatchRouterAction(ROUTER_NAVIGATED, { event });
+        /** @type {?} */
+        const routerState = this.serializer.serialize(this.router.routerState.snapshot);
+        this.dispatchRouterAction(ROUTER_NAVIGATED, { event, routerState });
     }
     /**
      * @param {?} type
@@ -369,7 +369,10 @@ class StoreRouterConnectingModule {
     dispatchRouterAction(type, payload) {
         this.trigger = RouterTrigger.ROUTER;
         try {
-            this.store.dispatch({ type, payload });
+            this.store.dispatch({
+                type,
+                payload: Object.assign({ routerState: this.routerState }, payload),
+            });
         }
         finally {
             this.trigger = RouterTrigger.NONE;

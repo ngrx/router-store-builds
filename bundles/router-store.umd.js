@@ -1,5 +1,5 @@
 /**
- * @license NgRx 7.0.0+16.sha-c8bc008.with-local-changes
+ * @license NgRx 7.0.0+17.sha-283424f.with-local-changes
  * (c) 2015-2018 Brandon Roberts, Mike Ryan, Rob Wormald, Victor Savkin
  * License: MIT
  */
@@ -304,25 +304,27 @@
         };
         StoreRouterConnectingModule.prototype.dispatchRouterCancel = function (event) {
             this.dispatchRouterAction(ROUTER_CANCEL, {
-                routerState: this.routerState,
                 storeState: this.storeState,
                 event: event,
             });
         };
         StoreRouterConnectingModule.prototype.dispatchRouterError = function (event) {
             this.dispatchRouterAction(ROUTER_ERROR, {
-                routerState: this.routerState,
                 storeState: this.storeState,
                 event: new router.NavigationError(event.id, event.url, "" + event),
             });
         };
         StoreRouterConnectingModule.prototype.dispatchRouterNavigated = function (event) {
-            this.dispatchRouterAction(ROUTER_NAVIGATED, { event: event });
+            var routerState = this.serializer.serialize(this.router.routerState.snapshot);
+            this.dispatchRouterAction(ROUTER_NAVIGATED, { event: event, routerState: routerState });
         };
         StoreRouterConnectingModule.prototype.dispatchRouterAction = function (type, payload) {
             this.trigger = RouterTrigger.ROUTER;
             try {
-                this.store.dispatch({ type: type, payload: payload });
+                this.store.dispatch({
+                    type: type,
+                    payload: __assign({ routerState: this.routerState }, payload),
+                });
             }
             finally {
                 this.trigger = RouterTrigger.NONE;
