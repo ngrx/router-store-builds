@@ -1,10 +1,10 @@
 /**
- * @license NgRx 7.2.0+36.sha-a7e6303
+ * @license NgRx 7.2.0+37.sha-4bdb66e
  * (c) 2015-2018 Brandon Roberts, Mike Ryan, Rob Wormald, Victor Savkin
  * License: MIT
  */
-import { Inject, InjectionToken, NgModule, ErrorHandler } from '@angular/core';
-import { NavigationCancel, NavigationError, NavigationEnd, Router, RoutesRecognized, NavigationStart } from '@angular/router';
+import { InjectionToken, NgModule, Inject, ErrorHandler } from '@angular/core';
+import { NavigationStart, RoutesRecognized, NavigationCancel, NavigationError, NavigationEnd, Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { withLatestFrom } from 'rxjs/operators';
 

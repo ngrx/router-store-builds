@@ -1,13 +1,13 @@
 /**
- * @license NgRx 7.2.0+36.sha-a7e6303
+ * @license NgRx 7.2.0+37.sha-4bdb66e
  * (c) 2015-2018 Brandon Roberts, Mike Ryan, Rob Wormald, Victor Savkin
  * License: MIT
  */
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@angular/core'), require('@angular/router'), require('@ngrx/store'), require('rxjs/operators')) :
     typeof define === 'function' && define.amd ? define('@ngrx/router-store', ['exports', '@angular/core', '@angular/router', '@ngrx/store', 'rxjs/operators'], factory) :
-    (factory((global.ngrx = global.ngrx || {}, global.ngrx.routerStore = {}),global.ng.core,global.ng.router,global['@ngrx/store'],global.rxjs.operators));
-}(this, (function (exports,core,router,store,operators) { 'use strict';
+    (global = global || self, factory((global.ngrx = global.ngrx || {}, global.ngrx.routerStore = {}), global.ng.core, global.ng.router, global['@ngrx/store'], global.rxjs.operators));
+}(this, function (exports, core, router, store, operators) { 'use strict';
 
     /**
      * An action dispatched when a router navigation request is fired.
@@ -193,9 +193,9 @@
      * ```
      */
     var StoreRouterConnectingModule = /** @class */ (function () {
-        function StoreRouterConnectingModule(store$$1, router$$1, serializer, errorHandler, config) {
-            this.store = store$$1;
-            this.router = router$$1;
+        function StoreRouterConnectingModule(store, router, serializer, errorHandler, config) {
+            this.store = store;
+            this.router = router;
             this.serializer = serializer;
             this.errorHandler = errorHandler;
             this.config = config;
@@ -389,5 +389,5 @@
 
     Object.defineProperty(exports, '__esModule', { value: true });
 
-})));
+}));
 //# sourceMappingURL=router-store.umd.js.map

@@ -1,41 +1,46 @@
 /**
- * @license NgRx 7.2.0+36.sha-a7e6303
+ * @license NgRx 7.2.0+37.sha-4bdb66e
  * (c) 2015-2018 Brandon Roberts, Mike Ryan, Rob Wormald, Victor Savkin
  * License: MIT
  */
-import { Inject, InjectionToken, NgModule, ErrorHandler } from '@angular/core';
-import { NavigationCancel, NavigationError, NavigationEnd, Router, RoutesRecognized, NavigationStart } from '@angular/router';
+import { InjectionToken, NgModule, ErrorHandler, Inject } from '@angular/core';
+import { NavigationStart, RoutesRecognized, NavigationCancel, NavigationError, NavigationEnd, Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { withLatestFrom } from 'rxjs/operators';
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
-/** *
+/**
  * An action dispatched when a router navigation request is fired.
-  @type {?} */
+ * @type {?}
+ */
 const ROUTER_REQUEST = '@ngrx/router-store/request';
-/** *
+/**
  * An action dispatched when the router navigates.
-  @type {?} */
+ * @type {?}
+ */
 const ROUTER_NAVIGATION = '@ngrx/router-store/navigation';
-/** *
+/**
  * An action dispatched when the router cancels navigation.
-  @type {?} */
+ * @type {?}
+ */
 const ROUTER_CANCEL = '@ngrx/router-store/cancel';
-/** *
+/**
  * An action dispatched when the router errors.
-  @type {?} */
+ * @type {?}
+ */
 const ROUTER_ERROR = '@ngrx/router-store/error';
-/** *
+/**
  * An action dispatched after navigation has ended and new route is active.
-  @type {?} */
+ * @type {?}
+ */
 const ROUTER_NAVIGATED = '@ngrx/router-store/navigated';
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * @template T
@@ -44,8 +49,9 @@ const ROUTER_NAVIGATED = '@ngrx/router-store/navigated';
  * @return {?}
  */
 function routerReducer(state, action) {
+    // Allow compilation with strictFunctionTypes - ref: #1344
     /** @type {?} */
-    const routerAction = /** @type {?} */ (action);
+    const routerAction = (/** @type {?} */ (action));
     switch (routerAction.type) {
         case ROUTER_NAVIGATION:
         case ROUTER_ERROR:
@@ -55,15 +61,14 @@ function routerReducer(state, action) {
                 navigationId: routerAction.payload.event.id,
             };
         default:
-            return /** @type {?} */ (state);
+            return (/** @type {?} */ (state));
     }
 }
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
-// unsupported: template constraints.
 /**
  * @abstract
  * @template T
@@ -82,12 +87,17 @@ class DefaultRouterStateSerializer {
         };
     }
     /**
+     * @private
      * @param {?} route
      * @return {?}
      */
     serializeRoute(route) {
         /** @type {?} */
-        const children = route.children.map(c => this.serializeRoute(c));
+        const children = route.children.map((/**
+         * @param {?} c
+         * @return {?}
+         */
+        c => this.serializeRoute(c)));
         return {
             params: route.params,
             paramMap: route.paramMap,
@@ -106,13 +116,13 @@ class DefaultRouterStateSerializer {
             queryParams: route.queryParams,
             queryParamMap: route.queryParamMap,
             fragment: route.fragment,
-            component: /** @type {?} */ ((route.routeConfig
+            component: (/** @type {?} */ ((route.routeConfig
                 ? route.routeConfig.component
-                : undefined)),
-            root: /** @type {?} */ (undefined),
-            parent: /** @type {?} */ (undefined),
+                : undefined))),
+            root: (/** @type {?} */ (undefined)),
+            parent: (/** @type {?} */ (undefined)),
             firstChild: children[0],
-            pathFromRoot: /** @type {?} */ (undefined),
+            pathFromRoot: (/** @type {?} */ (undefined)),
             children,
         };
     }
@@ -120,10 +130,10 @@ class DefaultRouterStateSerializer {
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /** @enum {number} */
-var NavigationActionTiming = {
+const NavigationActionTiming = {
     PreActivation: 1,
     PostActivation: 2,
 };
@@ -143,7 +153,7 @@ function _createRouterConfig(config) {
     return Object.assign({ stateKey: DEFAULT_ROUTER_FEATURENAME, serializer: DefaultRouterStateSerializer, navigationActionTiming: NavigationActionTiming.PreActivation }, config);
 }
 /** @enum {number} */
-var RouterTrigger = {
+const RouterTrigger = {
     NONE: 1,
     ROUTER: 2,
     STORE: 3,
@@ -210,7 +220,7 @@ class StoreRouterConnectingModule {
         this.config = config;
         this.lastEvent = null;
         this.trigger = RouterTrigger.NONE;
-        this.stateKey = /** @type {?} */ (this.config.stateKey);
+        this.stateKey = (/** @type {?} */ (this.config.stateKey));
         this.setUpStoreStateListener();
         this.setUpRouterEventsListener();
     }
@@ -234,16 +244,22 @@ class StoreRouterConnectingModule {
         };
     }
     /**
+     * @private
      * @return {?}
      */
     setUpStoreStateListener() {
         this.store
             .pipe(select(this.stateKey), withLatestFrom(this.store))
-            .subscribe(([routerStoreState, storeState]) => {
+            .subscribe((/**
+         * @param {?} __0
+         * @return {?}
+         */
+        ([routerStoreState, storeState]) => {
             this.navigateIfNeeded(routerStoreState, storeState);
-        });
+        }));
     }
     /**
+     * @private
      * @param {?} routerStoreState
      * @param {?} storeState
      * @return {?}
@@ -263,12 +279,17 @@ class StoreRouterConnectingModule {
         if (this.router.url !== url) {
             this.storeState = storeState;
             this.trigger = RouterTrigger.STORE;
-            this.router.navigateByUrl(url).catch(error => {
+            this.router.navigateByUrl(url).catch((/**
+             * @param {?} error
+             * @return {?}
+             */
+            error => {
                 this.errorHandler.handleError(error);
-            });
+            }));
         }
     }
     /**
+     * @private
      * @return {?}
      */
     setUpRouterEventsListener() {
@@ -279,7 +300,11 @@ class StoreRouterConnectingModule {
         let routesRecognized;
         this.router.events
             .pipe(withLatestFrom(this.store))
-            .subscribe(([event, storeState]) => {
+            .subscribe((/**
+         * @param {?} __0
+         * @return {?}
+         */
+        ([event, storeState]) => {
             this.lastEvent = event;
             if (event instanceof NavigationStart) {
                 this.routerState = this.serializer.serialize(this.router.routerState.snapshot);
@@ -311,9 +336,10 @@ class StoreRouterConnectingModule {
                 }
                 this.reset();
             }
-        });
+        }));
     }
     /**
+     * @private
      * @param {?} event
      * @return {?}
      */
@@ -321,6 +347,7 @@ class StoreRouterConnectingModule {
         this.dispatchRouterAction(ROUTER_REQUEST, { event });
     }
     /**
+     * @private
      * @param {?} lastRoutesRecognized
      * @return {?}
      */
@@ -333,6 +360,7 @@ class StoreRouterConnectingModule {
         });
     }
     /**
+     * @private
      * @param {?} event
      * @return {?}
      */
@@ -343,6 +371,7 @@ class StoreRouterConnectingModule {
         });
     }
     /**
+     * @private
      * @param {?} event
      * @return {?}
      */
@@ -353,6 +382,7 @@ class StoreRouterConnectingModule {
         });
     }
     /**
+     * @private
      * @param {?} event
      * @return {?}
      */
@@ -362,6 +392,7 @@ class StoreRouterConnectingModule {
         this.dispatchRouterAction(ROUTER_NAVIGATED, { event, routerState });
     }
     /**
+     * @private
      * @param {?} type
      * @param {?} payload
      * @return {?}
@@ -379,6 +410,7 @@ class StoreRouterConnectingModule {
         }
     }
     /**
+     * @private
      * @return {?}
      */
     reset() {
@@ -417,17 +449,17 @@ StoreRouterConnectingModule.ctorParameters = () => [
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 
 /**
