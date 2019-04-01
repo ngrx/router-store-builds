@@ -1,5 +1,5 @@
 /**
- * @license NgRx 7.4.0+1.sha-78e237c
+ * @license NgRx 7.4.0+13.sha-7f42917
  * (c) 2015-2018 Brandon Roberts, Mike Ryan, Rob Wormald, Victor Savkin
  * License: MIT
  */
@@ -161,7 +161,6 @@ const RouterTrigger = {
 RouterTrigger[RouterTrigger.NONE] = 'NONE';
 RouterTrigger[RouterTrigger.ROUTER] = 'ROUTER';
 RouterTrigger[RouterTrigger.STORE] = 'STORE';
-const ɵ0 = {};
 /**
  * Connects RouterModule with StoreModule.
  *
@@ -196,7 +195,7 @@ const ɵ0 = {};
  *       { path: '', component: SimpleCmp },
  *       { path: 'next', component: SimpleCmp }
  *     ]),
- *     StoreRouterConnectingModule
+ *     StoreRouterConnectingModule.forRoot()
  *   ],
  *   bootstrap: [AppCmp]
  * })
@@ -234,6 +233,11 @@ class StoreRouterConnectingModule {
             ngModule: StoreRouterConnectingModule,
             providers: [
                 { provide: _ROUTER_CONFIG, useValue: config },
+                {
+                    provide: ROUTER_CONFIG,
+                    useFactory: _createRouterConfig,
+                    deps: [_ROUTER_CONFIG],
+                },
                 {
                     provide: RouterStateSerializer,
                     useClass: config.serializer
@@ -420,23 +424,7 @@ class StoreRouterConnectingModule {
     }
 }
 StoreRouterConnectingModule.decorators = [
-    { type: NgModule, args: [{
-                providers: [
-                    {
-                        provide: _ROUTER_CONFIG,
-                        useValue: ɵ0,
-                    },
-                    {
-                        provide: ROUTER_CONFIG,
-                        useFactory: _createRouterConfig,
-                        deps: [_ROUTER_CONFIG],
-                    },
-                    {
-                        provide: RouterStateSerializer,
-                        useClass: DefaultRouterStateSerializer,
-                    },
-                ],
-            },] }
+    { type: NgModule, args: [{},] }
 ];
 /** @nocollapse */
 StoreRouterConnectingModule.ctorParameters = () => [

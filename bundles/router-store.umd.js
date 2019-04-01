@@ -1,5 +1,5 @@
 /**
- * @license NgRx 7.4.0+1.sha-78e237c
+ * @license NgRx 7.4.0+13.sha-7f42917
  * (c) 2015-2018 Brandon Roberts, Mike Ryan, Rob Wormald, Victor Savkin
  * License: MIT
  */
@@ -149,7 +149,6 @@
         RouterTrigger[RouterTrigger["ROUTER"] = 2] = "ROUTER";
         RouterTrigger[RouterTrigger["STORE"] = 3] = "STORE";
     })(RouterTrigger || (RouterTrigger = {}));
-    var ɵ0 = {};
     /**
      * Connects RouterModule with StoreModule.
      *
@@ -184,7 +183,7 @@
      *       { path: '', component: SimpleCmp },
      *       { path: 'next', component: SimpleCmp }
      *     ]),
-     *     StoreRouterConnectingModule
+     *     StoreRouterConnectingModule.forRoot()
      *   ],
      *   bootstrap: [AppCmp]
      * })
@@ -212,6 +211,11 @@
                 ngModule: StoreRouterConnectingModule_1,
                 providers: [
                     { provide: _ROUTER_CONFIG, useValue: config },
+                    {
+                        provide: ROUTER_CONFIG,
+                        useFactory: _createRouterConfig,
+                        deps: [_ROUTER_CONFIG],
+                    },
                     {
                         provide: RouterStateSerializer,
                         useClass: config.serializer
@@ -337,23 +341,7 @@
         };
         var StoreRouterConnectingModule_1;
         StoreRouterConnectingModule = StoreRouterConnectingModule_1 = __decorate([
-            core.NgModule({
-                providers: [
-                    {
-                        provide: _ROUTER_CONFIG,
-                        useValue: ɵ0,
-                    },
-                    {
-                        provide: ROUTER_CONFIG,
-                        useFactory: _createRouterConfig,
-                        deps: [_ROUTER_CONFIG],
-                    },
-                    {
-                        provide: RouterStateSerializer,
-                        useClass: DefaultRouterStateSerializer,
-                    },
-                ],
-            }),
+            core.NgModule({}),
             __param(4, core.Inject(ROUTER_CONFIG)),
             __metadata("design:paramtypes", [store.Store,
                 router.Router,

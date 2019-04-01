@@ -58,7 +58,7 @@ export declare function _createRouterConfig(config: StoreRouterConfig): StoreRou
  *       { path: '', component: SimpleCmp },
  *       { path: 'next', component: SimpleCmp }
  *     ]),
- *     StoreRouterConnectingModule
+ *     StoreRouterConnectingModule.forRoot()
  *   ],
  *   bootstrap: [AppCmp]
  * })
