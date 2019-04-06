@@ -1,6 +1,6 @@
 {
   "name": "@ngrx/router-store",
-  "version": "7.4.0+20.sha-c9c9a0e",
+  "version": "7.4.0+21.sha-00b550e",
   "description": "Bindings to connect @angular/router to @ngrx/store",
   "repository": {
     "type": "git",
@@ -20,11 +20,11 @@
   },
   "homepage": "https://github.com/ngrx/platform#readme",
   "peerDependencies": {
-    "@angular/common": "^7.0.0",
-    "@angular/core": "^7.0.0",
-    "@angular/router": "^7.0.0",
-    "@ngrx/store": "7.4.0+20.sha-c9c9a0e",
-    "rxjs": "^6.0.0"
+    "@angular/common": "^8.0.0-beta",
+    "@angular/core": "^8.0.0-beta",
+    "@angular/router": "^8.0.0-beta",
+    "@ngrx/store": "7.4.0+21.sha-00b550e",
+    "rxjs": "^6.4.0"
   },
   "schematics": "./schematics/collection.json",
   "ng-update": {

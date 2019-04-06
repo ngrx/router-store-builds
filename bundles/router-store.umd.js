@@ -1,13 +1,13 @@
 /**
- * @license NgRx 7.4.0+20.sha-c9c9a0e
+ * @license NgRx 7.4.0+21.sha-00b550e
  * (c) 2015-2018 Brandon Roberts, Mike Ryan, Rob Wormald, Victor Savkin
  * License: MIT
  */
 (function (global, factory) {
-    typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@angular/core'), require('@angular/router'), require('@ngrx/store'), require('rxjs/operators')) :
-    typeof define === 'function' && define.amd ? define('@ngrx/router-store', ['exports', '@angular/core', '@angular/router', '@ngrx/store', 'rxjs/operators'], factory) :
-    (global = global || self, factory((global.ngrx = global.ngrx || {}, global.ngrx.routerStore = {}), global.ng.core, global.ng.router, global['@ngrx/store'], global.rxjs.operators));
-}(this, function (exports, core, router, store, operators) { 'use strict';
+    typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('tslib'), require('@angular/core'), require('@angular/router'), require('@ngrx/store'), require('rxjs/operators')) :
+    typeof define === 'function' && define.amd ? define('@ngrx/router-store', ['exports', 'tslib', '@angular/core', '@angular/router', '@ngrx/store', 'rxjs/operators'], factory) :
+    (global = global || self, factory((global.ngrx = global.ngrx || {}, global.ngrx.routerStore = {}), global.tslib, global.ng.core, global.ng.router, global['@ngrx/store'], global.rxjs.operators));
+}(this, function (exports, tslib_1, core, router, store, operators) { 'use strict';
 
     /**
      * An action dispatched when a router navigation request is fired.
@@ -94,45 +94,6 @@
         return DefaultRouterStateSerializer;
     }());
 
-    var __assign = (undefined && undefined.__assign) || function () {
-        __assign = Object.assign || function(t) {
-            for (var s, i = 1, n = arguments.length; i < n; i++) {
-                s = arguments[i];
-                for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-                    t[p] = s[p];
-            }
-            return t;
-        };
-        return __assign.apply(this, arguments);
-    };
-    var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
-        var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-        if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-        else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-        return c > 3 && r && Object.defineProperty(target, key, r), r;
-    };
-    var __metadata = (undefined && undefined.__metadata) || function (k, v) {
-        if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-    };
-    var __param = (undefined && undefined.__param) || function (paramIndex, decorator) {
-        return function (target, key) { decorator(target, key, paramIndex); }
-    };
-    var __read = (undefined && undefined.__read) || function (o, n) {
-        var m = typeof Symbol === "function" && o[Symbol.iterator];
-        if (!m) return o;
-        var i = m.call(o), r, ar = [], e;
-        try {
-            while ((n === void 0 || n-- > 0) && !(r = i.next()).done) ar.push(r.value);
-        }
-        catch (error) { e = { error: error }; }
-        finally {
-            try {
-                if (r && !r.done && (m = i["return"])) m.call(i);
-            }
-            finally { if (e) throw e.error; }
-        }
-        return ar;
-    };
     (function (NavigationActionTiming) {
         NavigationActionTiming[NavigationActionTiming["PreActivation"] = 1] = "PreActivation";
         NavigationActionTiming[NavigationActionTiming["PostActivation"] = 2] = "PostActivation";
@@ -141,7 +102,7 @@
     var ROUTER_CONFIG = new core.InjectionToken('@ngrx/router-store Configuration');
     var DEFAULT_ROUTER_FEATURENAME = 'router';
     function _createRouterConfig(config) {
-        return __assign({ stateKey: DEFAULT_ROUTER_FEATURENAME, serializer: DefaultRouterStateSerializer, navigationActionTiming: exports.NavigationActionTiming.PreActivation }, config);
+        return tslib_1.__assign({ stateKey: DEFAULT_ROUTER_FEATURENAME, serializer: DefaultRouterStateSerializer, navigationActionTiming: exports.NavigationActionTiming.PreActivation }, config);
     }
     var RouterTrigger;
     (function (RouterTrigger) {
@@ -230,7 +191,7 @@
             this.store
                 .pipe(store.select(this.stateKey), operators.withLatestFrom(this.store))
                 .subscribe(function (_a) {
-                var _b = __read(_a, 2), routerStoreState = _b[0], storeState = _b[1];
+                var _b = tslib_1.__read(_a, 2), routerStoreState = _b[0], storeState = _b[1];
                 _this.navigateIfNeeded(routerStoreState, storeState);
             });
         };
@@ -262,7 +223,7 @@
             this.router.events
                 .pipe(operators.withLatestFrom(this.store))
                 .subscribe(function (_a) {
-                var _b = __read(_a, 2), event = _b[0], storeState = _b[1];
+                var _b = tslib_1.__read(_a, 2), event = _b[0], storeState = _b[1];
                 _this.lastEvent = event;
                 if (event instanceof router.NavigationStart) {
                     _this.routerState = _this.serializer.serialize(_this.router.routerState.snapshot);
@@ -327,7 +288,7 @@
             try {
                 this.store.dispatch({
                     type: type,
-                    payload: __assign({ routerState: this.routerState }, payload),
+                    payload: tslib_1.__assign({ routerState: this.routerState }, payload),
                 });
             }
             finally {
@@ -340,10 +301,10 @@
             this.routerState = null;
         };
         var StoreRouterConnectingModule_1;
-        StoreRouterConnectingModule = StoreRouterConnectingModule_1 = __decorate([
+        StoreRouterConnectingModule = StoreRouterConnectingModule_1 = tslib_1.__decorate([
             core.NgModule({}),
-            __param(4, core.Inject(ROUTER_CONFIG)),
-            __metadata("design:paramtypes", [store.Store,
+            tslib_1.__param(4, core.Inject(ROUTER_CONFIG)),
+            tslib_1.__metadata("design:paramtypes", [store.Store,
                 router.Router,
                 RouterStateSerializer,
                 core.ErrorHandler, Object])
