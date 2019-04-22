@@ -1,6 +1,6 @@
 {
   "name": "@ngrx/router-store",
-  "version": "7.4.0+58.sha-a53bffa",
+  "version": "7.4.0+59.sha-4c850b5",
   "description": "Bindings to connect @angular/router to @ngrx/store",
   "repository": {
     "type": "git",
@@ -23,7 +23,7 @@
     "@angular/common": "^8.0.0-beta",
     "@angular/core": "^8.0.0-beta",
     "@angular/router": "^8.0.0-beta",
-    "@ngrx/store": "7.4.0+58.sha-a53bffa",
+    "@ngrx/store": "7.4.0+59.sha-4c850b5",
     "rxjs": "^6.4.0"
   },
   "schematics": "./schematics/collection.json",
