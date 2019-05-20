@@ -1,5 +1,5 @@
 import { NavigationCancel, NavigationEnd, NavigationError, NavigationStart, RoutesRecognized } from '@angular/router';
-import { BaseRouterStoreState, SerializedRouterStateSnapshot } from './serializer';
+import { BaseRouterStoreState, SerializedRouterStateSnapshot } from './serializers';
 /**
  * An action dispatched when a router navigation request is fired.
  */

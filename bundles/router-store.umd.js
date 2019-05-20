@@ -1,5 +1,5 @@
 /**
- * @license NgRx 8.0.0-beta.2+3.sha-29c426b
+ * @license NgRx 8.0.0-beta.2+4.sha-d874cfc
  * (c) 2015-2018 Brandon Roberts, Mike Ryan, Rob Wormald, Victor Savkin
  * License: MIT
  */
@@ -51,6 +51,7 @@
         }
         return RouterStateSerializer;
     }());
+
     var DefaultRouterStateSerializer = /** @class */ (function () {
         function DefaultRouterStateSerializer() {
         }
@@ -92,6 +93,40 @@
             };
         };
         return DefaultRouterStateSerializer;
+    }());
+
+    var MinimalRouterStateSerializer = /** @class */ (function () {
+        function MinimalRouterStateSerializer() {
+        }
+        MinimalRouterStateSerializer.prototype.serialize = function (routerState) {
+            return {
+                root: this.serializeRoute(routerState.root),
+                url: routerState.url,
+            };
+        };
+        MinimalRouterStateSerializer.prototype.serializeRoute = function (route) {
+            var _this = this;
+            var children = route.children.map(function (c) { return _this.serializeRoute(c); });
+            return {
+                params: route.params,
+                data: route.data,
+                url: route.url,
+                outlet: route.outlet,
+                routeConfig: route.routeConfig
+                    ? {
+                        path: route.routeConfig.path,
+                        pathMatch: route.routeConfig.pathMatch,
+                        redirectTo: route.routeConfig.redirectTo,
+                        outlet: route.routeConfig.outlet,
+                    }
+                    : null,
+                queryParams: route.queryParams,
+                fragment: route.fragment,
+                firstChild: children[0],
+                children: children,
+            };
+        };
+        return MinimalRouterStateSerializer;
     }());
 
     (function (NavigationActionTiming) {
@@ -181,7 +216,9 @@
                         provide: RouterStateSerializer,
                         useClass: config.serializer
                             ? config.serializer
-                            : DefaultRouterStateSerializer,
+                            : config.routerState === 1 /* Minimal */
+                                ? MinimalRouterStateSerializer
+                                : DefaultRouterStateSerializer,
                     },
                 ],
             };
@@ -288,7 +325,9 @@
             try {
                 this.store.dispatch({
                     type: type,
-                    payload: tslib_1.__assign({ routerState: this.routerState }, payload),
+                    payload: tslib_1.__assign({ routerState: this.routerState }, payload, { event: this.config.routerState === 1 /* Minimal */
+                            ? { id: payload.event.id, url: payload.event.url }
+                            : payload.event }),
                 });
             }
             finally {
@@ -335,6 +374,7 @@
     exports.DEFAULT_ROUTER_FEATURENAME = DEFAULT_ROUTER_FEATURENAME;
     exports.RouterStateSerializer = RouterStateSerializer;
     exports.DefaultRouterStateSerializer = DefaultRouterStateSerializer;
+    exports.MinimalRouterStateSerializer = MinimalRouterStateSerializer;
 
     Object.defineProperty(exports, '__esModule', { value: true });
 

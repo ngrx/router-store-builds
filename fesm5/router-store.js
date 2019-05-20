@@ -1,5 +1,5 @@
 /**
- * @license NgRx 8.0.0-beta.2+3.sha-29c426b
+ * @license NgRx 8.0.0-beta.2+4.sha-d874cfc
  * (c) 2015-2018 Brandon Roberts, Mike Ryan, Rob Wormald, Victor Savkin
  * License: MIT
  */
@@ -51,6 +51,7 @@ var RouterStateSerializer = /** @class */ (function () {
     }
     return RouterStateSerializer;
 }());
+
 var DefaultRouterStateSerializer = /** @class */ (function () {
     function DefaultRouterStateSerializer() {
     }
@@ -92,6 +93,40 @@ var DefaultRouterStateSerializer = /** @class */ (function () {
         };
     };
     return DefaultRouterStateSerializer;
+}());
+
+var MinimalRouterStateSerializer = /** @class */ (function () {
+    function MinimalRouterStateSerializer() {
+    }
+    MinimalRouterStateSerializer.prototype.serialize = function (routerState) {
+        return {
+            root: this.serializeRoute(routerState.root),
+            url: routerState.url,
+        };
+    };
+    MinimalRouterStateSerializer.prototype.serializeRoute = function (route) {
+        var _this = this;
+        var children = route.children.map(function (c) { return _this.serializeRoute(c); });
+        return {
+            params: route.params,
+            data: route.data,
+            url: route.url,
+            outlet: route.outlet,
+            routeConfig: route.routeConfig
+                ? {
+                    path: route.routeConfig.path,
+                    pathMatch: route.routeConfig.pathMatch,
+                    redirectTo: route.routeConfig.redirectTo,
+                    outlet: route.routeConfig.outlet,
+                }
+                : null,
+            queryParams: route.queryParams,
+            fragment: route.fragment,
+            firstChild: children[0],
+            children: children,
+        };
+    };
+    return MinimalRouterStateSerializer;
 }());
 
 var NavigationActionTiming;
@@ -182,7 +217,9 @@ var StoreRouterConnectingModule = /** @class */ (function () {
                     provide: RouterStateSerializer,
                     useClass: config.serializer
                         ? config.serializer
-                        : DefaultRouterStateSerializer,
+                        : config.routerState === 1 /* Minimal */
+                            ? MinimalRouterStateSerializer
+                            : DefaultRouterStateSerializer,
                 },
             ],
         };
@@ -289,7 +326,9 @@ var StoreRouterConnectingModule = /** @class */ (function () {
         try {
             this.store.dispatch({
                 type: type,
-                payload: __assign({ routerState: this.routerState }, payload),
+                payload: __assign({ routerState: this.routerState }, payload, { event: this.config.routerState === 1 /* Minimal */
+                        ? { id: payload.event.id, url: payload.event.url }
+                        : payload.event }),
             });
         }
         finally {
@@ -323,5 +362,5 @@ var StoreRouterConnectingModule = /** @class */ (function () {
  * Generated bundle index. Do not edit.
  */
 
-export { _ROUTER_CONFIG as ɵngrx_modules_router_store_router_store_a, _createRouterConfig as ɵngrx_modules_router_store_router_store_b, ROUTER_ERROR, ROUTER_CANCEL, ROUTER_NAVIGATION, ROUTER_NAVIGATED, ROUTER_REQUEST, routerReducer, StoreRouterConnectingModule, NavigationActionTiming, ROUTER_CONFIG, DEFAULT_ROUTER_FEATURENAME, RouterStateSerializer, DefaultRouterStateSerializer };
+export { _ROUTER_CONFIG as ɵngrx_modules_router_store_router_store_a, _createRouterConfig as ɵngrx_modules_router_store_router_store_b, ROUTER_ERROR, ROUTER_CANCEL, ROUTER_NAVIGATION, ROUTER_NAVIGATED, ROUTER_REQUEST, routerReducer, StoreRouterConnectingModule, NavigationActionTiming, ROUTER_CONFIG, DEFAULT_ROUTER_FEATURENAME, RouterStateSerializer, DefaultRouterStateSerializer, MinimalRouterStateSerializer };
 //# sourceMappingURL=router-store.js.map

@@ -2,8 +2,16 @@ import { InjectionToken, ModuleWithProviders, ErrorHandler } from '@angular/core
 import { Router } from '@angular/router';
 import { Selector, Store } from '@ngrx/store';
 import { RouterReducerState } from './reducer';
-import { RouterStateSerializer, SerializedRouterStateSnapshot, BaseRouterStoreState } from './serializer';
+import { RouterStateSerializer, SerializedRouterStateSnapshot, BaseRouterStoreState } from './serializers';
 export declare type StateKeyOrSelector<T extends BaseRouterStoreState = SerializedRouterStateSnapshot> = string | Selector<any, RouterReducerState<T>>;
+/**
+ * Full = Serializes the router event with DefaultRouterStateSerializer
+ * Minimal = Serializes the router event with MinimalRouterStateSerializer
+ */
+export declare const enum RouterState {
+    Full = 0,
+    Minimal = 1
+}
 export interface StoreRouterConfig<T extends BaseRouterStoreState = SerializedRouterStateSnapshot> {
     stateKey?: StateKeyOrSelector<T>;
     serializer?: new (...args: any[]) => RouterStateSerializer;
@@ -15,6 +23,12 @@ export interface StoreRouterConfig<T extends BaseRouterStoreState = SerializedRo
      * set this property to NavigationActionTiming.PostActivation.
      */
     navigationActionTiming?: NavigationActionTiming;
+    /**
+     * Decides which router serializer should be used, if there is none provided, and the metadata on the dispatched @ngrx/router-store action payload.
+     * Set to `Full` to use the `DefaultRouterStateSerializer` and to set the angular router events as payload.
+     * Set to `Minimal` to use the `MinimalRouterStateSerializer` and to set a minimal router event with the navigation id and url as payload.
+     */
+    routerState?: RouterState;
 }
 export declare enum NavigationActionTiming {
     PreActivation = 1,

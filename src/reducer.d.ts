@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { BaseRouterStoreState, SerializedRouterStateSnapshot } from './serializer';
+import { BaseRouterStoreState, SerializedRouterStateSnapshot } from './serializers';
 export declare type RouterReducerState<T extends BaseRouterStoreState = SerializedRouterStateSnapshot> = {
     state: T;
     navigationId: number;
