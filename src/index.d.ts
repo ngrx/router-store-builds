@@ -2,3 +2,4 @@ export { ROUTER_ERROR, ROUTER_CANCEL, ROUTER_NAVIGATION, ROUTER_NAVIGATED, ROUTE
 export { routerReducer, RouterReducerState } from './reducer';
 export { StateKeyOrSelector, StoreRouterConnectingModule, StoreRouterConfig, NavigationActionTiming, ROUTER_CONFIG, DEFAULT_ROUTER_FEATURENAME, RouterState, } from './router_store_module';
 export { RouterStateSerializer, DefaultRouterStateSerializer, SerializedRouterStateSnapshot, BaseRouterStoreState, MinimalActivatedRouteSnapshot, MinimalRouterStateSnapshot, MinimalRouterStateSerializer, } from './serializers';
+export { getSelectors } from './router_selectors';

@@ -1,5 +1,5 @@
 /**
- * @license NgRx 8.0.0-beta.2+17.sha-d5e3c0c
+ * @license NgRx 8.0.0-beta.2+18.sha-21c67cc
  * (c) 2015-2018 Brandon Roberts, Mike Ryan, Rob Wormald, Victor Savkin
  * License: MIT
  */
@@ -351,6 +351,31 @@
         return StoreRouterConnectingModule;
     }());
 
+    function getSelectors(selectState) {
+        var selectRouterState = store.createSelector(selectState, function (router) { return router && router.state; });
+        var selectCurrentRoute = store.createSelector(selectRouterState, function (routerState) {
+            if (!routerState) {
+                return undefined;
+            }
+            var route = routerState.root;
+            while (route.firstChild) {
+                route = route.firstChild;
+            }
+            return route;
+        });
+        var selectQueryParams = store.createSelector(selectCurrentRoute, function (route) { return route && route.queryParams; });
+        var selectRouteParams = store.createSelector(selectCurrentRoute, function (route) { return route && route.params; });
+        var selectRouteData = store.createSelector(selectCurrentRoute, function (route) { return route && route.data; });
+        var selectUrl = store.createSelector(selectRouterState, function (routerState) { return routerState && routerState.url; });
+        return {
+            selectCurrentRoute: selectCurrentRoute,
+            selectQueryParams: selectQueryParams,
+            selectRouteParams: selectRouteParams,
+            selectRouteData: selectRouteData,
+            selectUrl: selectUrl,
+        };
+    }
+
     /**
      * DO NOT EDIT
      *
@@ -375,6 +400,7 @@
     exports.RouterStateSerializer = RouterStateSerializer;
     exports.DefaultRouterStateSerializer = DefaultRouterStateSerializer;
     exports.MinimalRouterStateSerializer = MinimalRouterStateSerializer;
+    exports.getSelectors = getSelectors;
 
     Object.defineProperty(exports, '__esModule', { value: true });
 

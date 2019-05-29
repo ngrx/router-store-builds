@@ -1,12 +1,12 @@
 /**
- * @license NgRx 8.0.0-beta.2+17.sha-d5e3c0c
+ * @license NgRx 8.0.0-beta.2+18.sha-21c67cc
  * (c) 2015-2018 Brandon Roberts, Mike Ryan, Rob Wormald, Victor Savkin
  * License: MIT
  */
 import { __assign, __read, __decorate, __param, __metadata } from 'tslib';
 import { InjectionToken, NgModule, Inject, ErrorHandler } from '@angular/core';
 import { NavigationStart, RoutesRecognized, NavigationCancel, NavigationError, NavigationEnd, Router } from '@angular/router';
-import { select, Store } from '@ngrx/store';
+import { select, Store, createSelector } from '@ngrx/store';
 import { withLatestFrom } from 'rxjs/operators';
 
 /**
@@ -352,6 +352,31 @@ var StoreRouterConnectingModule = /** @class */ (function () {
     return StoreRouterConnectingModule;
 }());
 
+function getSelectors(selectState) {
+    var selectRouterState = createSelector(selectState, function (router) { return router && router.state; });
+    var selectCurrentRoute = createSelector(selectRouterState, function (routerState) {
+        if (!routerState) {
+            return undefined;
+        }
+        var route = routerState.root;
+        while (route.firstChild) {
+            route = route.firstChild;
+        }
+        return route;
+    });
+    var selectQueryParams = createSelector(selectCurrentRoute, function (route) { return route && route.queryParams; });
+    var selectRouteParams = createSelector(selectCurrentRoute, function (route) { return route && route.params; });
+    var selectRouteData = createSelector(selectCurrentRoute, function (route) { return route && route.data; });
+    var selectUrl = createSelector(selectRouterState, function (routerState) { return routerState && routerState.url; });
+    return {
+        selectCurrentRoute: selectCurrentRoute,
+        selectQueryParams: selectQueryParams,
+        selectRouteParams: selectRouteParams,
+        selectRouteData: selectRouteData,
+        selectUrl: selectUrl,
+    };
+}
+
 /**
  * DO NOT EDIT
  *
@@ -362,5 +387,5 @@ var StoreRouterConnectingModule = /** @class */ (function () {
  * Generated bundle index. Do not edit.
  */
 
-export { _ROUTER_CONFIG as ɵngrx_modules_router_store_router_store_a, _createRouterConfig as ɵngrx_modules_router_store_router_store_b, ROUTER_ERROR, ROUTER_CANCEL, ROUTER_NAVIGATION, ROUTER_NAVIGATED, ROUTER_REQUEST, routerReducer, StoreRouterConnectingModule, NavigationActionTiming, ROUTER_CONFIG, DEFAULT_ROUTER_FEATURENAME, RouterStateSerializer, DefaultRouterStateSerializer, MinimalRouterStateSerializer };
+export { _ROUTER_CONFIG as ɵngrx_modules_router_store_router_store_a, _createRouterConfig as ɵngrx_modules_router_store_router_store_b, ROUTER_ERROR, ROUTER_CANCEL, ROUTER_NAVIGATION, ROUTER_NAVIGATED, ROUTER_REQUEST, routerReducer, StoreRouterConnectingModule, NavigationActionTiming, ROUTER_CONFIG, DEFAULT_ROUTER_FEATURENAME, RouterStateSerializer, DefaultRouterStateSerializer, MinimalRouterStateSerializer, getSelectors };
 //# sourceMappingURL=router-store.js.map
