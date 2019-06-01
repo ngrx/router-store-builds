@@ -2,7 +2,8 @@ import { InjectionToken, ModuleWithProviders, ErrorHandler } from '@angular/core
 import { Router } from '@angular/router';
 import { Selector, Store } from '@ngrx/store';
 import { RouterReducerState } from './reducer';
-import { RouterStateSerializer, SerializedRouterStateSnapshot, BaseRouterStoreState } from './serializers';
+import { RouterStateSerializer, BaseRouterStoreState } from './serializers/base';
+import { SerializedRouterStateSnapshot } from './serializers/default_serializer';
 export declare type StateKeyOrSelector<T extends BaseRouterStoreState = SerializedRouterStateSnapshot> = string | Selector<any, RouterReducerState<T>>;
 /**
  * Full = Serializes the router event with DefaultRouterStateSerializer

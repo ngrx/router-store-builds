@@ -1,5 +1,5 @@
 /**
- * @license NgRx 8.0.0-rc.0
+ * @license NgRx 8.0.0-rc.0+1.sha-0407c5b
  * (c) 2015-2018 Brandon Roberts, Mike Ryan, Rob Wormald, Victor Savkin
  * License: MIT
  */
@@ -180,11 +180,6 @@ class MinimalRouterStateSerializer {
         };
     }
 }
-
-/**
- * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
- */
 
 /**
  * @fileoverview added by tsickle
