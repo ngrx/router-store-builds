@@ -1,5 +1,5 @@
 /**
- * @license NgRx 8.1.0+4.sha-c00a9c2
+ * @license NgRx 8.1.0+5.sha-57fd3d7
  * (c) 2015-2018 Brandon Roberts, Mike Ryan, Rob Wormald, Victor Savkin
  * License: MIT
  */
@@ -365,13 +365,21 @@ function getSelectors(selectState) {
         return route;
     });
     var selectQueryParams = createSelector(selectCurrentRoute, function (route) { return route && route.queryParams; });
+    var selectQueryParam = function (param) {
+        return createSelector(selectQueryParams, function (params) { return params && params[param]; });
+    };
     var selectRouteParams = createSelector(selectCurrentRoute, function (route) { return route && route.params; });
+    var selectRouteParam = function (param) {
+        return createSelector(selectRouteParams, function (params) { return params && params[param]; });
+    };
     var selectRouteData = createSelector(selectCurrentRoute, function (route) { return route && route.data; });
     var selectUrl = createSelector(selectRouterState, function (routerState) { return routerState && routerState.url; });
     return {
         selectCurrentRoute: selectCurrentRoute,
         selectQueryParams: selectQueryParams,
+        selectQueryParam: selectQueryParam,
         selectRouteParams: selectRouteParams,
+        selectRouteParam: selectRouteParam,
         selectRouteData: selectRouteData,
         selectUrl: selectUrl,
     };

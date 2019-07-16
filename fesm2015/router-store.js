@@ -1,5 +1,5 @@
 /**
- * @license NgRx 8.1.0+4.sha-c00a9c2
+ * @license NgRx 8.1.0+5.sha-57fd3d7
  * (c) 2015-2018 Brandon Roberts, Mike Ryan, Rob Wormald, Victor Savkin
  * License: MIT
  */
@@ -531,11 +531,31 @@ function getSelectors(selectState) {
      */
     route => route && route.queryParams));
     /** @type {?} */
+    const selectQueryParam = (/**
+     * @param {?} param
+     * @return {?}
+     */
+    (param) => createSelector(selectQueryParams, (/**
+     * @param {?} params
+     * @return {?}
+     */
+    params => params && params[param])));
+    /** @type {?} */
     const selectRouteParams = createSelector(selectCurrentRoute, (/**
      * @param {?} route
      * @return {?}
      */
     route => route && route.params));
+    /** @type {?} */
+    const selectRouteParam = (/**
+     * @param {?} param
+     * @return {?}
+     */
+    (param) => createSelector(selectRouteParams, (/**
+     * @param {?} params
+     * @return {?}
+     */
+    params => params && params[param])));
     /** @type {?} */
     const selectRouteData = createSelector(selectCurrentRoute, (/**
      * @param {?} route
@@ -551,7 +571,9 @@ function getSelectors(selectState) {
     return {
         selectCurrentRoute,
         selectQueryParams,
+        selectQueryParam,
         selectRouteParams,
+        selectRouteParam,
         selectRouteData,
         selectUrl,
     };
