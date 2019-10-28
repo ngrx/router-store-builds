@@ -1,5 +1,5 @@
 /**
- * @license NgRx 8.4.0+11.sha-1b4ba1a
+ * @license NgRx 8.4.0+12.sha-46a8467
  * (c) 2015-2018 Brandon Roberts, Mike Ryan, Rob Wormald, Victor Savkin
  * License: MIT
  */
@@ -308,7 +308,7 @@ class StoreRouterConnectingModule {
      */
     setUpStoreStateListener() {
         this.store
-            .pipe(select(this.stateKey), withLatestFrom(this.store))
+            .pipe(select((/** @type {?} */ (this.stateKey))), withLatestFrom(this.store))
             .subscribe((/**
          * @param {?} __0
          * @return {?}
