@@ -1,12 +1,12 @@
 /**
- * @license NgRx 8.5.2+4.sha-e870514
+ * @license NgRx 8.5.2+6.sha-98defed
  * (c) 2015-2018 Brandon Roberts, Mike Ryan, Rob Wormald, Victor Savkin
  * License: MIT
  */
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('tslib'), require('@angular/core'), require('@angular/router'), require('@ngrx/store'), require('rxjs/operators')) :
     typeof define === 'function' && define.amd ? define('@ngrx/router-store', ['exports', 'tslib', '@angular/core', '@angular/router', '@ngrx/store', 'rxjs/operators'], factory) :
-    (global = global || self, factory((global.ngrx = global.ngrx || {}, global.ngrx.routerStore = {}), global.tslib, global.ng.core, global.ng.router, global['@ngrx/store'], global.rxjs.operators));
+    (global = global || self, factory((global.ngrx = global.ngrx || {}, global.ngrx.routerStore = {}), global.tslib, global.ng.core, global.ng.router, global.ngrx.store, global.rxjs.operators));
 }(this, function (exports, tslib_1, core, router, store, operators) { 'use strict';
 
     /**
