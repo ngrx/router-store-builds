@@ -1,34 +1,39 @@
 /**
- * @license NgRx 8.5.2+10.sha-4368cc7
+ * @license NgRx 8.6.0
  * (c) 2015-2018 Brandon Roberts, Mike Ryan, Rob Wormald, Victor Savkin
  * License: MIT
  */
 (function (global, factory) {
-    typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('tslib'), require('@angular/core'), require('@angular/router'), require('@ngrx/store'), require('rxjs/operators')) :
-    typeof define === 'function' && define.amd ? define('@ngrx/router-store', ['exports', 'tslib', '@angular/core', '@angular/router', '@ngrx/store', 'rxjs/operators'], factory) :
-    (global = global || self, factory((global.ngrx = global.ngrx || {}, global.ngrx.routerStore = {}), global.tslib, global.ng.core, global.ng.router, global.ngrx.store, global.rxjs.operators));
-}(this, function (exports, tslib_1, core, router, store, operators) { 'use strict';
+    typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@ngrx/store'), require('tslib'), require('@angular/core'), require('@angular/router'), require('rxjs/operators')) :
+    typeof define === 'function' && define.amd ? define('@ngrx/router-store', ['exports', '@ngrx/store', 'tslib', '@angular/core', '@angular/router', 'rxjs/operators'], factory) :
+    (global = global || self, factory((global.ngrx = global.ngrx || {}, global.ngrx.routerStore = {}), global.ngrx.store, global.tslib, global.ng.core, global.ng.router, global.rxjs.operators));
+}(this, function (exports, store, tslib_1, core, router, operators) { 'use strict';
 
     /**
      * An action dispatched when a router navigation request is fired.
      */
     var ROUTER_REQUEST = '@ngrx/router-store/request';
+    var routerRequestAction = store.createAction(ROUTER_REQUEST, store.props());
     /**
      * An action dispatched when the router navigates.
      */
     var ROUTER_NAVIGATION = '@ngrx/router-store/navigation';
+    var routerNavigationAction = store.createAction(ROUTER_NAVIGATION, store.props());
     /**
      * An action dispatched when the router cancels navigation.
      */
     var ROUTER_CANCEL = '@ngrx/router-store/cancel';
+    var routerCancelAction = store.createAction(ROUTER_CANCEL, store.props());
     /**
      * An action dispatched when the router errors.
      */
     var ROUTER_ERROR = '@ngrx/router-store/error';
+    var routerErrorAction = store.createAction(ROUTER_ERROR, store.props());
     /**
      * An action dispatched after navigation has ended and new route is active.
      */
     var ROUTER_NAVIGATED = '@ngrx/router-store/navigated';
+    var routerNavigatedAction = store.createAction(ROUTER_NAVIGATED, store.props());
 
     function routerReducer(state, action) {
         // Allow compilation with strictFunctionTypes - ref: #1344
@@ -401,6 +406,11 @@
     exports.ROUTER_NAVIGATION = ROUTER_NAVIGATION;
     exports.ROUTER_NAVIGATED = ROUTER_NAVIGATED;
     exports.ROUTER_REQUEST = ROUTER_REQUEST;
+    exports.routerCancelAction = routerCancelAction;
+    exports.routerErrorAction = routerErrorAction;
+    exports.routerNavigatedAction = routerNavigatedAction;
+    exports.routerNavigationAction = routerNavigationAction;
+    exports.routerRequestAction = routerRequestAction;
     exports.routerReducer = routerReducer;
     exports.StoreRouterConnectingModule = StoreRouterConnectingModule;
     exports.ROUTER_CONFIG = ROUTER_CONFIG;

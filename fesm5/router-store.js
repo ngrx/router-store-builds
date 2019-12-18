@@ -1,34 +1,39 @@
 /**
- * @license NgRx 8.5.2+10.sha-4368cc7
+ * @license NgRx 8.6.0
  * (c) 2015-2018 Brandon Roberts, Mike Ryan, Rob Wormald, Victor Savkin
  * License: MIT
  */
+import { createAction, props, select, Store, createSelector } from '@ngrx/store';
 import { __assign, __read, __decorate, __param, __metadata } from 'tslib';
 import { InjectionToken, NgModule, Inject, ErrorHandler } from '@angular/core';
 import { NavigationStart, RoutesRecognized, NavigationCancel, NavigationError, NavigationEnd, Router } from '@angular/router';
-import { select, Store, createSelector } from '@ngrx/store';
 import { withLatestFrom } from 'rxjs/operators';
 
 /**
  * An action dispatched when a router navigation request is fired.
  */
 var ROUTER_REQUEST = '@ngrx/router-store/request';
+var routerRequestAction = createAction(ROUTER_REQUEST, props());
 /**
  * An action dispatched when the router navigates.
  */
 var ROUTER_NAVIGATION = '@ngrx/router-store/navigation';
+var routerNavigationAction = createAction(ROUTER_NAVIGATION, props());
 /**
  * An action dispatched when the router cancels navigation.
  */
 var ROUTER_CANCEL = '@ngrx/router-store/cancel';
+var routerCancelAction = createAction(ROUTER_CANCEL, props());
 /**
  * An action dispatched when the router errors.
  */
 var ROUTER_ERROR = '@ngrx/router-store/error';
+var routerErrorAction = createAction(ROUTER_ERROR, props());
 /**
  * An action dispatched after navigation has ended and new route is active.
  */
 var ROUTER_NAVIGATED = '@ngrx/router-store/navigated';
+var routerNavigatedAction = createAction(ROUTER_NAVIGATED, props());
 
 function routerReducer(state, action) {
     // Allow compilation with strictFunctionTypes - ref: #1344
@@ -395,5 +400,5 @@ function getSelectors(selectState) {
  * Generated bundle index. Do not edit.
  */
 
-export { _ROUTER_CONFIG as ɵngrx_modules_router_store_router_store_a, _createRouterConfig as ɵngrx_modules_router_store_router_store_b, ROUTER_ERROR, ROUTER_CANCEL, ROUTER_NAVIGATION, ROUTER_NAVIGATED, ROUTER_REQUEST, routerReducer, StoreRouterConnectingModule, NavigationActionTiming, ROUTER_CONFIG, DEFAULT_ROUTER_FEATURENAME, RouterStateSerializer, DefaultRouterStateSerializer, MinimalRouterStateSerializer, getSelectors };
+export { _ROUTER_CONFIG as ɵngrx_modules_router_store_router_store_a, _createRouterConfig as ɵngrx_modules_router_store_router_store_b, ROUTER_ERROR, ROUTER_CANCEL, ROUTER_NAVIGATION, ROUTER_NAVIGATED, ROUTER_REQUEST, routerCancelAction, routerErrorAction, routerNavigatedAction, routerNavigationAction, routerRequestAction, routerReducer, StoreRouterConnectingModule, NavigationActionTiming, ROUTER_CONFIG, DEFAULT_ROUTER_FEATURENAME, RouterStateSerializer, DefaultRouterStateSerializer, MinimalRouterStateSerializer, getSelectors };
 //# sourceMappingURL=router-store.js.map
