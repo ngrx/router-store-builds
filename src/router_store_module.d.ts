@@ -35,8 +35,8 @@ export declare enum NavigationActionTiming {
     PreActivation = 1,
     PostActivation = 2
 }
-export declare const _ROUTER_CONFIG: InjectionToken<{}>;
-export declare const ROUTER_CONFIG: InjectionToken<{}>;
+export declare const _ROUTER_CONFIG: InjectionToken<unknown>;
+export declare const ROUTER_CONFIG: InjectionToken<unknown>;
 export declare const DEFAULT_ROUTER_FEATURENAME = "router";
 export declare function _createRouterConfig(config: StoreRouterConfig): StoreRouterConfig;
 /**

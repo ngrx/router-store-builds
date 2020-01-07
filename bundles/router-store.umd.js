@@ -1,5 +1,5 @@
 /**
- * @license NgRx 8.6.0+3.sha-fe6bfa7
+ * @license NgRx 8.6.0+4.sha-b146af5
  * (c) 2015-2018 Brandon Roberts, Mike Ryan, Rob Wormald, Victor Savkin
  * License: MIT
  */
@@ -7,7 +7,7 @@
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@ngrx/store'), require('tslib'), require('@angular/core'), require('@angular/router'), require('rxjs/operators')) :
     typeof define === 'function' && define.amd ? define('@ngrx/router-store', ['exports', '@ngrx/store', 'tslib', '@angular/core', '@angular/router', 'rxjs/operators'], factory) :
     (global = global || self, factory((global.ngrx = global.ngrx || {}, global.ngrx.routerStore = {}), global.ngrx.store, global.tslib, global.ng.core, global.ng.router, global.rxjs.operators));
-}(this, function (exports, store, tslib_1, core, router, operators) { 'use strict';
+}(this, (function (exports, store, tslib, core, router, operators) { 'use strict';
 
     /**
      * An action dispatched when a router navigation request is fired.
@@ -142,7 +142,7 @@
     var ROUTER_CONFIG = new core.InjectionToken('@ngrx/router-store Configuration');
     var DEFAULT_ROUTER_FEATURENAME = 'router';
     function _createRouterConfig(config) {
-        return tslib_1.__assign({ stateKey: DEFAULT_ROUTER_FEATURENAME, serializer: DefaultRouterStateSerializer, navigationActionTiming: exports.NavigationActionTiming.PreActivation }, config);
+        return tslib.__assign({ stateKey: DEFAULT_ROUTER_FEATURENAME, serializer: DefaultRouterStateSerializer, navigationActionTiming: exports.NavigationActionTiming.PreActivation }, config);
     }
     var RouterTrigger;
     (function (RouterTrigger) {
@@ -233,7 +233,7 @@
             this.store
                 .pipe(store.select(this.stateKey), operators.withLatestFrom(this.store))
                 .subscribe(function (_a) {
-                var _b = tslib_1.__read(_a, 2), routerStoreState = _b[0], storeState = _b[1];
+                var _b = tslib.__read(_a, 2), routerStoreState = _b[0], storeState = _b[1];
                 _this.navigateIfNeeded(routerStoreState, storeState);
             });
         };
@@ -265,7 +265,7 @@
             this.router.events
                 .pipe(operators.withLatestFrom(this.store))
                 .subscribe(function (_a) {
-                var _b = tslib_1.__read(_a, 2), event = _b[0], storeState = _b[1];
+                var _b = tslib.__read(_a, 2), event = _b[0], storeState = _b[1];
                 _this.lastEvent = event;
                 if (event instanceof router.NavigationStart) {
                     _this.routerState = _this.serializer.serialize(_this.router.routerState.snapshot);
@@ -330,7 +330,7 @@
             try {
                 this.store.dispatch({
                     type: type,
-                    payload: tslib_1.__assign({ routerState: this.routerState }, payload, { event: this.config.routerState === 1 /* Minimal */
+                    payload: tslib.__assign(tslib.__assign({ routerState: this.routerState }, payload), { event: this.config.routerState === 1 /* Minimal */
                             ? { id: payload.event.id, url: payload.event.url }
                             : payload.event }),
                 });
@@ -345,10 +345,10 @@
             this.routerState = null;
         };
         var StoreRouterConnectingModule_1;
-        StoreRouterConnectingModule = StoreRouterConnectingModule_1 = tslib_1.__decorate([
+        StoreRouterConnectingModule = StoreRouterConnectingModule_1 = tslib.__decorate([
             core.NgModule({}),
-            tslib_1.__param(4, core.Inject(ROUTER_CONFIG)),
-            tslib_1.__metadata("design:paramtypes", [store.Store,
+            tslib.__param(4, core.Inject(ROUTER_CONFIG)),
+            tslib.__metadata("design:paramtypes", [store.Store,
                 router.Router,
                 RouterStateSerializer,
                 core.ErrorHandler, Object])
@@ -399,28 +399,28 @@
      * Generated bundle index. Do not edit.
      */
 
-    exports.ɵngrx_modules_router_store_router_store_a = _ROUTER_CONFIG;
-    exports.ɵngrx_modules_router_store_router_store_b = _createRouterConfig;
-    exports.ROUTER_ERROR = ROUTER_ERROR;
+    exports.DEFAULT_ROUTER_FEATURENAME = DEFAULT_ROUTER_FEATURENAME;
+    exports.DefaultRouterStateSerializer = DefaultRouterStateSerializer;
+    exports.MinimalRouterStateSerializer = MinimalRouterStateSerializer;
     exports.ROUTER_CANCEL = ROUTER_CANCEL;
-    exports.ROUTER_NAVIGATION = ROUTER_NAVIGATION;
+    exports.ROUTER_CONFIG = ROUTER_CONFIG;
+    exports.ROUTER_ERROR = ROUTER_ERROR;
     exports.ROUTER_NAVIGATED = ROUTER_NAVIGATED;
+    exports.ROUTER_NAVIGATION = ROUTER_NAVIGATION;
     exports.ROUTER_REQUEST = ROUTER_REQUEST;
+    exports.RouterStateSerializer = RouterStateSerializer;
+    exports.StoreRouterConnectingModule = StoreRouterConnectingModule;
+    exports.getSelectors = getSelectors;
     exports.routerCancelAction = routerCancelAction;
     exports.routerErrorAction = routerErrorAction;
     exports.routerNavigatedAction = routerNavigatedAction;
     exports.routerNavigationAction = routerNavigationAction;
-    exports.routerRequestAction = routerRequestAction;
     exports.routerReducer = routerReducer;
-    exports.StoreRouterConnectingModule = StoreRouterConnectingModule;
-    exports.ROUTER_CONFIG = ROUTER_CONFIG;
-    exports.DEFAULT_ROUTER_FEATURENAME = DEFAULT_ROUTER_FEATURENAME;
-    exports.RouterStateSerializer = RouterStateSerializer;
-    exports.DefaultRouterStateSerializer = DefaultRouterStateSerializer;
-    exports.MinimalRouterStateSerializer = MinimalRouterStateSerializer;
-    exports.getSelectors = getSelectors;
+    exports.routerRequestAction = routerRequestAction;
+    exports.ɵngrx_modules_router_store_router_store_a = _ROUTER_CONFIG;
+    exports.ɵngrx_modules_router_store_router_store_b = _createRouterConfig;
 
     Object.defineProperty(exports, '__esModule', { value: true });
 
-}));
+})));
 //# sourceMappingURL=router-store.umd.js.map

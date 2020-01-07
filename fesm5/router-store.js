@@ -1,5 +1,5 @@
 /**
- * @license NgRx 8.6.0+3.sha-fe6bfa7
+ * @license NgRx 8.6.0+4.sha-b146af5
  * (c) 2015-2018 Brandon Roberts, Mike Ryan, Rob Wormald, Victor Savkin
  * License: MIT
  */
@@ -331,7 +331,7 @@ var StoreRouterConnectingModule = /** @class */ (function () {
         try {
             this.store.dispatch({
                 type: type,
-                payload: __assign({ routerState: this.routerState }, payload, { event: this.config.routerState === 1 /* Minimal */
+                payload: __assign(__assign({ routerState: this.routerState }, payload), { event: this.config.routerState === 1 /* Minimal */
                         ? { id: payload.event.id, url: payload.event.url }
                         : payload.event }),
             });
@@ -400,5 +400,5 @@ function getSelectors(selectState) {
  * Generated bundle index. Do not edit.
  */
 
-export { _ROUTER_CONFIG as ɵngrx_modules_router_store_router_store_a, _createRouterConfig as ɵngrx_modules_router_store_router_store_b, ROUTER_ERROR, ROUTER_CANCEL, ROUTER_NAVIGATION, ROUTER_NAVIGATED, ROUTER_REQUEST, routerCancelAction, routerErrorAction, routerNavigatedAction, routerNavigationAction, routerRequestAction, routerReducer, StoreRouterConnectingModule, NavigationActionTiming, ROUTER_CONFIG, DEFAULT_ROUTER_FEATURENAME, RouterStateSerializer, DefaultRouterStateSerializer, MinimalRouterStateSerializer, getSelectors };
+export { DEFAULT_ROUTER_FEATURENAME, DefaultRouterStateSerializer, MinimalRouterStateSerializer, NavigationActionTiming, ROUTER_CANCEL, ROUTER_CONFIG, ROUTER_ERROR, ROUTER_NAVIGATED, ROUTER_NAVIGATION, ROUTER_REQUEST, RouterStateSerializer, StoreRouterConnectingModule, getSelectors, routerCancelAction, routerErrorAction, routerNavigatedAction, routerNavigationAction, routerReducer, routerRequestAction, _ROUTER_CONFIG as ɵngrx_modules_router_store_router_store_a, _createRouterConfig as ɵngrx_modules_router_store_router_store_b };
 //# sourceMappingURL=router-store.js.map

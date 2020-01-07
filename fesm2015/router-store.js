@@ -1,5 +1,5 @@
 /**
- * @license NgRx 8.6.0+3.sha-fe6bfa7
+ * @license NgRx 8.6.0+4.sha-b146af5
  * (c) 2015-2018 Brandon Roberts, Mike Ryan, Rob Wormald, Victor Savkin
  * License: MIT
  */
@@ -10,7 +10,8 @@ import { withLatestFrom } from 'rxjs/operators';
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * Generated from: modules/router-store/src/actions.ts
+ * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * An action dispatched when a router navigation request is fired.
@@ -50,7 +51,8 @@ const routerNavigatedAction = createAction(ROUTER_NAVIGATED, props());
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * Generated from: modules/router-store/src/reducer.ts
+ * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * @template T
@@ -77,19 +79,50 @@ function routerReducer(state, action) {
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * Generated from: modules/router-store/src/serializers/base.ts
+ * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
+/**
+ * Simple router state.
+ * All custom router states / state serializers should have at least
+ * the properties of this interface.
+ * @record
+ */
+function BaseRouterStoreState() { }
+if (false) {
+    /** @type {?} */
+    BaseRouterStoreState.prototype.url;
+}
 /**
  * @abstract
  * @template T
  */
 class RouterStateSerializer {
 }
+if (false) {
+    /**
+     * @abstract
+     * @param {?} routerState
+     * @return {?}
+     */
+    RouterStateSerializer.prototype.serialize = function (routerState) { };
+}
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * Generated from: modules/router-store/src/serializers/default_serializer.ts
+ * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
+/**
+ * @record
+ */
+function SerializedRouterStateSnapshot() { }
+if (false) {
+    /** @type {?} */
+    SerializedRouterStateSnapshot.prototype.root;
+    /** @type {?} */
+    SerializedRouterStateSnapshot.prototype.url;
+}
 class DefaultRouterStateSerializer {
     /**
      * @param {?} routerState
@@ -145,8 +178,43 @@ class DefaultRouterStateSerializer {
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * Generated from: modules/router-store/src/serializers/minimal_serializer.ts
+ * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
+/**
+ * @record
+ */
+function MinimalActivatedRouteSnapshot() { }
+if (false) {
+    /** @type {?} */
+    MinimalActivatedRouteSnapshot.prototype.routeConfig;
+    /** @type {?} */
+    MinimalActivatedRouteSnapshot.prototype.url;
+    /** @type {?} */
+    MinimalActivatedRouteSnapshot.prototype.params;
+    /** @type {?} */
+    MinimalActivatedRouteSnapshot.prototype.queryParams;
+    /** @type {?} */
+    MinimalActivatedRouteSnapshot.prototype.fragment;
+    /** @type {?} */
+    MinimalActivatedRouteSnapshot.prototype.data;
+    /** @type {?} */
+    MinimalActivatedRouteSnapshot.prototype.outlet;
+    /** @type {?|undefined} */
+    MinimalActivatedRouteSnapshot.prototype.firstChild;
+    /** @type {?} */
+    MinimalActivatedRouteSnapshot.prototype.children;
+}
+/**
+ * @record
+ */
+function MinimalRouterStateSnapshot() { }
+if (false) {
+    /** @type {?} */
+    MinimalRouterStateSnapshot.prototype.root;
+    /** @type {?} */
+    MinimalRouterStateSnapshot.prototype.url;
+}
 class MinimalRouterStateSerializer {
     /**
      * @param {?} routerState
@@ -193,8 +261,53 @@ class MinimalRouterStateSerializer {
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * Generated from: modules/router-store/src/router_store_module.ts
+ * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
+/** @enum {number} */
+const RouterState = {
+    Full: 0,
+    Minimal: 1,
+};
+/**
+ * @record
+ * @template T
+ */
+function StoreRouterConfig() { }
+if (false) {
+    /** @type {?|undefined} */
+    StoreRouterConfig.prototype.stateKey;
+    /** @type {?|undefined} */
+    StoreRouterConfig.prototype.serializer;
+    /**
+     * By default, ROUTER_NAVIGATION is dispatched before guards and resolvers run.
+     * Therefore, the action could run too soon, for example
+     * there may be a navigation cancel due to a guard saying the navigation is not allowed.
+     * To run ROUTER_NAVIGATION after guards and resolvers,
+     * set this property to NavigationActionTiming.PostActivation.
+     * @type {?|undefined}
+     */
+    StoreRouterConfig.prototype.navigationActionTiming;
+    /**
+     * Decides which router serializer should be used, if there is none provided, and the metadata on the dispatched \@ngrx/router-store action payload.
+     * Set to `Full` to use the `DefaultRouterStateSerializer` and to set the angular router events as payload.
+     * Set to `Minimal` to use the `MinimalRouterStateSerializer` and to set a minimal router event with the navigation id and url as payload.
+     * @type {?|undefined}
+     */
+    StoreRouterConfig.prototype.routerState;
+}
+/**
+ * @record
+ */
+function StoreRouterActionPayload() { }
+if (false) {
+    /** @type {?} */
+    StoreRouterActionPayload.prototype.event;
+    /** @type {?|undefined} */
+    StoreRouterActionPayload.prototype.routerState;
+    /** @type {?|undefined} */
+    StoreRouterActionPayload.prototype.storeState;
+}
 /** @enum {number} */
 const NavigationActionTiming = {
     PreActivation: 1,
@@ -471,7 +584,7 @@ class StoreRouterConnectingModule {
         try {
             this.store.dispatch({
                 type,
-                payload: Object.assign({ routerState: this.routerState }, payload, { event: this.config.routerState === 1 /* Minimal */
+                payload: Object.assign(Object.assign({ routerState: this.routerState }, payload), { event: this.config.routerState === 1 /* Minimal */
                         ? { id: payload.event.id, url: payload.event.url }
                         : payload.event }),
             });
@@ -501,10 +614,63 @@ StoreRouterConnectingModule.ctorParameters = () => [
     { type: ErrorHandler },
     { type: undefined, decorators: [{ type: Inject, args: [ROUTER_CONFIG,] }] }
 ];
+if (false) {
+    /**
+     * @type {?}
+     * @private
+     */
+    StoreRouterConnectingModule.prototype.lastEvent;
+    /**
+     * @type {?}
+     * @private
+     */
+    StoreRouterConnectingModule.prototype.routerState;
+    /**
+     * @type {?}
+     * @private
+     */
+    StoreRouterConnectingModule.prototype.storeState;
+    /**
+     * @type {?}
+     * @private
+     */
+    StoreRouterConnectingModule.prototype.trigger;
+    /**
+     * @type {?}
+     * @private
+     */
+    StoreRouterConnectingModule.prototype.stateKey;
+    /**
+     * @type {?}
+     * @private
+     */
+    StoreRouterConnectingModule.prototype.store;
+    /**
+     * @type {?}
+     * @private
+     */
+    StoreRouterConnectingModule.prototype.router;
+    /**
+     * @type {?}
+     * @private
+     */
+    StoreRouterConnectingModule.prototype.serializer;
+    /**
+     * @type {?}
+     * @private
+     */
+    StoreRouterConnectingModule.prototype.errorHandler;
+    /**
+     * @type {?}
+     * @private
+     */
+    StoreRouterConnectingModule.prototype.config;
+}
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * Generated from: modules/router-store/src/router_selectors.ts
+ * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * @template V
@@ -591,22 +757,25 @@ function getSelectors(selectState) {
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * Generated from: modules/router-store/src/index.ts
+ * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * Generated from: modules/router-store/public_api.ts
+ * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * Generated from: modules/router-store/index.ts
+ * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 
 /**
  * Generated bundle index. Do not edit.
  */
 
-export { _ROUTER_CONFIG as ɵngrx_modules_router_store_router_store_a, _createRouterConfig as ɵngrx_modules_router_store_router_store_b, ROUTER_ERROR, ROUTER_CANCEL, ROUTER_NAVIGATION, ROUTER_NAVIGATED, ROUTER_REQUEST, routerCancelAction, routerErrorAction, routerNavigatedAction, routerNavigationAction, routerRequestAction, routerReducer, StoreRouterConnectingModule, NavigationActionTiming, ROUTER_CONFIG, DEFAULT_ROUTER_FEATURENAME, RouterStateSerializer, DefaultRouterStateSerializer, MinimalRouterStateSerializer, getSelectors };
+export { DEFAULT_ROUTER_FEATURENAME, DefaultRouterStateSerializer, MinimalRouterStateSerializer, NavigationActionTiming, ROUTER_CANCEL, ROUTER_CONFIG, ROUTER_ERROR, ROUTER_NAVIGATED, ROUTER_NAVIGATION, ROUTER_REQUEST, RouterStateSerializer, StoreRouterConnectingModule, getSelectors, routerCancelAction, routerErrorAction, routerNavigatedAction, routerNavigationAction, routerReducer, routerRequestAction, _ROUTER_CONFIG as ɵngrx_modules_router_store_router_store_a, _createRouterConfig as ɵngrx_modules_router_store_router_store_b };
 //# sourceMappingURL=router-store.js.map
