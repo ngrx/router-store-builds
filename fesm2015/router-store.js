@@ -1,5 +1,5 @@
 /**
- * @license NgRx 8.6.0+13.sha-803295b
+ * @license NgRx 8.6.0+19.sha-2620fbb
  * (c) 2015-2018 Brandon Roberts, Mike Ryan, Rob Wormald, Victor Savkin
  * License: MIT
  */
@@ -394,6 +394,7 @@ class StoreRouterConnectingModule {
         this.errorHandler = errorHandler;
         this.config = config;
         this.lastEvent = null;
+        this.routerState = null;
         this.trigger = RouterTrigger.NONE;
         this.stateKey = (/** @type {?} */ (this.config.stateKey));
         this.setUpStoreStateListener();
