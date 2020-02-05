@@ -1,5 +1,5 @@
 /**
- * @license NgRx 8.6.0+31.sha-93b4081
+ * @license NgRx 0.0.0
  * (c) 2015-2018 Brandon Roberts, Mike Ryan, Rob Wormald, Victor Savkin
  * License: MIT
  */
@@ -326,7 +326,7 @@ const DEFAULT_ROUTER_FEATURENAME = 'router';
  * @return {?}
  */
 function _createRouterConfig(config) {
-    return Object.assign({ stateKey: DEFAULT_ROUTER_FEATURENAME, serializer: DefaultRouterStateSerializer, navigationActionTiming: NavigationActionTiming.PreActivation }, config);
+    return Object.assign({ stateKey: DEFAULT_ROUTER_FEATURENAME, serializer: MinimalRouterStateSerializer, navigationActionTiming: NavigationActionTiming.PreActivation }, config);
 }
 /** @enum {number} */
 const RouterTrigger = {
@@ -419,9 +419,9 @@ class StoreRouterConnectingModule {
                     provide: RouterStateSerializer,
                     useClass: config.serializer
                         ? config.serializer
-                        : config.routerState === 1 /* Minimal */
-                            ? MinimalRouterStateSerializer
-                            : DefaultRouterStateSerializer,
+                        : config.routerState === 0 /* Full */
+                            ? DefaultRouterStateSerializer
+                            : MinimalRouterStateSerializer,
                 },
             ],
         };
@@ -585,9 +585,9 @@ class StoreRouterConnectingModule {
         try {
             this.store.dispatch({
                 type,
-                payload: Object.assign(Object.assign({ routerState: this.routerState }, payload), { event: this.config.routerState === 1 /* Minimal */
-                        ? { id: payload.event.id, url: payload.event.url }
-                        : payload.event }),
+                payload: Object.assign(Object.assign({ routerState: this.routerState }, payload), { event: this.config.routerState === 0 /* Full */
+                        ? payload.event
+                        : { id: payload.event.id, url: payload.event.url } }),
             });
         }
         finally {

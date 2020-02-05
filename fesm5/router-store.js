@@ -1,5 +1,5 @@
 /**
- * @license NgRx 8.6.0+31.sha-93b4081
+ * @license NgRx 0.0.0
  * (c) 2015-2018 Brandon Roberts, Mike Ryan, Rob Wormald, Victor Savkin
  * License: MIT
  */
@@ -143,7 +143,7 @@ var _ROUTER_CONFIG = new InjectionToken('@ngrx/router-store Internal Configurati
 var ROUTER_CONFIG = new InjectionToken('@ngrx/router-store Configuration');
 var DEFAULT_ROUTER_FEATURENAME = 'router';
 function _createRouterConfig(config) {
-    return __assign({ stateKey: DEFAULT_ROUTER_FEATURENAME, serializer: DefaultRouterStateSerializer, navigationActionTiming: NavigationActionTiming.PreActivation }, config);
+    return __assign({ stateKey: DEFAULT_ROUTER_FEATURENAME, serializer: MinimalRouterStateSerializer, navigationActionTiming: NavigationActionTiming.PreActivation }, config);
 }
 var RouterTrigger;
 (function (RouterTrigger) {
@@ -223,9 +223,9 @@ var StoreRouterConnectingModule = /** @class */ (function () {
                     provide: RouterStateSerializer,
                     useClass: config.serializer
                         ? config.serializer
-                        : config.routerState === 1 /* Minimal */
-                            ? MinimalRouterStateSerializer
-                            : DefaultRouterStateSerializer,
+                        : config.routerState === 0 /* Full */
+                            ? DefaultRouterStateSerializer
+                            : MinimalRouterStateSerializer,
                 },
             ],
         };
@@ -332,9 +332,9 @@ var StoreRouterConnectingModule = /** @class */ (function () {
         try {
             this.store.dispatch({
                 type: type,
-                payload: __assign(__assign({ routerState: this.routerState }, payload), { event: this.config.routerState === 1 /* Minimal */
-                        ? { id: payload.event.id, url: payload.event.url }
-                        : payload.event }),
+                payload: __assign(__assign({ routerState: this.routerState }, payload), { event: this.config.routerState === 0 /* Full */
+                        ? payload.event
+                        : { id: payload.event.id, url: payload.event.url } }),
             });
         }
         finally {
