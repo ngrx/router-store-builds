@@ -1,5 +1,5 @@
 /**
- * @license NgRx 9.2.0+1.sha-47e7ba3
+ * @license NgRx 9.2.0+2.sha-aba7368
  * (c) 2015-2018 Brandon Roberts, Mike Ryan, Rob Wormald, Victor Savkin
  * License: MIT
  */
@@ -369,6 +369,7 @@
             }
             return route;
         });
+        var selectFragment = store.createSelector(selectCurrentRoute, function (route) { return route && route.fragment; });
         var selectQueryParams = store.createSelector(selectCurrentRoute, function (route) { return route && route.queryParams; });
         var selectQueryParam = function (param) {
             return store.createSelector(selectQueryParams, function (params) { return params && params[param]; });
@@ -381,6 +382,7 @@
         var selectUrl = store.createSelector(selectRouterState, function (routerState) { return routerState && routerState.url; });
         return {
             selectCurrentRoute: selectCurrentRoute,
+            selectFragment: selectFragment,
             selectQueryParams: selectQueryParams,
             selectQueryParam: selectQueryParam,
             selectRouteParams: selectRouteParams,
