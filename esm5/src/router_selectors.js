@@ -1,27 +1,91 @@
+/**
+ * @fileoverview added by tsickle
+ * Generated from: src/router_selectors.ts
+ * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
 import { createSelector } from '@ngrx/store';
+/**
+ * @template V
+ * @param {?} selectState
+ * @return {?}
+ */
 export function getSelectors(selectState) {
-    var selectRouterState = createSelector(selectState, function (router) { return router && router.state; });
-    var selectCurrentRoute = createSelector(selectRouterState, function (routerState) {
+    /** @type {?} */
+    var selectRouterState = createSelector(selectState, (/**
+     * @param {?} router
+     * @return {?}
+     */
+    function (router) { return router && router.state; }));
+    /** @type {?} */
+    var selectCurrentRoute = createSelector(selectRouterState, (/**
+     * @param {?} routerState
+     * @return {?}
+     */
+    function (routerState) {
         if (!routerState) {
             return undefined;
         }
+        /** @type {?} */
         var route = routerState.root;
         while (route.firstChild) {
             route = route.firstChild;
         }
         return route;
+    }));
+    /** @type {?} */
+    var selectFragment = createSelector(selectCurrentRoute, (/**
+     * @param {?} route
+     * @return {?}
+     */
+    function (route) { return route && route.fragment; }));
+    /** @type {?} */
+    var selectQueryParams = createSelector(selectCurrentRoute, (/**
+     * @param {?} route
+     * @return {?}
+     */
+    function (route) { return route && route.queryParams; }));
+    /** @type {?} */
+    var selectQueryParam = (/**
+     * @param {?} param
+     * @return {?}
+     */
+    function (param) {
+        return createSelector(selectQueryParams, (/**
+         * @param {?} params
+         * @return {?}
+         */
+        function (params) { return params && params[param]; }));
     });
-    var selectFragment = createSelector(selectCurrentRoute, function (route) { return route && route.fragment; });
-    var selectQueryParams = createSelector(selectCurrentRoute, function (route) { return route && route.queryParams; });
-    var selectQueryParam = function (param) {
-        return createSelector(selectQueryParams, function (params) { return params && params[param]; });
-    };
-    var selectRouteParams = createSelector(selectCurrentRoute, function (route) { return route && route.params; });
-    var selectRouteParam = function (param) {
-        return createSelector(selectRouteParams, function (params) { return params && params[param]; });
-    };
-    var selectRouteData = createSelector(selectCurrentRoute, function (route) { return route && route.data; });
-    var selectUrl = createSelector(selectRouterState, function (routerState) { return routerState && routerState.url; });
+    /** @type {?} */
+    var selectRouteParams = createSelector(selectCurrentRoute, (/**
+     * @param {?} route
+     * @return {?}
+     */
+    function (route) { return route && route.params; }));
+    /** @type {?} */
+    var selectRouteParam = (/**
+     * @param {?} param
+     * @return {?}
+     */
+    function (param) {
+        return createSelector(selectRouteParams, (/**
+         * @param {?} params
+         * @return {?}
+         */
+        function (params) { return params && params[param]; }));
+    });
+    /** @type {?} */
+    var selectRouteData = createSelector(selectCurrentRoute, (/**
+     * @param {?} route
+     * @return {?}
+     */
+    function (route) { return route && route.data; }));
+    /** @type {?} */
+    var selectUrl = createSelector(selectRouterState, (/**
+     * @param {?} routerState
+     * @return {?}
+     */
+    function (routerState) { return routerState && routerState.url; }));
     return {
         selectCurrentRoute: selectCurrentRoute,
         selectFragment: selectFragment,
@@ -33,4 +97,4 @@ export function getSelectors(selectState) {
         selectUrl: selectUrl,
     };
 }
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoicm91dGVyX3NlbGVjdG9ycy5qcyIsInNvdXJjZVJvb3QiOiIiLCJzb3VyY2VzIjpbIi4uLy4uLy4uLy4uLy4uLy4uLy4uLy4uLy4uL21vZHVsZXMvcm91dGVyLXN0b3JlL3NyYy9yb3V0ZXJfc2VsZWN0b3JzLnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBLE9BQU8sRUFBRSxjQUFjLEVBQUUsTUFBTSxhQUFhLENBQUM7QUFPN0MsTUFBTSxVQUFVLFlBQVksQ0FDMUIsV0FBa0Q7SUFFbEQsSUFBTSxpQkFBaUIsR0FBRyxjQUFjLENBQ3RDLFdBQVcsRUFDWCxVQUFBLE1BQU0sSUFBSSxPQUFBLE1BQU0sSUFBSSxNQUFNLENBQUMsS0FBSyxFQUF0QixDQUFzQixDQUNqQyxDQUFDO0lBQ0YsSUFBTSxrQkFBa0IsR0FBRyxjQUFjLENBQUMsaUJBQWlCLEVBQUUsVUFBQSxXQUFXO1FBQ3RFLElBQUksQ0FBQyxXQUFXLEVBQUU7WUFDaEIsT0FBTyxTQUFTLENBQUM7U0FDbEI7UUFDRCxJQUFJLEtBQUssR0FBRyxXQUFXLENBQUMsSUFBSSxDQUFDO1FBQzdCLE9BQU8sS0FBSyxDQUFDLFVBQVUsRUFBRTtZQUN2QixLQUFLLEdBQUcsS0FBSyxDQUFDLFVBQVUsQ0FBQztTQUMxQjtRQUNELE9BQU8sS0FBSyxDQUFDO0lBQ2YsQ0FBQyxDQUFDLENBQUM7SUFDSCxJQUFNLGNBQWMsR0FBRyxjQUFjLENBQ25DLGtCQUFrQixFQUNsQixVQUFBLEtBQUssSUFBSSxPQUFBLEtBQUssSUFBSSxLQUFLLENBQUMsUUFBUSxFQUF2QixDQUF1QixDQUNqQyxDQUFDO0lBQ0YsSUFBTSxpQkFBaUIsR0FBRyxjQUFjLENBQ3RDLGtCQUFrQixFQUNsQixVQUFBLEtBQUssSUFBSSxPQUFBLEtBQUssSUFBSSxLQUFLLENBQUMsV0FBVyxFQUExQixDQUEwQixDQUNwQyxDQUFDO0lBQ0YsSUFBTSxnQkFBZ0IsR0FBRyxVQUFDLEtBQWE7UUFDckMsT0FBQSxjQUFjLENBQUMsaUJBQWlCLEVBQUUsVUFBQSxNQUFNLElBQUksT0FBQSxNQUFNLElBQUksTUFBTSxDQUFDLEtBQUssQ0FBQyxFQUF2QixDQUF1QixDQUFDO0lBQXBFLENBQW9FLENBQUM7SUFDdkUsSUFBTSxpQkFBaUIsR0FBRyxjQUFjLENBQ3RDLGtCQUFrQixFQUNsQixVQUFBLEtBQUssSUFBSSxPQUFBLEtBQUssSUFBSSxLQUFLLENBQUMsTUFBTSxFQUFyQixDQUFxQixDQUMvQixDQUFDO0lBQ0YsSUFBTSxnQkFBZ0IsR0FBRyxVQUFDLEtBQWE7UUFDckMsT0FBQSxjQUFjLENBQUMsaUJBQWlCLEVBQUUsVUFBQSxNQUFNLElBQUksT0FBQSxNQUFNLElBQUksTUFBTSxDQUFDLEtBQUssQ0FBQyxFQUF2QixDQUF1QixDQUFDO0lBQXBFLENBQW9FLENBQUM7SUFDdkUsSUFBTSxlQUFlLEdBQUcsY0FBYyxDQUNwQyxrQkFBa0IsRUFDbEIsVUFBQSxLQUFLLElBQUksT0FBQSxLQUFLLElBQUksS0FBSyxDQUFDLElBQUksRUFBbkIsQ0FBbUIsQ0FDN0IsQ0FBQztJQUNGLElBQU0sU0FBUyxHQUFHLGNBQWMsQ0FDOUIsaUJBQWlCLEVBQ2pCLFVBQUEsV0FBVyxJQUFJLE9BQUEsV0FBVyxJQUFJLFdBQVcsQ0FBQyxHQUFHLEVBQTlCLENBQThCLENBQzlDLENBQUM7SUFFRixPQUFPO1FBQ0wsa0JBQWtCLG9CQUFBO1FBQ2xCLGNBQWMsZ0JBQUE7UUFDZCxpQkFBaUIsbUJBQUE7UUFDakIsZ0JBQWdCLGtCQUFBO1FBQ2hCLGlCQUFpQixtQkFBQTtRQUNqQixnQkFBZ0Isa0JBQUE7UUFDaEIsZUFBZSxpQkFBQTtRQUNmLFNBQVMsV0FBQTtLQUNWLENBQUM7QUFDSixDQUFDIiwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IHsgY3JlYXRlU2VsZWN0b3IgfSBmcm9tICdAbmdyeC9zdG9yZSc7XG5pbXBvcnQgeyBSb3V0ZXJTdGF0ZVNlbGVjdG9ycyB9IGZyb20gJy4vbW9kZWxzJztcbmltcG9ydCB7IFJvdXRlclJlZHVjZXJTdGF0ZSB9IGZyb20gJy4vcmVkdWNlcic7XG5cbmV4cG9ydCBmdW5jdGlvbiBnZXRTZWxlY3RvcnM8Vj4oXG4gIHNlbGVjdFN0YXRlOiAoc3RhdGU6IFYpID0+IFJvdXRlclJlZHVjZXJTdGF0ZTxhbnk+XG4pOiBSb3V0ZXJTdGF0ZVNlbGVjdG9yczxWPjtcbmV4cG9ydCBmdW5jdGlvbiBnZXRTZWxlY3RvcnM8Vj4oXG4gIHNlbGVjdFN0YXRlOiAoc3RhdGU6IFYpID0+IFJvdXRlclJlZHVjZXJTdGF0ZTxhbnk+XG4pOiBSb3V0ZXJTdGF0ZVNlbGVjdG9yczxWPiB7XG4gIGNvbnN0IHNlbGVjdFJvdXRlclN0YXRlID0gY3JlYXRlU2VsZWN0b3IoXG4gICAgc2VsZWN0U3RhdGUsXG4gICAgcm91dGVyID0+IHJvdXRlciAmJiByb3V0ZXIuc3RhdGVcbiAgKTtcbiAgY29uc3Qgc2VsZWN0Q3VycmVudFJvdXRlID0gY3JlYXRlU2VsZWN0b3Ioc2VsZWN0Um91dGVyU3RhdGUsIHJvdXRlclN0YXRlID0+IHtcbiAgICBpZiAoIXJvdXRlclN0YXRlKSB7XG4gICAgICByZXR1cm4gdW5kZWZpbmVkO1xuICAgIH1cbiAgICBsZXQgcm91dGUgPSByb3V0ZXJTdGF0ZS5yb290O1xuICAgIHdoaWxlIChyb3V0ZS5maXJzdENoaWxkKSB7XG4gICAgICByb3V0ZSA9IHJvdXRlLmZpcnN0Q2hpbGQ7XG4gICAgfVxuICAgIHJldHVybiByb3V0ZTtcbiAgfSk7XG4gIGNvbnN0IHNlbGVjdEZyYWdtZW50ID0gY3JlYXRlU2VsZWN0b3IoXG4gICAgc2VsZWN0Q3VycmVudFJvdXRlLFxuICAgIHJvdXRlID0+IHJvdXRlICYmIHJvdXRlLmZyYWdtZW50XG4gICk7XG4gIGNvbnN0IHNlbGVjdFF1ZXJ5UGFyYW1zID0gY3JlYXRlU2VsZWN0b3IoXG4gICAgc2VsZWN0Q3VycmVudFJvdXRlLFxuICAgIHJvdXRlID0+IHJvdXRlICYmIHJvdXRlLnF1ZXJ5UGFyYW1zXG4gICk7XG4gIGNvbnN0IHNlbGVjdFF1ZXJ5UGFyYW0gPSAocGFyYW06IHN0cmluZykgPT5cbiAgICBjcmVhdGVTZWxlY3RvcihzZWxlY3RRdWVyeVBhcmFtcywgcGFyYW1zID0+IHBhcmFtcyAmJiBwYXJhbXNbcGFyYW1dKTtcbiAgY29uc3Qgc2VsZWN0Um91dGVQYXJhbXMgPSBjcmVhdGVTZWxlY3RvcihcbiAgICBzZWxlY3RDdXJyZW50Um91dGUsXG4gICAgcm91dGUgPT4gcm91dGUgJiYgcm91dGUucGFyYW1zXG4gICk7XG4gIGNvbnN0IHNlbGVjdFJvdXRlUGFyYW0gPSAocGFyYW06IHN0cmluZykgPT5cbiAgICBjcmVhdGVTZWxlY3RvcihzZWxlY3RSb3V0ZVBhcmFtcywgcGFyYW1zID0+IHBhcmFtcyAmJiBwYXJhbXNbcGFyYW1dKTtcbiAgY29uc3Qgc2VsZWN0Um91dGVEYXRhID0gY3JlYXRlU2VsZWN0b3IoXG4gICAgc2VsZWN0Q3VycmVudFJvdXRlLFxuICAgIHJvdXRlID0+IHJvdXRlICYmIHJvdXRlLmRhdGFcbiAgKTtcbiAgY29uc3Qgc2VsZWN0VXJsID0gY3JlYXRlU2VsZWN0b3IoXG4gICAgc2VsZWN0Um91dGVyU3RhdGUsXG4gICAgcm91dGVyU3RhdGUgPT4gcm91dGVyU3RhdGUgJiYgcm91dGVyU3RhdGUudXJsXG4gICk7XG5cbiAgcmV0dXJuIHtcbiAgICBzZWxlY3RDdXJyZW50Um91dGUsXG4gICAgc2VsZWN0RnJhZ21lbnQsXG4gICAgc2VsZWN0UXVlcnlQYXJhbXMsXG4gICAgc2VsZWN0UXVlcnlQYXJhbSxcbiAgICBzZWxlY3RSb3V0ZVBhcmFtcyxcbiAgICBzZWxlY3RSb3V0ZVBhcmFtLFxuICAgIHNlbGVjdFJvdXRlRGF0YSxcbiAgICBzZWxlY3RVcmwsXG4gIH07XG59XG4iXX0=
+//# sourceMappingURL=router_selectors.js.map
