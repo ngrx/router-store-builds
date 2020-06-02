@@ -707,7 +707,7 @@ var StoreRouterConnectingModule = /** @class */ (function () {
         this.routerState = null;
     };
     StoreRouterConnectingModule.decorators = [
-        { type: NgModule, args: [{},] },
+        { type: NgModule, args: [{},] }
     ];
     /** @nocollapse */
     StoreRouterConnectingModule.ctorParameters = function () { return [

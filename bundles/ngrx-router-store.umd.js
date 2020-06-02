@@ -708,7 +708,7 @@
             this.routerState = null;
         };
         StoreRouterConnectingModule.decorators = [
-            { type: core.NgModule, args: [{},] },
+            { type: core.NgModule, args: [{},] }
         ];
         /** @nocollapse */
         StoreRouterConnectingModule.ctorParameters = function () { return [

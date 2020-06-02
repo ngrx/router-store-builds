@@ -19,11 +19,11 @@ export declare type RouterRequestAction<T extends BaseRouterStoreState = Seriali
     type: typeof ROUTER_REQUEST;
     payload: RouterRequestPayload<T>;
 };
-export declare const routerRequestAction: import("../../../dist/modules/store/ngrx-store").ActionCreator<"@ngrx/router-store/request", (props: {
+export declare const routerRequestAction: import("@ngrx/store").ActionCreator<"@ngrx/router-store/request", (props: {
     payload: RouterRequestPayload<SerializedRouterStateSnapshot>;
 }) => {
     payload: RouterRequestPayload<SerializedRouterStateSnapshot>;
-} & import("../../../dist/modules/store/src/models").TypedAction<"@ngrx/router-store/request">>;
+} & import("@ngrx/store/src/models").TypedAction<"@ngrx/router-store/request">>;
 /**
  * An action dispatched when the router navigates.
  */
@@ -42,11 +42,11 @@ export declare type RouterNavigationAction<T extends BaseRouterStoreState = Seri
     type: typeof ROUTER_NAVIGATION;
     payload: RouterNavigationPayload<T>;
 };
-export declare const routerNavigationAction: import("../../../dist/modules/store/ngrx-store").ActionCreator<"@ngrx/router-store/navigation", (props: {
+export declare const routerNavigationAction: import("@ngrx/store").ActionCreator<"@ngrx/router-store/navigation", (props: {
     payload: RouterNavigationPayload<SerializedRouterStateSnapshot>;
 }) => {
     payload: RouterNavigationPayload<SerializedRouterStateSnapshot>;
-} & import("../../../dist/modules/store/src/models").TypedAction<"@ngrx/router-store/navigation">>;
+} & import("@ngrx/store/src/models").TypedAction<"@ngrx/router-store/navigation">>;
 /**
  * An action dispatched when the router cancels navigation.
  */
@@ -66,11 +66,11 @@ export declare type RouterCancelAction<T, V extends BaseRouterStoreState = Seria
     type: typeof ROUTER_CANCEL;
     payload: RouterCancelPayload<T, V>;
 };
-export declare const routerCancelAction: import("../../../dist/modules/store/ngrx-store").ActionCreator<"@ngrx/router-store/cancel", (props: {
+export declare const routerCancelAction: import("@ngrx/store").ActionCreator<"@ngrx/router-store/cancel", (props: {
     payload: RouterCancelPayload<SerializedRouterStateSnapshot, SerializedRouterStateSnapshot>;
 }) => {
     payload: RouterCancelPayload<SerializedRouterStateSnapshot, SerializedRouterStateSnapshot>;
-} & import("../../../dist/modules/store/src/models").TypedAction<"@ngrx/router-store/cancel">>;
+} & import("@ngrx/store/src/models").TypedAction<"@ngrx/router-store/cancel">>;
 /**
  * An action dispatched when the router errors.
  */
@@ -90,11 +90,11 @@ export declare type RouterErrorAction<T, V extends BaseRouterStoreState = Serial
     type: typeof ROUTER_ERROR;
     payload: RouterErrorPayload<T, V>;
 };
-export declare const routerErrorAction: import("../../../dist/modules/store/ngrx-store").ActionCreator<"@ngrx/router-store/error", (props: {
+export declare const routerErrorAction: import("@ngrx/store").ActionCreator<"@ngrx/router-store/error", (props: {
     payload: RouterErrorPayload<SerializedRouterStateSnapshot, SerializedRouterStateSnapshot>;
 }) => {
     payload: RouterErrorPayload<SerializedRouterStateSnapshot, SerializedRouterStateSnapshot>;
-} & import("../../../dist/modules/store/src/models").TypedAction<"@ngrx/router-store/error">>;
+} & import("@ngrx/store/src/models").TypedAction<"@ngrx/router-store/error">>;
 /**
  * An action dispatched after navigation has ended and new route is active.
  */
@@ -113,11 +113,11 @@ export declare type RouterNavigatedAction<T extends BaseRouterStoreState = Seria
     type: typeof ROUTER_NAVIGATED;
     payload: RouterNavigatedPayload<T>;
 };
-export declare const routerNavigatedAction: import("../../../dist/modules/store/ngrx-store").ActionCreator<"@ngrx/router-store/navigated", (props: {
+export declare const routerNavigatedAction: import("@ngrx/store").ActionCreator<"@ngrx/router-store/navigated", (props: {
     payload: RouterNavigatedPayload<SerializedRouterStateSnapshot>;
 }) => {
     payload: RouterNavigatedPayload<SerializedRouterStateSnapshot>;
-} & import("../../../dist/modules/store/src/models").TypedAction<"@ngrx/router-store/navigated">>;
+} & import("@ngrx/store/src/models").TypedAction<"@ngrx/router-store/navigated">>;
 /**
  * A union type of router actions.
  */

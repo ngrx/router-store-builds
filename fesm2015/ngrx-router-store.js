@@ -600,7 +600,7 @@ class StoreRouterConnectingModule {
     }
 }
 StoreRouterConnectingModule.decorators = [
-    { type: NgModule, args: [{},] },
+    { type: NgModule, args: [{},] }
 ];
 /** @nocollapse */
 StoreRouterConnectingModule.ctorParameters = () => [
