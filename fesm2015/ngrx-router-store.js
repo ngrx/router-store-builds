@@ -140,7 +140,7 @@ class DefaultRouterStateSerializer {
          * @param {?} c
          * @return {?}
          */
-        c => this.serializeRoute(c)));
+        (c) => this.serializeRoute(c)));
         return {
             params: route.params,
             paramMap: route.paramMap,
@@ -232,7 +232,7 @@ class MinimalRouterStateSerializer {
          * @param {?} c
          * @return {?}
          */
-        c => this.serializeRoute(c)));
+        (c) => this.serializeRoute(c)));
         return {
             params: route.params,
             data: route.data,
@@ -461,7 +461,7 @@ class StoreRouterConnectingModule {
              * @param {?} error
              * @return {?}
              */
-            error => {
+            (error) => {
                 this.errorHandler.handleError(error);
             }));
         }
@@ -679,13 +679,13 @@ function getSelectors(selectState) {
      * @param {?} router
      * @return {?}
      */
-    router => router && router.state));
+    (router) => router && router.state));
     /** @type {?} */
     const selectCurrentRoute = createSelector(selectRouterState, (/**
      * @param {?} routerState
      * @return {?}
      */
-    routerState => {
+    (routerState) => {
         if (!routerState) {
             return undefined;
         }
@@ -701,13 +701,13 @@ function getSelectors(selectState) {
      * @param {?} route
      * @return {?}
      */
-    route => route && route.fragment));
+    (route) => route && route.fragment));
     /** @type {?} */
     const selectQueryParams = createSelector(selectCurrentRoute, (/**
      * @param {?} route
      * @return {?}
      */
-    route => route && route.queryParams));
+    (route) => route && route.queryParams));
     /** @type {?} */
     const selectQueryParam = (/**
      * @param {?} param
@@ -717,13 +717,13 @@ function getSelectors(selectState) {
      * @param {?} params
      * @return {?}
      */
-    params => params && params[param])));
+    (params) => params && params[param])));
     /** @type {?} */
     const selectRouteParams = createSelector(selectCurrentRoute, (/**
      * @param {?} route
      * @return {?}
      */
-    route => route && route.params));
+    (route) => route && route.params));
     /** @type {?} */
     const selectRouteParam = (/**
      * @param {?} param
@@ -733,19 +733,19 @@ function getSelectors(selectState) {
      * @param {?} params
      * @return {?}
      */
-    params => params && params[param])));
+    (params) => params && params[param])));
     /** @type {?} */
     const selectRouteData = createSelector(selectCurrentRoute, (/**
      * @param {?} route
      * @return {?}
      */
-    route => route && route.data));
+    (route) => route && route.data));
     /** @type {?} */
     const selectUrl = createSelector(selectRouterState, (/**
      * @param {?} routerState
      * @return {?}
      */
-    routerState => routerState && routerState.url));
+    (routerState) => routerState && routerState.url));
     return {
         selectCurrentRoute,
         selectFragment,
