@@ -67,9 +67,9 @@ export declare type RouterCancelAction<T, V extends BaseRouterStoreState = Seria
     payload: RouterCancelPayload<T, V>;
 };
 export declare const routerCancelAction: import("@ngrx/store").ActionCreator<"@ngrx/router-store/cancel", (props: {
-    payload: RouterCancelPayload<SerializedRouterStateSnapshot, SerializedRouterStateSnapshot>;
+    payload: RouterCancelPayload<SerializedRouterStateSnapshot>;
 }) => {
-    payload: RouterCancelPayload<SerializedRouterStateSnapshot, SerializedRouterStateSnapshot>;
+    payload: RouterCancelPayload<SerializedRouterStateSnapshot>;
 } & import("@ngrx/store/src/models").TypedAction<"@ngrx/router-store/cancel">>;
 /**
  * An action dispatched when the router errors.
@@ -91,9 +91,9 @@ export declare type RouterErrorAction<T, V extends BaseRouterStoreState = Serial
     payload: RouterErrorPayload<T, V>;
 };
 export declare const routerErrorAction: import("@ngrx/store").ActionCreator<"@ngrx/router-store/error", (props: {
-    payload: RouterErrorPayload<SerializedRouterStateSnapshot, SerializedRouterStateSnapshot>;
+    payload: RouterErrorPayload<SerializedRouterStateSnapshot>;
 }) => {
-    payload: RouterErrorPayload<SerializedRouterStateSnapshot, SerializedRouterStateSnapshot>;
+    payload: RouterErrorPayload<SerializedRouterStateSnapshot>;
 } & import("@ngrx/store/src/models").TypedAction<"@ngrx/router-store/error">>;
 /**
  * An action dispatched after navigation has ended and new route is active.
