@@ -891,7 +891,13 @@
                     type: type,
                     payload: Object.assign(Object.assign({ routerState: this.routerState }, payload), { event: this.config.routerState === 0 /* Full */
                             ? payload.event
-                            : { id: payload.event.id, url: payload.event.url } }),
+                            : {
+                                id: payload.event.id,
+                                url: payload.event.url,
+                                // safe, as it will just be `undefined` for non-NavigationEnd router events
+                                urlAfterRedirects: (( /** @type {?} */(payload.event)))
+                                    .urlAfterRedirects,
+                            } }),
                 });
             }
             finally {
