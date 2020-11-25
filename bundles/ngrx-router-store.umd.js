@@ -1,7 +1,7 @@
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@ngrx/store'), require('@angular/core'), require('@angular/router'), require('rxjs/operators')) :
     typeof define === 'function' && define.amd ? define('@ngrx/router-store', ['exports', '@ngrx/store', '@angular/core', '@angular/router', 'rxjs/operators'], factory) :
-    (global = global || self, factory((global.ngrx = global.ngrx || {}, global.ngrx['router-store'] = {}), global.store, global.ng.core, global.ng.router, global.rxjs.operators));
+    (global = global || self, factory((global.ngrx = global.ngrx || {}, global.ngrx['router-store'] = {}), global.ngrx.store, global.ng.core, global.ng.router, global.rxjs.operators));
 }(this, (function (exports, store, core, router, operators) { 'use strict';
 
     /**
