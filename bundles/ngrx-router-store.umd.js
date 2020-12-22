@@ -763,7 +763,7 @@
             }
             /** @type {?} */
             var url = routerStoreState.state.url;
-            if (this.router.url !== url) {
+            if (!isSameUrl(this.router.url, url)) {
                 this.storeState = storeState;
                 this.trigger = RouterTrigger.STORE;
                 this.router.navigateByUrl(url).catch(( /**
@@ -977,6 +977,25 @@
          * @private
          */
         StoreRouterConnectingModule.prototype.config;
+    }
+    /**
+     * Check if the URLs are matching. Accounts for the possibility of trailing "/" in url.
+     * @param {?} first
+     * @param {?} second
+     * @return {?}
+     */
+    function isSameUrl(first, second) {
+        return stripTrailingSlash(first) === stripTrailingSlash(second);
+    }
+    /**
+     * @param {?} text
+     * @return {?}
+     */
+    function stripTrailingSlash(text) {
+        if (text.length > 0 && text[text.length - 1] === '/') {
+            return text.substring(0, text.length - 1);
+        }
+        return text;
     }
 
     /**
