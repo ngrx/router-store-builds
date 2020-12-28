@@ -1061,6 +1061,28 @@
          * @return {?}
          */function (params) { return params && params[param]; })); });
         /** @type {?} */
+        var selectParamFromRouterState = ( /**
+         * @param {?} param
+         * @return {?}
+         */function (param) { return store.createSelector(selectRouterState, ( /**
+         * @param {?} routerState
+         * @return {?}
+         */function (routerState) {
+            var _a;
+            /** @type {?} */
+            var paramValue;
+            /** @type {?} */
+            var route = routerState === null || routerState === void 0 ? void 0 : routerState.root;
+            while (route === null || route === void 0 ? void 0 : route.firstChild) {
+                route = route.firstChild;
+                if ((_a = route === null || route === void 0 ? void 0 : route.params) === null || _a === void 0 ? void 0 : _a[param]) {
+                    paramValue = route.params[param];
+                    break;
+                }
+            }
+            return paramValue;
+        })); });
+        /** @type {?} */
         var selectRouteData = store.createSelector(selectCurrentRoute, ( /**
          * @param {?} route
          * @return {?}
@@ -1077,6 +1099,7 @@
             selectQueryParam: selectQueryParam,
             selectRouteParams: selectRouteParams,
             selectRouteParam: selectRouteParam,
+            selectParamFromRouterState: selectParamFromRouterState,
             selectRouteData: selectRouteData,
             selectUrl: selectUrl,
         };

@@ -760,6 +760,30 @@ function getSelectors(selectState) {
      */
     (params) => params && params[param])));
     /** @type {?} */
+    const selectParamFromRouterState = (/**
+     * @param {?} param
+     * @return {?}
+     */
+    (param) => createSelector(selectRouterState, (/**
+     * @param {?} routerState
+     * @return {?}
+     */
+    (routerState) => {
+        var _a;
+        /** @type {?} */
+        let paramValue;
+        /** @type {?} */
+        let route = routerState === null || routerState === void 0 ? void 0 : routerState.root;
+        while (route === null || route === void 0 ? void 0 : route.firstChild) {
+            route = route.firstChild;
+            if ((_a = route === null || route === void 0 ? void 0 : route.params) === null || _a === void 0 ? void 0 : _a[param]) {
+                paramValue = route.params[param];
+                break;
+            }
+        }
+        return paramValue;
+    })));
+    /** @type {?} */
     const selectRouteData = createSelector(selectCurrentRoute, (/**
      * @param {?} route
      * @return {?}
@@ -778,6 +802,7 @@ function getSelectors(selectState) {
         selectQueryParam,
         selectRouteParams,
         selectRouteParam,
+        selectParamFromRouterState,
         selectRouteData,
         selectUrl,
     };
