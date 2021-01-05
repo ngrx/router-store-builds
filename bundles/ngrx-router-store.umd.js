@@ -1015,27 +1015,32 @@
          * @return {?}
          */function (router) { return router && router.state; }));
         /** @type {?} */
-        var selectCurrentRoute = store.createSelector(selectRouterState, ( /**
+        var selectRootRoute = store.createSelector(selectRouterState, ( /**
          * @param {?} routerState
          * @return {?}
-         */function (routerState) {
-            if (!routerState) {
+         */function (routerState) { return routerState && routerState.root; }));
+        /** @type {?} */
+        var selectCurrentRoute = store.createSelector(selectRootRoute, ( /**
+         * @param {?} rootRoute
+         * @return {?}
+         */function (rootRoute) {
+            if (!rootRoute) {
                 return undefined;
             }
             /** @type {?} */
-            var route = routerState.root;
+            var route = rootRoute;
             while (route.firstChild) {
                 route = route.firstChild;
             }
             return route;
         }));
         /** @type {?} */
-        var selectFragment = store.createSelector(selectCurrentRoute, ( /**
+        var selectFragment = store.createSelector(selectRootRoute, ( /**
          * @param {?} route
          * @return {?}
          */function (route) { return route && route.fragment; }));
         /** @type {?} */
-        var selectQueryParams = store.createSelector(selectCurrentRoute, ( /**
+        var selectQueryParams = store.createSelector(selectRootRoute, ( /**
          * @param {?} route
          * @return {?}
          */function (route) { return route && route.queryParams; }));

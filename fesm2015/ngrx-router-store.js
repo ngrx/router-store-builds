@@ -706,29 +706,35 @@ function getSelectors(selectState) {
      */
     (router) => router && router.state));
     /** @type {?} */
-    const selectCurrentRoute = createSelector(selectRouterState, (/**
+    const selectRootRoute = createSelector(selectRouterState, (/**
      * @param {?} routerState
      * @return {?}
      */
-    (routerState) => {
-        if (!routerState) {
+    (routerState) => routerState && routerState.root));
+    /** @type {?} */
+    const selectCurrentRoute = createSelector(selectRootRoute, (/**
+     * @param {?} rootRoute
+     * @return {?}
+     */
+    (rootRoute) => {
+        if (!rootRoute) {
             return undefined;
         }
         /** @type {?} */
-        let route = routerState.root;
+        let route = rootRoute;
         while (route.firstChild) {
             route = route.firstChild;
         }
         return route;
     }));
     /** @type {?} */
-    const selectFragment = createSelector(selectCurrentRoute, (/**
+    const selectFragment = createSelector(selectRootRoute, (/**
      * @param {?} route
      * @return {?}
      */
     (route) => route && route.fragment));
     /** @type {?} */
-    const selectQueryParams = createSelector(selectCurrentRoute, (/**
+    const selectQueryParams = createSelector(selectRootRoute, (/**
      * @param {?} route
      * @return {?}
      */
