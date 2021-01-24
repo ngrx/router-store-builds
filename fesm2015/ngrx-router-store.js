@@ -50,7 +50,7 @@ const routerNavigatedAction = createAction(ROUTER_NAVIGATED, props());
  * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
- * @template T
+ * @template RouterState, Result
  * @param {?} state
  * @param {?} action
  * @return {?}
@@ -63,10 +63,10 @@ function routerReducer(state, action) {
         case ROUTER_NAVIGATION:
         case ROUTER_ERROR:
         case ROUTER_CANCEL:
-            return {
+            return (/** @type {?} */ (((/** @type {?} */ ({
                 state: routerAction.payload.routerState,
                 navigationId: routerAction.payload.event.id,
-            };
+            })))));
         default:
             return (/** @type {?} */ (state));
     }
