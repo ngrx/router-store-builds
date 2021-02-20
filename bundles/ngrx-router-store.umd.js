@@ -1,75 +1,48 @@
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@ngrx/store'), require('@angular/core'), require('@angular/router'), require('rxjs/operators')) :
     typeof define === 'function' && define.amd ? define('@ngrx/router-store', ['exports', '@ngrx/store', '@angular/core', '@angular/router', 'rxjs/operators'], factory) :
-    (global = global || self, factory((global.ngrx = global.ngrx || {}, global.ngrx['router-store'] = {}), global.ngrx.store, global.ng.core, global.ng.router, global.rxjs.operators));
+    (global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory((global.ngrx = global.ngrx || {}, global.ngrx['router-store'] = {}), global.ngrx.store, global.ng.core, global.ng.router, global.rxjs.operators));
 }(this, (function (exports, store, core, router, operators) { 'use strict';
 
     /**
-     * @fileoverview added by tsickle
-     * Generated from: src/actions.ts
-     * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
-     */
-    /**
      * An action dispatched when a router navigation request is fired.
-     * @type {?}
      */
     var ROUTER_REQUEST = '@ngrx/router-store/request';
-    /** @type {?} */
     var routerRequestAction = store.createAction(ROUTER_REQUEST, store.props());
     /**
      * An action dispatched when the router navigates.
-     * @type {?}
      */
     var ROUTER_NAVIGATION = '@ngrx/router-store/navigation';
-    /** @type {?} */
     var routerNavigationAction = store.createAction(ROUTER_NAVIGATION, store.props());
     /**
      * An action dispatched when the router cancels navigation.
-     * @type {?}
      */
     var ROUTER_CANCEL = '@ngrx/router-store/cancel';
-    /** @type {?} */
     var routerCancelAction = store.createAction(ROUTER_CANCEL, store.props());
     /**
      * An action dispatched when the router errors.
-     * @type {?}
      */
     var ROUTER_ERROR = '@ngrx/router-store/error';
-    /** @type {?} */
     var routerErrorAction = store.createAction(ROUTER_ERROR, store.props());
     /**
      * An action dispatched after navigation has ended and new route is active.
-     * @type {?}
      */
     var ROUTER_NAVIGATED = '@ngrx/router-store/navigated';
-    /** @type {?} */
     var routerNavigatedAction = store.createAction(ROUTER_NAVIGATED, store.props());
 
-    /**
-     * @fileoverview added by tsickle
-     * Generated from: src/reducer.ts
-     * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
-     */
-    /**
-     * @template RouterState, Result
-     * @param {?} state
-     * @param {?} action
-     * @return {?}
-     */
     function routerReducer(state, action) {
         // Allow compilation with strictFunctionTypes - ref: #1344
-        /** @type {?} */
-        var routerAction = ( /** @type {?} */(action));
+        var routerAction = action;
         switch (routerAction.type) {
             case ROUTER_NAVIGATION:
             case ROUTER_ERROR:
             case ROUTER_CANCEL:
-                return ( /** @type {?} */((( /** @type {?} */({
+                return {
                     state: routerAction.payload.routerState,
                     navigationId: routerAction.payload.event.id,
-                })))));
+                };
             default:
-                return ( /** @type {?} */(state));
+                return state;
         }
     }
 
@@ -374,80 +347,24 @@
         return value;
     }
 
-    /**
-     * @fileoverview added by tsickle
-     * Generated from: src/serializers/base.ts
-     * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
-     */
-    /**
-     * Simple router state.
-     * All custom router states / state serializers should have at least
-     * the properties of this interface.
-     * @record
-     */
-    function BaseRouterStoreState() { }
-    if (false) {
-        /** @type {?} */
-        BaseRouterStoreState.prototype.url;
-    }
-    /**
-     * @abstract
-     * @template T
-     */
     var RouterStateSerializer = /** @class */ (function () {
         function RouterStateSerializer() {
         }
         return RouterStateSerializer;
     }());
-    if (false) {
-        /**
-         * @abstract
-         * @param {?} routerState
-         * @return {?}
-         */
-        RouterStateSerializer.prototype.serialize = function (routerState) { };
-    }
 
-    /**
-     * @fileoverview added by tsickle
-     * Generated from: src/serializers/default_serializer.ts
-     * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
-     */
-    /**
-     * @record
-     */
-    function SerializedRouterStateSnapshot() { }
-    if (false) {
-        /** @type {?} */
-        SerializedRouterStateSnapshot.prototype.root;
-        /** @type {?} */
-        SerializedRouterStateSnapshot.prototype.url;
-    }
     var DefaultRouterStateSerializer = /** @class */ (function () {
         function DefaultRouterStateSerializer() {
         }
-        /**
-         * @param {?} routerState
-         * @return {?}
-         */
         DefaultRouterStateSerializer.prototype.serialize = function (routerState) {
             return {
                 root: this.serializeRoute(routerState.root),
                 url: routerState.url,
             };
         };
-        /**
-         * @private
-         * @param {?} route
-         * @return {?}
-         */
         DefaultRouterStateSerializer.prototype.serializeRoute = function (route) {
             var _this = this;
-            /** @type {?} */
-            var children = route.children.map(( /**
-             * @param {?} c
-             * @return {?}
-             */function (c) { return _this.serializeRoute(c); }));
+            var children = route.children.map(function (c) { return _this.serializeRoute(c); });
             return {
                 params: route.params,
                 paramMap: route.paramMap,
@@ -466,83 +383,31 @@
                 queryParams: route.queryParams,
                 queryParamMap: route.queryParamMap,
                 fragment: route.fragment,
-                component: ( /** @type {?} */((route.routeConfig
+                component: (route.routeConfig
                     ? route.routeConfig.component
-                    : undefined))),
-                root: ( /** @type {?} */(undefined)),
-                parent: ( /** @type {?} */(undefined)),
+                    : undefined),
+                root: undefined,
+                parent: undefined,
                 firstChild: children[0],
-                pathFromRoot: ( /** @type {?} */(undefined)),
+                pathFromRoot: undefined,
                 children: children,
             };
         };
         return DefaultRouterStateSerializer;
     }());
 
-    /**
-     * @fileoverview added by tsickle
-     * Generated from: src/serializers/minimal_serializer.ts
-     * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
-     */
-    /**
-     * @record
-     */
-    function MinimalActivatedRouteSnapshot() { }
-    if (false) {
-        /** @type {?} */
-        MinimalActivatedRouteSnapshot.prototype.routeConfig;
-        /** @type {?} */
-        MinimalActivatedRouteSnapshot.prototype.url;
-        /** @type {?} */
-        MinimalActivatedRouteSnapshot.prototype.params;
-        /** @type {?} */
-        MinimalActivatedRouteSnapshot.prototype.queryParams;
-        /** @type {?} */
-        MinimalActivatedRouteSnapshot.prototype.fragment;
-        /** @type {?} */
-        MinimalActivatedRouteSnapshot.prototype.data;
-        /** @type {?} */
-        MinimalActivatedRouteSnapshot.prototype.outlet;
-        /** @type {?|undefined} */
-        MinimalActivatedRouteSnapshot.prototype.firstChild;
-        /** @type {?} */
-        MinimalActivatedRouteSnapshot.prototype.children;
-    }
-    /**
-     * @record
-     */
-    function MinimalRouterStateSnapshot() { }
-    if (false) {
-        /** @type {?} */
-        MinimalRouterStateSnapshot.prototype.root;
-        /** @type {?} */
-        MinimalRouterStateSnapshot.prototype.url;
-    }
     var MinimalRouterStateSerializer = /** @class */ (function () {
         function MinimalRouterStateSerializer() {
         }
-        /**
-         * @param {?} routerState
-         * @return {?}
-         */
         MinimalRouterStateSerializer.prototype.serialize = function (routerState) {
             return {
                 root: this.serializeRoute(routerState.root),
                 url: routerState.url,
             };
         };
-        /**
-         * @private
-         * @param {?} route
-         * @return {?}
-         */
         MinimalRouterStateSerializer.prototype.serializeRoute = function (route) {
             var _this = this;
-            /** @type {?} */
-            var children = route.children.map(( /**
-             * @param {?} c
-             * @return {?}
-             */function (c) { return _this.serializeRoute(c); }));
+            var children = route.children.map(function (c) { return _this.serializeRoute(c); });
             return {
                 params: route.params,
                 data: route.data,
@@ -565,79 +430,23 @@
         return MinimalRouterStateSerializer;
     }());
 
-    /** @enum {number} */
-    var RouterState = {
-        Full: 0,
-        Minimal: 1,
-    };
-    /**
-     * @record
-     * @template T
-     */
-    function StoreRouterConfig() { }
-    if (false) {
-        /** @type {?|undefined} */
-        StoreRouterConfig.prototype.stateKey;
-        /** @type {?|undefined} */
-        StoreRouterConfig.prototype.serializer;
-        /**
-         * By default, ROUTER_NAVIGATION is dispatched before guards and resolvers run.
-         * Therefore, the action could run too soon, for example
-         * there may be a navigation cancel due to a guard saying the navigation is not allowed.
-         * To run ROUTER_NAVIGATION after guards and resolvers,
-         * set this property to NavigationActionTiming.PostActivation.
-         * @type {?|undefined}
-         */
-        StoreRouterConfig.prototype.navigationActionTiming;
-        /**
-         * Decides which router serializer should be used, if there is none provided, and the metadata on the dispatched \@ngrx/router-store action payload.
-         * Set to `Full` to use the `DefaultRouterStateSerializer` and to set the angular router events as payload.
-         * Set to `Minimal` to use the `MinimalRouterStateSerializer` and to set a minimal router event with the navigation id and url as payload.
-         * @type {?|undefined}
-         */
-        StoreRouterConfig.prototype.routerState;
-    }
-    /**
-     * @record
-     */
-    function StoreRouterActionPayload() { }
-    if (false) {
-        /** @type {?} */
-        StoreRouterActionPayload.prototype.event;
-        /** @type {?|undefined} */
-        StoreRouterActionPayload.prototype.routerState;
-        /** @type {?|undefined} */
-        StoreRouterActionPayload.prototype.storeState;
-    }
-    /** @enum {number} */
-    var NavigationActionTiming = {
-        PreActivation: 1,
-        PostActivation: 2,
-    };
-    NavigationActionTiming[NavigationActionTiming.PreActivation] = 'PreActivation';
-    NavigationActionTiming[NavigationActionTiming.PostActivation] = 'PostActivation';
-    /** @type {?} */
+    exports.NavigationActionTiming = void 0;
+    (function (NavigationActionTiming) {
+        NavigationActionTiming[NavigationActionTiming["PreActivation"] = 1] = "PreActivation";
+        NavigationActionTiming[NavigationActionTiming["PostActivation"] = 2] = "PostActivation";
+    })(exports.NavigationActionTiming || (exports.NavigationActionTiming = {}));
     var _ROUTER_CONFIG = new core.InjectionToken('@ngrx/router-store Internal Configuration');
-    /** @type {?} */
     var ROUTER_CONFIG = new core.InjectionToken('@ngrx/router-store Configuration');
-    /** @type {?} */
     var DEFAULT_ROUTER_FEATURENAME = 'router';
-    /**
-     * @param {?} config
-     * @return {?}
-     */
     function _createRouterConfig(config) {
-        return Object.assign({ stateKey: DEFAULT_ROUTER_FEATURENAME, serializer: MinimalRouterStateSerializer, navigationActionTiming: NavigationActionTiming.PreActivation }, config);
+        return Object.assign({ stateKey: DEFAULT_ROUTER_FEATURENAME, serializer: MinimalRouterStateSerializer, navigationActionTiming: exports.NavigationActionTiming.PreActivation }, config);
     }
-    /** @enum {number} */
-    var RouterTrigger = {
-        NONE: 1,
-        ROUTER: 2,
-        STORE: 3,
-    };
-    RouterTrigger[RouterTrigger.NONE] = 'NONE';
-    RouterTrigger[RouterTrigger.ROUTER] = 'ROUTER';
-    RouterTrigger[RouterTrigger.STORE] = 'STORE';
+    var RouterTrigger;
+    (function (RouterTrigger) {
+        RouterTrigger[RouterTrigger["NONE"] = 1] = "NONE";
+        RouterTrigger[RouterTrigger["ROUTER"] = 2] = "ROUTER";
+        RouterTrigger[RouterTrigger["STORE"] = 3] = "STORE";
+    })(RouterTrigger || (RouterTrigger = {}));
     /**
      * Connects RouterModule with StoreModule.
      *
@@ -663,7 +472,7 @@
      * Usage:
      *
      * ```typescript
-     * \@NgModule({
+     * @NgModule({
      *   declarations: [AppCmp, SimpleCmp],
      *   imports: [
      *     BrowserModule,
@@ -681,13 +490,6 @@
      * ```
      */
     var StoreRouterConnectingModule = /** @class */ (function () {
-        /**
-         * @param {?} store
-         * @param {?} router
-         * @param {?} serializer
-         * @param {?} errorHandler
-         * @param {?} config
-         */
         function StoreRouterConnectingModule(store, router, serializer, errorHandler, config) {
             this.store = store;
             this.router = router;
@@ -697,15 +499,10 @@
             this.lastEvent = null;
             this.routerState = null;
             this.trigger = RouterTrigger.NONE;
-            this.stateKey = ( /** @type {?} */(this.config.stateKey));
+            this.stateKey = this.config.stateKey;
             this.setUpStoreStateListener();
             this.setUpRouterEventsListener();
         }
-        /**
-         * @template T
-         * @param {?=} config
-         * @return {?}
-         */
         StoreRouterConnectingModule.forRoot = function (config) {
             if (config === void 0) { config = {}; }
             return {
@@ -728,28 +525,15 @@
                 ],
             };
         };
-        /**
-         * @private
-         * @return {?}
-         */
         StoreRouterConnectingModule.prototype.setUpStoreStateListener = function () {
             var _this = this;
             this.store
-                .pipe(store.select(( /** @type {?} */(this.stateKey))), operators.withLatestFrom(this.store))
-                .subscribe(( /**
-         * @param {?} __0
-         * @return {?}
-         */function (_a) {
+                .pipe(store.select(this.stateKey), operators.withLatestFrom(this.store))
+                .subscribe(function (_a) {
                 var _b = __read(_a, 2), routerStoreState = _b[0], storeState = _b[1];
                 _this.navigateIfNeeded(routerStoreState, storeState);
-            }));
+            });
         };
-        /**
-         * @private
-         * @param {?} routerStoreState
-         * @param {?} storeState
-         * @return {?}
-         */
         StoreRouterConnectingModule.prototype.navigateIfNeeded = function (routerStoreState, storeState) {
             var _this = this;
             if (!routerStoreState || !routerStoreState.state) {
@@ -761,36 +545,23 @@
             if (this.lastEvent instanceof router.NavigationStart) {
                 return;
             }
-            /** @type {?} */
             var url = routerStoreState.state.url;
             if (!isSameUrl(this.router.url, url)) {
                 this.storeState = storeState;
                 this.trigger = RouterTrigger.STORE;
-                this.router.navigateByUrl(url).catch(( /**
-                 * @param {?} error
-                 * @return {?}
-                 */function (error) {
+                this.router.navigateByUrl(url).catch(function (error) {
                     _this.errorHandler.handleError(error);
-                }));
+                });
             }
         };
-        /**
-         * @private
-         * @return {?}
-         */
         StoreRouterConnectingModule.prototype.setUpRouterEventsListener = function () {
             var _this = this;
-            /** @type {?} */
             var dispatchNavLate = this.config.navigationActionTiming ===
-                NavigationActionTiming.PostActivation;
-            /** @type {?} */
+                exports.NavigationActionTiming.PostActivation;
             var routesRecognized;
             this.router.events
                 .pipe(operators.withLatestFrom(this.store))
-                .subscribe(( /**
-         * @param {?} __0
-         * @return {?}
-         */function (_a) {
+                .subscribe(function (_a) {
                 var _b = __read(_a, 2), event = _b[0], storeState = _b[1];
                 _this.lastEvent = event;
                 if (event instanceof router.NavigationStart) {
@@ -823,67 +594,34 @@
                     }
                     _this.reset();
                 }
-            }));
+            });
         };
-        /**
-         * @private
-         * @param {?} event
-         * @return {?}
-         */
         StoreRouterConnectingModule.prototype.dispatchRouterRequest = function (event) {
             this.dispatchRouterAction(ROUTER_REQUEST, { event: event });
         };
-        /**
-         * @private
-         * @param {?} lastRoutesRecognized
-         * @return {?}
-         */
         StoreRouterConnectingModule.prototype.dispatchRouterNavigation = function (lastRoutesRecognized) {
-            /** @type {?} */
             var nextRouterState = this.serializer.serialize(lastRoutesRecognized.state);
             this.dispatchRouterAction(ROUTER_NAVIGATION, {
                 routerState: nextRouterState,
                 event: new router.RoutesRecognized(lastRoutesRecognized.id, lastRoutesRecognized.url, lastRoutesRecognized.urlAfterRedirects, nextRouterState),
             });
         };
-        /**
-         * @private
-         * @param {?} event
-         * @return {?}
-         */
         StoreRouterConnectingModule.prototype.dispatchRouterCancel = function (event) {
             this.dispatchRouterAction(ROUTER_CANCEL, {
                 storeState: this.storeState,
                 event: event,
             });
         };
-        /**
-         * @private
-         * @param {?} event
-         * @return {?}
-         */
         StoreRouterConnectingModule.prototype.dispatchRouterError = function (event) {
             this.dispatchRouterAction(ROUTER_ERROR, {
                 storeState: this.storeState,
                 event: new router.NavigationError(event.id, event.url, "" + event),
             });
         };
-        /**
-         * @private
-         * @param {?} event
-         * @return {?}
-         */
         StoreRouterConnectingModule.prototype.dispatchRouterNavigated = function (event) {
-            /** @type {?} */
             var routerState = this.serializer.serialize(this.router.routerState.snapshot);
             this.dispatchRouterAction(ROUTER_NAVIGATED, { event: event, routerState: routerState });
         };
-        /**
-         * @private
-         * @param {?} type
-         * @param {?} payload
-         * @return {?}
-         */
         StoreRouterConnectingModule.prototype.dispatchRouterAction = function (type, payload) {
             this.trigger = RouterTrigger.ROUTER;
             try {
@@ -895,7 +633,7 @@
                                 id: payload.event.id,
                                 url: payload.event.url,
                                 // safe, as it will just be `undefined` for non-NavigationEnd router events
-                                urlAfterRedirects: (( /** @type {?} */(payload.event)))
+                                urlAfterRedirects: payload.event
                                     .urlAfterRedirects,
                             } }),
                 });
@@ -904,10 +642,6 @@
                 this.trigger = RouterTrigger.NONE;
             }
         };
-        /**
-         * @private
-         * @return {?}
-         */
         StoreRouterConnectingModule.prototype.reset = function () {
             this.trigger = RouterTrigger.NONE;
             this.storeState = null;
@@ -926,71 +660,12 @@
         { type: core.ErrorHandler },
         { type: undefined, decorators: [{ type: core.Inject, args: [ROUTER_CONFIG,] }] }
     ]; };
-    if (false) {
-        /**
-         * @type {?}
-         * @private
-         */
-        StoreRouterConnectingModule.prototype.lastEvent;
-        /**
-         * @type {?}
-         * @private
-         */
-        StoreRouterConnectingModule.prototype.routerState;
-        /**
-         * @type {?}
-         * @private
-         */
-        StoreRouterConnectingModule.prototype.storeState;
-        /**
-         * @type {?}
-         * @private
-         */
-        StoreRouterConnectingModule.prototype.trigger;
-        /**
-         * @type {?}
-         * @private
-         */
-        StoreRouterConnectingModule.prototype.stateKey;
-        /**
-         * @type {?}
-         * @private
-         */
-        StoreRouterConnectingModule.prototype.store;
-        /**
-         * @type {?}
-         * @private
-         */
-        StoreRouterConnectingModule.prototype.router;
-        /**
-         * @type {?}
-         * @private
-         */
-        StoreRouterConnectingModule.prototype.serializer;
-        /**
-         * @type {?}
-         * @private
-         */
-        StoreRouterConnectingModule.prototype.errorHandler;
-        /**
-         * @type {?}
-         * @private
-         */
-        StoreRouterConnectingModule.prototype.config;
-    }
     /**
      * Check if the URLs are matching. Accounts for the possibility of trailing "/" in url.
-     * @param {?} first
-     * @param {?} second
-     * @return {?}
      */
     function isSameUrl(first, second) {
         return stripTrailingSlash(first) === stripTrailingSlash(second);
     }
-    /**
-     * @param {?} text
-     * @return {?}
-     */
     function stripTrailingSlash(text) {
         if (text.length > 0 && text[text.length - 1] === '/') {
             return text.substring(0, text.length - 1);
@@ -998,83 +673,26 @@
         return text;
     }
 
-    /**
-     * @fileoverview added by tsickle
-     * Generated from: src/router_selectors.ts
-     * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
-     */
-    /**
-     * @template V
-     * @param {?} selectState
-     * @return {?}
-     */
     function getSelectors(selectState) {
-        /** @type {?} */
-        var selectRouterState = store.createSelector(selectState, ( /**
-         * @param {?} router
-         * @return {?}
-         */function (router) { return router && router.state; }));
-        /** @type {?} */
-        var selectRootRoute = store.createSelector(selectRouterState, ( /**
-         * @param {?} routerState
-         * @return {?}
-         */function (routerState) { return routerState && routerState.root; }));
-        /** @type {?} */
-        var selectCurrentRoute = store.createSelector(selectRootRoute, ( /**
-         * @param {?} rootRoute
-         * @return {?}
-         */function (rootRoute) {
+        var selectRouterState = store.createSelector(selectState, function (router) { return router && router.state; });
+        var selectRootRoute = store.createSelector(selectRouterState, function (routerState) { return routerState && routerState.root; });
+        var selectCurrentRoute = store.createSelector(selectRootRoute, function (rootRoute) {
             if (!rootRoute) {
                 return undefined;
             }
-            /** @type {?} */
             var route = rootRoute;
             while (route.firstChild) {
                 route = route.firstChild;
             }
             return route;
-        }));
-        /** @type {?} */
-        var selectFragment = store.createSelector(selectRootRoute, ( /**
-         * @param {?} route
-         * @return {?}
-         */function (route) { return route && route.fragment; }));
-        /** @type {?} */
-        var selectQueryParams = store.createSelector(selectRootRoute, ( /**
-         * @param {?} route
-         * @return {?}
-         */function (route) { return route && route.queryParams; }));
-        /** @type {?} */
-        var selectQueryParam = ( /**
-         * @param {?} param
-         * @return {?}
-         */function (param) { return store.createSelector(selectQueryParams, ( /**
-         * @param {?} params
-         * @return {?}
-         */function (params) { return params && params[param]; })); });
-        /** @type {?} */
-        var selectRouteParams = store.createSelector(selectCurrentRoute, ( /**
-         * @param {?} route
-         * @return {?}
-         */function (route) { return route && route.params; }));
-        /** @type {?} */
-        var selectRouteParam = ( /**
-         * @param {?} param
-         * @return {?}
-         */function (param) { return store.createSelector(selectRouteParams, ( /**
-         * @param {?} params
-         * @return {?}
-         */function (params) { return params && params[param]; })); });
-        /** @type {?} */
-        var selectRouteData = store.createSelector(selectCurrentRoute, ( /**
-         * @param {?} route
-         * @return {?}
-         */function (route) { return route && route.data; }));
-        /** @type {?} */
-        var selectUrl = store.createSelector(selectRouterState, ( /**
-         * @param {?} routerState
-         * @return {?}
-         */function (routerState) { return routerState && routerState.url; }));
+        });
+        var selectFragment = store.createSelector(selectRootRoute, function (route) { return route && route.fragment; });
+        var selectQueryParams = store.createSelector(selectRootRoute, function (route) { return route && route.queryParams; });
+        var selectQueryParam = function (param) { return store.createSelector(selectQueryParams, function (params) { return params && params[param]; }); };
+        var selectRouteParams = store.createSelector(selectCurrentRoute, function (route) { return route && route.params; });
+        var selectRouteParam = function (param) { return store.createSelector(selectRouteParams, function (params) { return params && params[param]; }); };
+        var selectRouteData = store.createSelector(selectCurrentRoute, function (route) { return route && route.data; });
+        var selectUrl = store.createSelector(selectRouterState, function (routerState) { return routerState && routerState.url; });
         return {
             selectCurrentRoute: selectCurrentRoute,
             selectFragment: selectFragment,
@@ -1088,33 +706,18 @@
     }
 
     /**
-     * @fileoverview added by tsickle
-     * Generated from: src/index.ts
-     * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+     * DO NOT EDIT
+     *
+     * This file is automatically generated at build
      */
 
     /**
-     * @fileoverview added by tsickle
-     * Generated from: public_api.ts
-     * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
-     */
-
-    /**
-     * @fileoverview added by tsickle
-     * Generated from: index.ts
-     * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
-     */
-
-    /**
-     * @fileoverview added by tsickle
-     * Generated from: ngrx-router-store.ts
-     * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+     * Generated bundle index. Do not edit.
      */
 
     exports.DEFAULT_ROUTER_FEATURENAME = DEFAULT_ROUTER_FEATURENAME;
     exports.DefaultRouterStateSerializer = DefaultRouterStateSerializer;
     exports.MinimalRouterStateSerializer = MinimalRouterStateSerializer;
-    exports.NavigationActionTiming = NavigationActionTiming;
     exports.ROUTER_CANCEL = ROUTER_CANCEL;
     exports.ROUTER_CONFIG = ROUTER_CONFIG;
     exports.ROUTER_ERROR = ROUTER_ERROR;
