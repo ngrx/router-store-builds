@@ -1,6 +1,6 @@
 import { InjectionToken, ModuleWithProviders, ErrorHandler } from '@angular/core';
 import { Router } from '@angular/router';
-import { Selector, Store } from '@ngrx/store';
+import { RuntimeChecks, Selector, Store } from '@ngrx/store';
 import { RouterReducerState } from './reducer';
 import { RouterStateSerializer, BaseRouterStoreState } from './serializers/base';
 import { SerializedRouterStateSnapshot } from './serializers/default_serializer';
@@ -87,13 +87,14 @@ export declare class StoreRouterConnectingModule {
     private serializer;
     private errorHandler;
     private config;
+    private activeRuntimeChecks;
     static forRoot<T extends BaseRouterStoreState = SerializedRouterStateSnapshot>(config?: StoreRouterConfig<T>): ModuleWithProviders<StoreRouterConnectingModule>;
     private lastEvent;
     private routerState;
     private storeState;
     private trigger;
     private stateKey;
-    constructor(store: Store<any>, router: Router, serializer: RouterStateSerializer<SerializedRouterStateSnapshot>, errorHandler: ErrorHandler, config: StoreRouterConfig);
+    constructor(store: Store<any>, router: Router, serializer: RouterStateSerializer<SerializedRouterStateSnapshot>, errorHandler: ErrorHandler, config: StoreRouterConfig, activeRuntimeChecks: RuntimeChecks);
     private setUpStoreStateListener;
     private navigateIfNeeded;
     private setUpRouterEventsListener;

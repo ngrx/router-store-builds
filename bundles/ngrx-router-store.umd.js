@@ -490,16 +490,28 @@
      * ```
      */
     var StoreRouterConnectingModule = /** @class */ (function () {
-        function StoreRouterConnectingModule(store, router, serializer, errorHandler, config) {
-            this.store = store;
+        function StoreRouterConnectingModule(store$1, router, serializer, errorHandler, config, activeRuntimeChecks) {
+            this.store = store$1;
             this.router = router;
             this.serializer = serializer;
             this.errorHandler = errorHandler;
             this.config = config;
+            this.activeRuntimeChecks = activeRuntimeChecks;
             this.lastEvent = null;
             this.routerState = null;
             this.trigger = RouterTrigger.NONE;
             this.stateKey = this.config.stateKey;
+            if (!store.isNgrxMockEnvironment() &&
+                core.isDevMode() &&
+                ((activeRuntimeChecks === null || activeRuntimeChecks === void 0 ? void 0 : activeRuntimeChecks.strictActionSerializability) || (activeRuntimeChecks === null || activeRuntimeChecks === void 0 ? void 0 : activeRuntimeChecks.strictStateSerializability)) &&
+                this.serializer instanceof DefaultRouterStateSerializer) {
+                console.warn('@ngrx/router-store: The serializability runtime checks cannot be enabled ' +
+                    'with the DefaultRouterStateSerializer. The default serializer ' +
+                    'has an unserializable router state and actions that are not serializable. ' +
+                    'To use the serializability runtime checks either use ' +
+                    'the MinimalRouterStateSerializer or implement a custom router state serializer. ' +
+                    'This also applies to Ivy with immutability runtime checks.');
+            }
             this.setUpStoreStateListener();
             this.setUpRouterEventsListener();
         }
@@ -658,7 +670,8 @@
         { type: router.Router },
         { type: RouterStateSerializer },
         { type: core.ErrorHandler },
-        { type: undefined, decorators: [{ type: core.Inject, args: [ROUTER_CONFIG,] }] }
+        { type: undefined, decorators: [{ type: core.Inject, args: [ROUTER_CONFIG,] }] },
+        { type: undefined, decorators: [{ type: core.Inject, args: [store.ACTIVE_RUNTIME_CHECKS,] }] }
     ]; };
     /**
      * Check if the URLs are matching. Accounts for the possibility of trailing "/" in url.

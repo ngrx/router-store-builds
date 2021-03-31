@@ -1,5 +1,5 @@
-import { createAction, props, select, Store, createSelector } from '@ngrx/store';
-import { InjectionToken, NgModule, ErrorHandler, Inject } from '@angular/core';
+import { createAction, props, isNgrxMockEnvironment, select, Store, ACTIVE_RUNTIME_CHECKS, createSelector } from '@ngrx/store';
+import { InjectionToken, isDevMode, NgModule, ErrorHandler, Inject } from '@angular/core';
 import { NavigationStart, RoutesRecognized, NavigationCancel, NavigationError, NavigationEnd, Router } from '@angular/router';
 import { withLatestFrom } from 'rxjs/operators';
 
@@ -177,16 +177,28 @@ var RouterTrigger;
  * ```
  */
 class StoreRouterConnectingModule {
-    constructor(store, router, serializer, errorHandler, config) {
+    constructor(store, router, serializer, errorHandler, config, activeRuntimeChecks) {
         this.store = store;
         this.router = router;
         this.serializer = serializer;
         this.errorHandler = errorHandler;
         this.config = config;
+        this.activeRuntimeChecks = activeRuntimeChecks;
         this.lastEvent = null;
         this.routerState = null;
         this.trigger = RouterTrigger.NONE;
         this.stateKey = this.config.stateKey;
+        if (!isNgrxMockEnvironment() &&
+            isDevMode() &&
+            ((activeRuntimeChecks === null || activeRuntimeChecks === void 0 ? void 0 : activeRuntimeChecks.strictActionSerializability) || (activeRuntimeChecks === null || activeRuntimeChecks === void 0 ? void 0 : activeRuntimeChecks.strictStateSerializability)) &&
+            this.serializer instanceof DefaultRouterStateSerializer) {
+            console.warn('@ngrx/router-store: The serializability runtime checks cannot be enabled ' +
+                'with the DefaultRouterStateSerializer. The default serializer ' +
+                'has an unserializable router state and actions that are not serializable. ' +
+                'To use the serializability runtime checks either use ' +
+                'the MinimalRouterStateSerializer or implement a custom router state serializer. ' +
+                'This also applies to Ivy with immutability runtime checks.');
+        }
         this.setUpStoreStateListener();
         this.setUpRouterEventsListener();
     }
@@ -338,7 +350,8 @@ StoreRouterConnectingModule.ctorParameters = () => [
     { type: Router },
     { type: RouterStateSerializer },
     { type: ErrorHandler },
-    { type: undefined, decorators: [{ type: Inject, args: [ROUTER_CONFIG,] }] }
+    { type: undefined, decorators: [{ type: Inject, args: [ROUTER_CONFIG,] }] },
+    { type: undefined, decorators: [{ type: Inject, args: [ACTIVE_RUNTIME_CHECKS,] }] }
 ];
 /**
  * Check if the URLs are matching. Accounts for the possibility of trailing "/" in url.
