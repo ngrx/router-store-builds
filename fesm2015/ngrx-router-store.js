@@ -190,7 +190,8 @@ class StoreRouterConnectingModule {
         this.stateKey = this.config.stateKey;
         if (!isNgrxMockEnvironment() &&
             isDevMode() &&
-            ((activeRuntimeChecks === null || activeRuntimeChecks === void 0 ? void 0 : activeRuntimeChecks.strictActionSerializability) || (activeRuntimeChecks === null || activeRuntimeChecks === void 0 ? void 0 : activeRuntimeChecks.strictStateSerializability)) &&
+            ((activeRuntimeChecks === null || activeRuntimeChecks === void 0 ? void 0 : activeRuntimeChecks.strictActionSerializability) ||
+                (activeRuntimeChecks === null || activeRuntimeChecks === void 0 ? void 0 : activeRuntimeChecks.strictStateSerializability)) &&
             this.serializer instanceof DefaultRouterStateSerializer) {
             console.warn('@ngrx/router-store: The serializability runtime checks cannot be enabled ' +
                 'with the DefaultRouterStateSerializer. The default serializer ' +
