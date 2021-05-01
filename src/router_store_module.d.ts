@@ -88,12 +88,12 @@ export declare class StoreRouterConnectingModule {
     private errorHandler;
     private config;
     private activeRuntimeChecks;
-    static forRoot<T extends BaseRouterStoreState = SerializedRouterStateSnapshot>(config?: StoreRouterConfig<T>): ModuleWithProviders<StoreRouterConnectingModule>;
     private lastEvent;
     private routerState;
     private storeState;
     private trigger;
     private stateKey;
+    static forRoot<T extends BaseRouterStoreState = SerializedRouterStateSnapshot>(config?: StoreRouterConfig<T>): ModuleWithProviders<StoreRouterConnectingModule>;
     constructor(store: Store<any>, router: Router, serializer: RouterStateSerializer<SerializedRouterStateSnapshot>, errorHandler: ErrorHandler, config: StoreRouterConfig, activeRuntimeChecks: RuntimeChecks);
     private setUpStoreStateListener;
     private navigateIfNeeded;
