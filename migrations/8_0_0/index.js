@@ -2,7 +2,7 @@
 exports.__esModule = true;
 var ts = require("typescript");
 var schematics_1 = require("@angular-devkit/schematics");
-var schematics_core_1 = require("@ngrx/router-store/schematics-core");
+var schematics_core_1 = require("../../schematics-core");
 function updateRouterStoreImport() {
     return function (tree) {
         schematics_core_1.visitTSSourceFiles(tree, function (sourceFile) {
