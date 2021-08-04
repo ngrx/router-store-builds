@@ -1,4 +1,4 @@
-import { createAction, props, isNgrxMockEnvironment, select, Store, ACTIVE_RUNTIME_CHECKS, createSelector } from '@ngrx/store';
+import { createAction, props, isNgrxMockEnvironment, select, Store, ACTIVE_RUNTIME_CHECKS, createFeatureSelector, createSelector } from '@ngrx/store';
 import { InjectionToken, isDevMode, NgModule, ErrorHandler, Inject } from '@angular/core';
 import { NavigationStart, RoutesRecognized, NavigationCancel, NavigationError, NavigationEnd, Router } from '@angular/router';
 import { withLatestFrom } from 'rxjs/operators';
@@ -367,7 +367,10 @@ function stripTrailingSlash(text) {
     return text;
 }
 
-function getSelectors(selectState) {
+function createRouterSelector() {
+    return createFeatureSelector(DEFAULT_ROUTER_FEATURENAME);
+}
+function getSelectors(selectState = createRouterSelector()) {
     const selectRouterState = createSelector(selectState, (router) => router && router.state);
     const selectRootRoute = createSelector(selectRouterState, (routerState) => routerState && routerState.root);
     const selectCurrentRoute = createSelector(selectRootRoute, (rootRoute) => {
@@ -409,5 +412,5 @@ function getSelectors(selectState) {
  * Generated bundle index. Do not edit.
  */
 
-export { DEFAULT_ROUTER_FEATURENAME, DefaultRouterStateSerializer, MinimalRouterStateSerializer, NavigationActionTiming, ROUTER_CANCEL, ROUTER_CONFIG, ROUTER_ERROR, ROUTER_NAVIGATED, ROUTER_NAVIGATION, ROUTER_REQUEST, RouterStateSerializer, StoreRouterConnectingModule, getSelectors, routerCancelAction, routerErrorAction, routerNavigatedAction, routerNavigationAction, routerReducer, routerRequestAction, _ROUTER_CONFIG as ɵa, _createRouterConfig as ɵb };
+export { DEFAULT_ROUTER_FEATURENAME, DefaultRouterStateSerializer, MinimalRouterStateSerializer, NavigationActionTiming, ROUTER_CANCEL, ROUTER_CONFIG, ROUTER_ERROR, ROUTER_NAVIGATED, ROUTER_NAVIGATION, ROUTER_REQUEST, RouterStateSerializer, StoreRouterConnectingModule, createRouterSelector, getSelectors, routerCancelAction, routerErrorAction, routerNavigatedAction, routerNavigationAction, routerReducer, routerRequestAction, _ROUTER_CONFIG as ɵa, _createRouterConfig as ɵb };
 //# sourceMappingURL=ngrx-router-store.js.map

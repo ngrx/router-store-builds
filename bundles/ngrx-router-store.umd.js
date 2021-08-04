@@ -698,7 +698,11 @@
         return text;
     }
 
+    function createRouterSelector() {
+        return store.createFeatureSelector(DEFAULT_ROUTER_FEATURENAME);
+    }
     function getSelectors(selectState) {
+        if (selectState === void 0) { selectState = createRouterSelector(); }
         var selectRouterState = store.createSelector(selectState, function (router) { return router && router.state; });
         var selectRootRoute = store.createSelector(selectRouterState, function (routerState) { return routerState && routerState.root; });
         var selectCurrentRoute = store.createSelector(selectRootRoute, function (rootRoute) {
@@ -751,6 +755,7 @@
     exports.ROUTER_REQUEST = ROUTER_REQUEST;
     exports.RouterStateSerializer = RouterStateSerializer;
     exports.StoreRouterConnectingModule = StoreRouterConnectingModule;
+    exports.createRouterSelector = createRouterSelector;
     exports.getSelectors = getSelectors;
     exports.routerCancelAction = routerCancelAction;
     exports.routerErrorAction = routerErrorAction;
