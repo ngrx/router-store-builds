@@ -342,10 +342,17 @@ class StoreRouterConnectingModule {
         this.routerState = null;
     }
 }
+/** @type {!Array<{type: !Function, args: (undefined|!Array<?>)}>} */
 StoreRouterConnectingModule.decorators = [
     { type: NgModule, args: [{},] }
 ];
-/** @nocollapse */
+/**
+ * @type {function(): !Array<(null|{
+ *   type: ?,
+ *   decorators: (undefined|!Array<{type: !Function, args: (undefined|!Array<?>)}>),
+ * })>}
+ * @nocollapse
+ */
 StoreRouterConnectingModule.ctorParameters = () => [
     { type: Store },
     { type: Router },

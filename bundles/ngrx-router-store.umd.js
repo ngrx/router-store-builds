@@ -673,10 +673,17 @@
         };
         return StoreRouterConnectingModule;
     }());
+    /** @type {!Array<{type: !Function, args: (undefined|!Array<?>)}>} */
     StoreRouterConnectingModule.decorators = [
         { type: core.NgModule, args: [{},] }
     ];
-    /** @nocollapse */
+    /**
+     * @type {function(): !Array<(null|{
+     *   type: ?,
+     *   decorators: (undefined|!Array<{type: !Function, args: (undefined|!Array<?>)}>),
+     * })>}
+     * @nocollapse
+     */
     StoreRouterConnectingModule.ctorParameters = function () { return [
         { type: store.Store },
         { type: router.Router },
