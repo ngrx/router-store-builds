@@ -86,13 +86,13 @@ export declare class StoreRouterConnectingModule {
     private router;
     private serializer;
     private errorHandler;
-    private config;
-    private activeRuntimeChecks;
+    private readonly config;
+    private readonly activeRuntimeChecks;
     private lastEvent;
     private routerState;
     private storeState;
     private trigger;
-    private stateKey;
+    private readonly stateKey;
     static forRoot<T extends BaseRouterStoreState = SerializedRouterStateSnapshot>(config?: StoreRouterConfig<T>): ModuleWithProviders<StoreRouterConnectingModule>;
     constructor(store: Store<any>, router: Router, serializer: RouterStateSerializer<SerializedRouterStateSnapshot>, errorHandler: ErrorHandler, config: StoreRouterConfig, activeRuntimeChecks: RuntimeChecks);
     private setUpStoreStateListener;

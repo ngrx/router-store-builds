@@ -699,7 +699,7 @@
         return stripTrailingSlash(first) === stripTrailingSlash(second);
     }
     function stripTrailingSlash(text) {
-        if (text.length > 0 && text[text.length - 1] === '/') {
+        if ((text === null || text === void 0 ? void 0 : text.length) > 0 && text[text.length - 1] === '/') {
             return text.substring(0, text.length - 1);
         }
         return text;
