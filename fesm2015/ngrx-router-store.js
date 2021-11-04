@@ -1,6 +1,9 @@
-import { createAction, props, isNgrxMockEnvironment, select, Store, ACTIVE_RUNTIME_CHECKS, createFeatureSelector, createSelector } from '@ngrx/store';
-import { InjectionToken, isDevMode, NgModule, ErrorHandler, Inject } from '@angular/core';
-import { NavigationStart, RoutesRecognized, NavigationCancel, NavigationError, NavigationEnd, Router } from '@angular/router';
+import * as i1 from '@ngrx/store';
+import { createAction, props, isNgrxMockEnvironment, select, ACTIVE_RUNTIME_CHECKS, createFeatureSelector, createSelector } from '@ngrx/store';
+import * as i0 from '@angular/core';
+import { InjectionToken, isDevMode, NgModule, Inject } from '@angular/core';
+import * as i2 from '@angular/router';
+import { NavigationStart, RoutesRecognized, NavigationCancel, NavigationError, NavigationEnd } from '@angular/router';
 import { withLatestFrom } from 'rxjs/operators';
 
 /**
@@ -342,25 +345,19 @@ class StoreRouterConnectingModule {
         this.routerState = null;
     }
 }
-/** @type {!Array<{type: !Function, args: (undefined|!Array<?>)}>} */
-StoreRouterConnectingModule.decorators = [
-    { type: NgModule, args: [{},] }
-];
-/**
- * @type {function(): !Array<(null|{
- *   type: ?,
- *   decorators: (undefined|!Array<{type: !Function, args: (undefined|!Array<?>)}>),
- * })>}
- * @nocollapse
- */
-StoreRouterConnectingModule.ctorParameters = () => [
-    { type: Store },
-    { type: Router },
-    { type: RouterStateSerializer },
-    { type: ErrorHandler },
-    { type: undefined, decorators: [{ type: Inject, args: [ROUTER_CONFIG,] }] },
-    { type: undefined, decorators: [{ type: Inject, args: [ACTIVE_RUNTIME_CHECKS,] }] }
-];
+/** @nocollapse */ StoreRouterConnectingModule.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "12.2.6", ngImport: i0, type: StoreRouterConnectingModule, deps: [{ token: i1.Store }, { token: i2.Router }, { token: RouterStateSerializer }, { token: i0.ErrorHandler }, { token: ROUTER_CONFIG }, { token: ACTIVE_RUNTIME_CHECKS }], target: i0.ɵɵFactoryTarget.NgModule });
+/** @nocollapse */ StoreRouterConnectingModule.ɵmod = i0.ɵɵngDeclareNgModule({ minVersion: "12.0.0", version: "12.2.6", ngImport: i0, type: StoreRouterConnectingModule });
+/** @nocollapse */ StoreRouterConnectingModule.ɵinj = i0.ɵɵngDeclareInjector({ minVersion: "12.0.0", version: "12.2.6", ngImport: i0, type: StoreRouterConnectingModule });
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "12.2.6", ngImport: i0, type: StoreRouterConnectingModule, decorators: [{
+            type: NgModule,
+            args: [{}]
+        }], ctorParameters: function () { return [{ type: i1.Store }, { type: i2.Router }, { type: RouterStateSerializer }, { type: i0.ErrorHandler }, { type: undefined, decorators: [{
+                    type: Inject,
+                    args: [ROUTER_CONFIG]
+                }] }, { type: undefined, decorators: [{
+                    type: Inject,
+                    args: [ACTIVE_RUNTIME_CHECKS]
+                }] }]; } });
 /**
  * Check if the URLs are matching. Accounts for the possibility of trailing "/" in url.
  */
@@ -419,5 +416,5 @@ function getSelectors(selectState = createRouterSelector()) {
  * Generated bundle index. Do not edit.
  */
 
-export { DEFAULT_ROUTER_FEATURENAME, DefaultRouterStateSerializer, MinimalRouterStateSerializer, NavigationActionTiming, ROUTER_CANCEL, ROUTER_CONFIG, ROUTER_ERROR, ROUTER_NAVIGATED, ROUTER_NAVIGATION, ROUTER_REQUEST, RouterStateSerializer, StoreRouterConnectingModule, createRouterSelector, getSelectors, routerCancelAction, routerErrorAction, routerNavigatedAction, routerNavigationAction, routerReducer, routerRequestAction, _ROUTER_CONFIG as ɵa, _createRouterConfig as ɵb };
+export { DEFAULT_ROUTER_FEATURENAME, DefaultRouterStateSerializer, MinimalRouterStateSerializer, NavigationActionTiming, ROUTER_CANCEL, ROUTER_CONFIG, ROUTER_ERROR, ROUTER_NAVIGATED, ROUTER_NAVIGATION, ROUTER_REQUEST, RouterStateSerializer, StoreRouterConnectingModule, createRouterSelector, getSelectors, routerCancelAction, routerErrorAction, routerNavigatedAction, routerNavigationAction, routerReducer, routerRequestAction };
 //# sourceMappingURL=ngrx-router-store.js.map

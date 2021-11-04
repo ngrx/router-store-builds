@@ -1,5 +1,5 @@
 /**
  * Generated bundle index. Do not edit.
  */
+/// <amd-module name="@ngrx/router-store" />
 export * from './index';
-export { _ROUTER_CONFIG as ɵa, _createRouterConfig as ɵb } from './src/router_store_module';

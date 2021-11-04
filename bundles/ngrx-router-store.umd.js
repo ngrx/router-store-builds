@@ -2,33 +2,57 @@
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@ngrx/store'), require('@angular/core'), require('@angular/router'), require('rxjs/operators')) :
     typeof define === 'function' && define.amd ? define('@ngrx/router-store', ['exports', '@ngrx/store', '@angular/core', '@angular/router', 'rxjs/operators'], factory) :
     (global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory((global.ngrx = global.ngrx || {}, global.ngrx['router-store'] = {}), global.ngrx.store, global.ng.core, global.ng.router, global.rxjs.operators));
-}(this, (function (exports, store, core, router, operators) { 'use strict';
+}(this, (function (exports, i1, i0, i2, operators) { 'use strict';
+
+    function _interopNamespace(e) {
+        if (e && e.__esModule) return e;
+        var n = Object.create(null);
+        if (e) {
+            Object.keys(e).forEach(function (k) {
+                if (k !== 'default') {
+                    var d = Object.getOwnPropertyDescriptor(e, k);
+                    Object.defineProperty(n, k, d.get ? d : {
+                        enumerable: true,
+                        get: function () {
+                            return e[k];
+                        }
+                    });
+                }
+            });
+        }
+        n['default'] = e;
+        return Object.freeze(n);
+    }
+
+    var i1__namespace = /*#__PURE__*/_interopNamespace(i1);
+    var i0__namespace = /*#__PURE__*/_interopNamespace(i0);
+    var i2__namespace = /*#__PURE__*/_interopNamespace(i2);
 
     /**
      * An action dispatched when a router navigation request is fired.
      */
     var ROUTER_REQUEST = '@ngrx/router-store/request';
-    var routerRequestAction = store.createAction(ROUTER_REQUEST, store.props());
+    var routerRequestAction = i1.createAction(ROUTER_REQUEST, i1.props());
     /**
      * An action dispatched when the router navigates.
      */
     var ROUTER_NAVIGATION = '@ngrx/router-store/navigation';
-    var routerNavigationAction = store.createAction(ROUTER_NAVIGATION, store.props());
+    var routerNavigationAction = i1.createAction(ROUTER_NAVIGATION, i1.props());
     /**
      * An action dispatched when the router cancels navigation.
      */
     var ROUTER_CANCEL = '@ngrx/router-store/cancel';
-    var routerCancelAction = store.createAction(ROUTER_CANCEL, store.props());
+    var routerCancelAction = i1.createAction(ROUTER_CANCEL, i1.props());
     /**
      * An action dispatched when the router errors.
      */
     var ROUTER_ERROR = '@ngrx/router-store/error';
-    var routerErrorAction = store.createAction(ROUTER_ERROR, store.props());
+    var routerErrorAction = i1.createAction(ROUTER_ERROR, i1.props());
     /**
      * An action dispatched after navigation has ended and new route is active.
      */
     var ROUTER_NAVIGATED = '@ngrx/router-store/navigated';
-    var routerNavigatedAction = store.createAction(ROUTER_NAVIGATED, store.props());
+    var routerNavigatedAction = i1.createAction(ROUTER_NAVIGATED, i1.props());
 
     function routerReducer(state, action) {
         // Allow compilation with strictFunctionTypes - ref: #1344
@@ -272,10 +296,16 @@
                 r[k] = a[j];
         return r;
     }
-    function __spreadArray(to, from) {
-        for (var i = 0, il = from.length, j = to.length; i < il; i++, j++)
-            to[j] = from[i];
-        return to;
+    function __spreadArray(to, from, pack) {
+        if (pack || arguments.length === 2)
+            for (var i = 0, l = from.length, ar; i < l; i++) {
+                if (ar || !(i in from)) {
+                    if (!ar)
+                        ar = Array.prototype.slice.call(from, 0, i);
+                    ar[i] = from[i];
+                }
+            }
+        return to.concat(ar || Array.prototype.slice.call(from));
     }
     function __await(v) {
         return this instanceof __await ? (this.v = v, this) : new __await(v);
@@ -446,8 +476,8 @@
         NavigationActionTiming[NavigationActionTiming["PreActivation"] = 1] = "PreActivation";
         NavigationActionTiming[NavigationActionTiming["PostActivation"] = 2] = "PostActivation";
     })(exports.NavigationActionTiming || (exports.NavigationActionTiming = {}));
-    var _ROUTER_CONFIG = new core.InjectionToken('@ngrx/router-store Internal Configuration');
-    var ROUTER_CONFIG = new core.InjectionToken('@ngrx/router-store Configuration');
+    var _ROUTER_CONFIG = new i0.InjectionToken('@ngrx/router-store Internal Configuration');
+    var ROUTER_CONFIG = new i0.InjectionToken('@ngrx/router-store Configuration');
     var DEFAULT_ROUTER_FEATURENAME = 'router';
     function _createRouterConfig(config) {
         return Object.assign({ stateKey: DEFAULT_ROUTER_FEATURENAME, serializer: MinimalRouterStateSerializer, navigationActionTiming: exports.NavigationActionTiming.PreActivation }, config);
@@ -501,8 +531,8 @@
      * ```
      */
     var StoreRouterConnectingModule = /** @class */ (function () {
-        function StoreRouterConnectingModule(store$1, router, serializer, errorHandler, config, activeRuntimeChecks) {
-            this.store = store$1;
+        function StoreRouterConnectingModule(store, router, serializer, errorHandler, config, activeRuntimeChecks) {
+            this.store = store;
             this.router = router;
             this.serializer = serializer;
             this.errorHandler = errorHandler;
@@ -512,8 +542,8 @@
             this.routerState = null;
             this.trigger = RouterTrigger.NONE;
             this.stateKey = this.config.stateKey;
-            if (!store.isNgrxMockEnvironment() &&
-                core.isDevMode() &&
+            if (!i1.isNgrxMockEnvironment() &&
+                i0.isDevMode() &&
                 ((activeRuntimeChecks === null || activeRuntimeChecks === void 0 ? void 0 : activeRuntimeChecks.strictActionSerializability) ||
                     (activeRuntimeChecks === null || activeRuntimeChecks === void 0 ? void 0 : activeRuntimeChecks.strictStateSerializability)) &&
                 this.serializer instanceof DefaultRouterStateSerializer) {
@@ -552,7 +582,7 @@
         StoreRouterConnectingModule.prototype.setUpStoreStateListener = function () {
             var _this = this;
             this.store
-                .pipe(store.select(this.stateKey), operators.withLatestFrom(this.store))
+                .pipe(i1.select(this.stateKey), operators.withLatestFrom(this.store))
                 .subscribe(function (_a) {
                 var _b = __read(_a, 2), routerStoreState = _b[0], storeState = _b[1];
                 _this.navigateIfNeeded(routerStoreState, storeState);
@@ -566,7 +596,7 @@
             if (this.trigger === RouterTrigger.ROUTER) {
                 return;
             }
-            if (this.lastEvent instanceof router.NavigationStart) {
+            if (this.lastEvent instanceof i2.NavigationStart) {
                 return;
             }
             var url = routerStoreState.state.url;
@@ -588,28 +618,28 @@
                 .subscribe(function (_a) {
                 var _b = __read(_a, 2), event = _b[0], storeState = _b[1];
                 _this.lastEvent = event;
-                if (event instanceof router.NavigationStart) {
+                if (event instanceof i2.NavigationStart) {
                     _this.routerState = _this.serializer.serialize(_this.router.routerState.snapshot);
                     if (_this.trigger !== RouterTrigger.STORE) {
                         _this.storeState = storeState;
                         _this.dispatchRouterRequest(event);
                     }
                 }
-                else if (event instanceof router.RoutesRecognized) {
+                else if (event instanceof i2.RoutesRecognized) {
                     routesRecognized = event;
                     if (!dispatchNavLate && _this.trigger !== RouterTrigger.STORE) {
                         _this.dispatchRouterNavigation(event);
                     }
                 }
-                else if (event instanceof router.NavigationCancel) {
+                else if (event instanceof i2.NavigationCancel) {
                     _this.dispatchRouterCancel(event);
                     _this.reset();
                 }
-                else if (event instanceof router.NavigationError) {
+                else if (event instanceof i2.NavigationError) {
                     _this.dispatchRouterError(event);
                     _this.reset();
                 }
-                else if (event instanceof router.NavigationEnd) {
+                else if (event instanceof i2.NavigationEnd) {
                     if (_this.trigger !== RouterTrigger.STORE) {
                         if (dispatchNavLate) {
                             _this.dispatchRouterNavigation(routesRecognized);
@@ -627,7 +657,7 @@
             var nextRouterState = this.serializer.serialize(lastRoutesRecognized.state);
             this.dispatchRouterAction(ROUTER_NAVIGATION, {
                 routerState: nextRouterState,
-                event: new router.RoutesRecognized(lastRoutesRecognized.id, lastRoutesRecognized.url, lastRoutesRecognized.urlAfterRedirects, nextRouterState),
+                event: new i2.RoutesRecognized(lastRoutesRecognized.id, lastRoutesRecognized.url, lastRoutesRecognized.urlAfterRedirects, nextRouterState),
             });
         };
         StoreRouterConnectingModule.prototype.dispatchRouterCancel = function (event) {
@@ -639,7 +669,7 @@
         StoreRouterConnectingModule.prototype.dispatchRouterError = function (event) {
             this.dispatchRouterAction(ROUTER_ERROR, {
                 storeState: this.storeState,
-                event: new router.NavigationError(event.id, event.url, "" + event),
+                event: new i2.NavigationError(event.id, event.url, "" + event),
             });
         };
         StoreRouterConnectingModule.prototype.dispatchRouterNavigated = function (event) {
@@ -673,25 +703,21 @@
         };
         return StoreRouterConnectingModule;
     }());
-    /** @type {!Array<{type: !Function, args: (undefined|!Array<?>)}>} */
-    StoreRouterConnectingModule.decorators = [
-        { type: core.NgModule, args: [{},] }
-    ];
-    /**
-     * @type {function(): !Array<(null|{
-     *   type: ?,
-     *   decorators: (undefined|!Array<{type: !Function, args: (undefined|!Array<?>)}>),
-     * })>}
-     * @nocollapse
-     */
-    StoreRouterConnectingModule.ctorParameters = function () { return [
-        { type: store.Store },
-        { type: router.Router },
-        { type: RouterStateSerializer },
-        { type: core.ErrorHandler },
-        { type: undefined, decorators: [{ type: core.Inject, args: [ROUTER_CONFIG,] }] },
-        { type: undefined, decorators: [{ type: core.Inject, args: [store.ACTIVE_RUNTIME_CHECKS,] }] }
-    ]; };
+    /** @nocollapse */ StoreRouterConnectingModule.ɵfac = i0__namespace.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "12.2.6", ngImport: i0__namespace, type: StoreRouterConnectingModule, deps: [{ token: i1__namespace.Store }, { token: i2__namespace.Router }, { token: RouterStateSerializer }, { token: i0__namespace.ErrorHandler }, { token: ROUTER_CONFIG }, { token: i1.ACTIVE_RUNTIME_CHECKS }], target: i0__namespace.ɵɵFactoryTarget.NgModule });
+    /** @nocollapse */ StoreRouterConnectingModule.ɵmod = i0__namespace.ɵɵngDeclareNgModule({ minVersion: "12.0.0", version: "12.2.6", ngImport: i0__namespace, type: StoreRouterConnectingModule });
+    /** @nocollapse */ StoreRouterConnectingModule.ɵinj = i0__namespace.ɵɵngDeclareInjector({ minVersion: "12.0.0", version: "12.2.6", ngImport: i0__namespace, type: StoreRouterConnectingModule });
+    i0__namespace.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "12.2.6", ngImport: i0__namespace, type: StoreRouterConnectingModule, decorators: [{
+                type: i0.NgModule,
+                args: [{}]
+            }], ctorParameters: function () {
+            return [{ type: i1__namespace.Store }, { type: i2__namespace.Router }, { type: RouterStateSerializer }, { type: i0__namespace.ErrorHandler }, { type: undefined, decorators: [{
+                            type: i0.Inject,
+                            args: [ROUTER_CONFIG]
+                        }] }, { type: undefined, decorators: [{
+                            type: i0.Inject,
+                            args: [i1.ACTIVE_RUNTIME_CHECKS]
+                        }] }];
+        } });
     /**
      * Check if the URLs are matching. Accounts for the possibility of trailing "/" in url.
      */
@@ -706,13 +732,13 @@
     }
 
     function createRouterSelector() {
-        return store.createFeatureSelector(DEFAULT_ROUTER_FEATURENAME);
+        return i1.createFeatureSelector(DEFAULT_ROUTER_FEATURENAME);
     }
     function getSelectors(selectState) {
         if (selectState === void 0) { selectState = createRouterSelector(); }
-        var selectRouterState = store.createSelector(selectState, function (router) { return router && router.state; });
-        var selectRootRoute = store.createSelector(selectRouterState, function (routerState) { return routerState && routerState.root; });
-        var selectCurrentRoute = store.createSelector(selectRootRoute, function (rootRoute) {
+        var selectRouterState = i1.createSelector(selectState, function (router) { return router && router.state; });
+        var selectRootRoute = i1.createSelector(selectRouterState, function (routerState) { return routerState && routerState.root; });
+        var selectCurrentRoute = i1.createSelector(selectRootRoute, function (rootRoute) {
             if (!rootRoute) {
                 return undefined;
             }
@@ -722,13 +748,13 @@
             }
             return route;
         });
-        var selectFragment = store.createSelector(selectRootRoute, function (route) { return route && route.fragment; });
-        var selectQueryParams = store.createSelector(selectRootRoute, function (route) { return route && route.queryParams; });
-        var selectQueryParam = function (param) { return store.createSelector(selectQueryParams, function (params) { return params && params[param]; }); };
-        var selectRouteParams = store.createSelector(selectCurrentRoute, function (route) { return route && route.params; });
-        var selectRouteParam = function (param) { return store.createSelector(selectRouteParams, function (params) { return params && params[param]; }); };
-        var selectRouteData = store.createSelector(selectCurrentRoute, function (route) { return route && route.data; });
-        var selectUrl = store.createSelector(selectRouterState, function (routerState) { return routerState && routerState.url; });
+        var selectFragment = i1.createSelector(selectRootRoute, function (route) { return route && route.fragment; });
+        var selectQueryParams = i1.createSelector(selectRootRoute, function (route) { return route && route.queryParams; });
+        var selectQueryParam = function (param) { return i1.createSelector(selectQueryParams, function (params) { return params && params[param]; }); };
+        var selectRouteParams = i1.createSelector(selectCurrentRoute, function (route) { return route && route.params; });
+        var selectRouteParam = function (param) { return i1.createSelector(selectRouteParams, function (params) { return params && params[param]; }); };
+        var selectRouteData = i1.createSelector(selectCurrentRoute, function (route) { return route && route.data; });
+        var selectUrl = i1.createSelector(selectRouterState, function (routerState) { return routerState && routerState.url; });
         return {
             selectCurrentRoute: selectCurrentRoute,
             selectFragment: selectFragment,
@@ -770,8 +796,6 @@
     exports.routerNavigationAction = routerNavigationAction;
     exports.routerReducer = routerReducer;
     exports.routerRequestAction = routerRequestAction;
-    exports.ɵa = _ROUTER_CONFIG;
-    exports.ɵb = _createRouterConfig;
 
     Object.defineProperty(exports, '__esModule', { value: true });
 

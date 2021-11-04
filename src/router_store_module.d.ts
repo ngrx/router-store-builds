@@ -4,6 +4,7 @@ import { RuntimeChecks, Selector, Store } from '@ngrx/store';
 import { RouterReducerState } from './reducer';
 import { RouterStateSerializer, BaseRouterStoreState } from './serializers/base';
 import { SerializedRouterStateSnapshot } from './serializers/default_serializer';
+import * as i0 from "@angular/core";
 export declare type StateKeyOrSelector<T extends BaseRouterStoreState = SerializedRouterStateSnapshot> = string | Selector<any, RouterReducerState<T>>;
 /**
  * Full = Serializes the router event with DefaultRouterStateSerializer
@@ -105,4 +106,7 @@ export declare class StoreRouterConnectingModule {
     private dispatchRouterNavigated;
     private dispatchRouterAction;
     private reset;
+    static ɵfac: i0.ɵɵFactoryDeclaration<StoreRouterConnectingModule, never>;
+    static ɵmod: i0.ɵɵNgModuleDeclaration<StoreRouterConnectingModule, never, never, never>;
+    static ɵinj: i0.ɵɵInjectorDeclaration<StoreRouterConnectingModule>;
 }
