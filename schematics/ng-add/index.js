@@ -47,9 +47,9 @@ function addImportToNgModule(options) {
         }
         var sourceText = text.toString('utf-8');
         var source = ts.createSourceFile(modulePath, sourceText, ts.ScriptTarget.Latest, true);
-        var _b = __read(schematics_core_1.addImportToModule(source, modulePath, "StoreRouterConnectingModule.forRoot()", "@ngrx/router-store"), 1), routerStoreNgModuleImport = _b[0];
+        var _b = __read((0, schematics_core_1.addImportToModule)(source, modulePath, "StoreRouterConnectingModule.forRoot()", "@ngrx/router-store"), 1), routerStoreNgModuleImport = _b[0];
         var changes = [
-            schematics_core_1.insertImport(source, modulePath, 'StoreRouterConnectingModule', '@ngrx/router-store'),
+            (0, schematics_core_1.insertImport)(source, modulePath, 'StoreRouterConnectingModule', '@ngrx/router-store'),
             routerStoreNgModuleImport,
         ];
         var recorder = host.beginUpdate(modulePath);
@@ -74,27 +74,27 @@ function addImportToNgModule(options) {
 }
 function addNgRxRouterStoreToPackageJson() {
     return function (host, context) {
-        schematics_core_1.addPackageToPackageJson(host, 'dependencies', '@ngrx/router-store', schematics_core_1.platformVersion);
+        (0, schematics_core_1.addPackageToPackageJson)(host, 'dependencies', '@ngrx/router-store', schematics_core_1.platformVersion);
         context.addTask(new tasks_1.NodePackageInstallTask());
         return host;
     };
 }
 function default_1(options) {
     return function (host, context) {
-        options.path = schematics_core_1.getProjectPath(host, options);
+        options.path = (0, schematics_core_1.getProjectPath)(host, options);
         if (options.module) {
-            options.module = schematics_core_1.findModuleFromOptions(host, {
+            options.module = (0, schematics_core_1.findModuleFromOptions)(host, {
                 name: '',
                 module: options.module,
                 path: options.path
             });
         }
-        var parsedPath = schematics_core_1.parseName(options.path, '');
+        var parsedPath = (0, schematics_core_1.parseName)(options.path, '');
         options.path = parsedPath.path;
-        return schematics_1.chain([
-            schematics_1.branchAndMerge(schematics_1.chain([addImportToNgModule(options)])),
+        return (0, schematics_1.chain)([
+            (0, schematics_1.branchAndMerge)((0, schematics_1.chain)([addImportToNgModule(options)])),
             options && options.skipPackageJson
-                ? schematics_1.noop()
+                ? (0, schematics_1.noop)()
                 : addNgRxRouterStoreToPackageJson(),
         ])(host, context);
     };

@@ -5,7 +5,7 @@ var schematics_1 = require("@angular-devkit/schematics");
 var schematics_core_1 = require("../../schematics-core");
 function updateRouterStoreImport() {
     return function (tree) {
-        schematics_core_1.visitTSSourceFiles(tree, function (sourceFile) {
+        (0, schematics_core_1.visitTSSourceFiles)(tree, function (sourceFile) {
             var changes = [];
             ts.forEachChild(sourceFile, function findDecorator(node) {
                 if (!ts.isDecorator(node)) {
@@ -21,18 +21,18 @@ function updateRouterStoreImport() {
                             .filter(ts.isIdentifier)
                             .filter(function (element) { return element.text === 'StoreRouterConnectingModule'; })
                             .forEach(function (element) {
-                            changes.push(schematics_core_1.createReplaceChange(sourceFile, element, 'StoreRouterConnectingModule', 'StoreRouterConnectingModule.forRoot()'));
+                            changes.push((0, schematics_core_1.createReplaceChange)(sourceFile, element, 'StoreRouterConnectingModule', 'StoreRouterConnectingModule.forRoot()'));
                         });
                     }
                     ts.forEachChild(node, findImports);
                 });
             });
-            schematics_core_1.commitChanges(tree, sourceFile.fileName, changes);
+            (0, schematics_core_1.commitChanges)(tree, sourceFile.fileName, changes);
         });
     };
 }
 function default_1() {
-    return schematics_1.chain([updateRouterStoreImport()]);
+    return (0, schematics_1.chain)([updateRouterStoreImport()]);
 }
 exports["default"] = default_1;
 //# sourceMappingURL=index.js.map

@@ -6,9 +6,9 @@ var schematics_core_1 = require("../../schematics-core");
 function addDefaultSerializer() {
     var SERIALIZER_PROPERTY = 'serializer: DefaultRouterStateSerializer';
     return function (tree, ctx) {
-        schematics_core_1.visitTSSourceFiles(tree, function (sourceFile) {
+        (0, schematics_core_1.visitTSSourceFiles)(tree, function (sourceFile) {
             var changes = [];
-            schematics_core_1.visitNgModuleImports(sourceFile, function (importsNode, elementsNode) {
+            (0, schematics_core_1.visitNgModuleImports)(sourceFile, function (importsNode, elementsNode) {
                 elementsNode
                     .filter(function (element) {
                     return ts.isCallExpression(element) &&
@@ -26,8 +26,8 @@ function addDefaultSerializer() {
                     }
                     else if (ts.isObjectLiteralExpression(callArgument)) {
                         // StoreRouterConnectingModule.forRoot({ key: 'router' }) with arguments
-                        var serializerSet = schematics_core_1.containsProperty(callArgument, 'serializer');
-                        var routerStateSet = schematics_core_1.containsProperty(callArgument, 'routerState');
+                        var serializerSet = (0, schematics_core_1.containsProperty)(callArgument, 'serializer');
+                        var routerStateSet = (0, schematics_core_1.containsProperty)(callArgument, 'routerState');
                         if (serializerSet || routerStateSet) {
                             return;
                         }
@@ -36,9 +36,9 @@ function addDefaultSerializer() {
                 });
             });
             if (changes.length) {
-                changes.push(schematics_core_1.insertImport(sourceFile, sourceFile.fileName, 'DefaultRouterStateSerializer', '@ngrx/router-store'));
+                changes.push((0, schematics_core_1.insertImport)(sourceFile, sourceFile.fileName, 'DefaultRouterStateSerializer', '@ngrx/router-store'));
             }
-            schematics_core_1.commitChanges(tree, sourceFile.fileName, changes);
+            (0, schematics_core_1.commitChanges)(tree, sourceFile.fileName, changes);
             if (changes.length) {
                 ctx.logger.info("[@ngrx/router-store] Updated StoreRouterConnectingModule's configuration, see the migration guide (https://ngrx.io/guide/migration/v9#ngrxrouter-store) for more info");
             }
@@ -46,7 +46,7 @@ function addDefaultSerializer() {
     };
 }
 function default_1() {
-    return schematics_1.chain([addDefaultSerializer()]);
+    return (0, schematics_1.chain)([addDefaultSerializer()]);
 }
 exports["default"] = default_1;
 //# sourceMappingURL=index.js.map

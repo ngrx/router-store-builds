@@ -345,19 +345,21 @@ class StoreRouterConnectingModule {
         this.routerState = null;
     }
 }
-/** @nocollapse */ StoreRouterConnectingModule.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "12.2.6", ngImport: i0, type: StoreRouterConnectingModule, deps: [{ token: i1.Store }, { token: i2.Router }, { token: RouterStateSerializer }, { token: i0.ErrorHandler }, { token: ROUTER_CONFIG }, { token: ACTIVE_RUNTIME_CHECKS }], target: i0.ɵɵFactoryTarget.NgModule });
-/** @nocollapse */ StoreRouterConnectingModule.ɵmod = i0.ɵɵngDeclareNgModule({ minVersion: "12.0.0", version: "12.2.6", ngImport: i0, type: StoreRouterConnectingModule });
-/** @nocollapse */ StoreRouterConnectingModule.ɵinj = i0.ɵɵngDeclareInjector({ minVersion: "12.0.0", version: "12.2.6", ngImport: i0, type: StoreRouterConnectingModule });
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "12.2.6", ngImport: i0, type: StoreRouterConnectingModule, decorators: [{
+/** @nocollapse */ /** @nocollapse */ StoreRouterConnectingModule.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "13.0.0", ngImport: i0, type: StoreRouterConnectingModule, deps: [{ token: i1.Store }, { token: i2.Router }, { token: RouterStateSerializer }, { token: i0.ErrorHandler }, { token: ROUTER_CONFIG }, { token: ACTIVE_RUNTIME_CHECKS }], target: i0.ɵɵFactoryTarget.NgModule });
+/** @nocollapse */ /** @nocollapse */ StoreRouterConnectingModule.ɵmod = i0.ɵɵngDeclareNgModule({ minVersion: "12.0.0", version: "13.0.0", ngImport: i0, type: StoreRouterConnectingModule });
+/** @nocollapse */ /** @nocollapse */ StoreRouterConnectingModule.ɵinj = i0.ɵɵngDeclareInjector({ minVersion: "12.0.0", version: "13.0.0", ngImport: i0, type: StoreRouterConnectingModule });
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "13.0.0", ngImport: i0, type: StoreRouterConnectingModule, decorators: [{
             type: NgModule,
             args: [{}]
-        }], ctorParameters: function () { return [{ type: i1.Store }, { type: i2.Router }, { type: RouterStateSerializer }, { type: i0.ErrorHandler }, { type: undefined, decorators: [{
-                    type: Inject,
-                    args: [ROUTER_CONFIG]
-                }] }, { type: undefined, decorators: [{
-                    type: Inject,
-                    args: [ACTIVE_RUNTIME_CHECKS]
-                }] }]; } });
+        }], ctorParameters: function () {
+        return [{ type: i1.Store }, { type: i2.Router }, { type: RouterStateSerializer }, { type: i0.ErrorHandler }, { type: undefined, decorators: [{
+                        type: Inject,
+                        args: [ROUTER_CONFIG]
+                    }] }, { type: undefined, decorators: [{
+                        type: Inject,
+                        args: [ACTIVE_RUNTIME_CHECKS]
+                    }] }];
+    } });
 /**
  * Check if the URLs are matching. Accounts for the possibility of trailing "/" in url.
  */
@@ -417,4 +419,4 @@ function getSelectors(selectState = createRouterSelector()) {
  */
 
 export { DEFAULT_ROUTER_FEATURENAME, DefaultRouterStateSerializer, MinimalRouterStateSerializer, NavigationActionTiming, ROUTER_CANCEL, ROUTER_CONFIG, ROUTER_ERROR, ROUTER_NAVIGATED, ROUTER_NAVIGATION, ROUTER_REQUEST, RouterStateSerializer, StoreRouterConnectingModule, createRouterSelector, getSelectors, routerCancelAction, routerErrorAction, routerNavigatedAction, routerNavigationAction, routerReducer, routerRequestAction };
-//# sourceMappingURL=ngrx-router-store.js.map
+//# sourceMappingURL=ngrx-router-store.mjs.map
