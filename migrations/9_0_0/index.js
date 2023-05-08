@@ -1,5 +1,5 @@
 "use strict";
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 var ts = require("typescript");
 var schematics_1 = require("@angular-devkit/schematics");
 var schematics_core_1 = require("../../schematics-core");
@@ -22,7 +22,7 @@ function addDefaultSerializer() {
                     var callArgument = callExpression.arguments[0];
                     // StoreRouterConnectingModule.forRoot() without arguments
                     if (callArgument === undefined) {
-                        changes.push(new schematics_core_1.InsertChange(sourceFile.fileName, callExpression.getEnd() - 1, "{ " + SERIALIZER_PROPERTY + " }"));
+                        changes.push(new schematics_core_1.InsertChange(sourceFile.fileName, callExpression.getEnd() - 1, "{ ".concat(SERIALIZER_PROPERTY, " }")));
                     }
                     else if (ts.isObjectLiteralExpression(callArgument)) {
                         // StoreRouterConnectingModule.forRoot({ key: 'router' }) with arguments
@@ -31,7 +31,7 @@ function addDefaultSerializer() {
                         if (serializerSet || routerStateSet) {
                             return;
                         }
-                        changes.push(new schematics_core_1.InsertChange(sourceFile.fileName, callArgument.getStart() + 1, " " + SERIALIZER_PROPERTY + ","));
+                        changes.push(new schematics_core_1.InsertChange(sourceFile.fileName, callArgument.getStart() + 1, " ".concat(SERIALIZER_PROPERTY, ",")));
                     }
                 });
             });
@@ -48,5 +48,5 @@ function addDefaultSerializer() {
 function default_1() {
     return (0, schematics_1.chain)([addDefaultSerializer()]);
 }
-exports["default"] = default_1;
+exports.default = default_1;
 //# sourceMappingURL=index.js.map

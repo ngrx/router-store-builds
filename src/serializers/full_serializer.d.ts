@@ -4,7 +4,7 @@ export interface SerializedRouterStateSnapshot extends BaseRouterStoreState {
     root: ActivatedRouteSnapshot;
     url: string;
 }
-export declare class DefaultRouterStateSerializer implements RouterStateSerializer<SerializedRouterStateSnapshot> {
+export declare class FullRouterStateSerializer implements RouterStateSerializer<SerializedRouterStateSnapshot> {
     serialize(routerState: RouterStateSnapshot): SerializedRouterStateSnapshot;
     private serializeRoute;
 }

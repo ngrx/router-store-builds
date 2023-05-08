@@ -26,11 +26,13 @@ var __values = (this && this.__values) || function(o) {
     };
     throw new TypeError(s ? "Object is not iterable." : "Symbol.iterator is not defined.");
 };
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 var schematics_1 = require("@angular-devkit/schematics");
 var tasks_1 = require("@angular-devkit/schematics/tasks");
 var ts = require("typescript");
 var schematics_core_1 = require("../../schematics-core");
+var standalone_1 = require("@schematics/angular/private/standalone");
+var project_1 = require("../../schematics-core/utility/project");
 function addImportToNgModule(options) {
     return function (host) {
         var e_1, _a;
@@ -43,7 +45,7 @@ function addImportToNgModule(options) {
         }
         var text = host.read(modulePath);
         if (text === null) {
-            throw new schematics_1.SchematicsException("File " + modulePath + " does not exist.");
+            throw new schematics_1.SchematicsException("File ".concat(modulePath, " does not exist."));
         }
         var sourceText = text.toString('utf-8');
         var source = ts.createSourceFile(modulePath, sourceText, ts.ScriptTarget.Latest, true);
@@ -64,7 +66,7 @@ function addImportToNgModule(options) {
         catch (e_1_1) { e_1 = { error: e_1_1 }; }
         finally {
             try {
-                if (changes_1_1 && !changes_1_1.done && (_a = changes_1["return"])) _a.call(changes_1);
+                if (changes_1_1 && !changes_1_1.done && (_a = changes_1.return)) _a.call(changes_1);
             }
             finally { if (e_1) throw e_1.error; }
         }
@@ -79,25 +81,46 @@ function addNgRxRouterStoreToPackageJson() {
         return host;
     };
 }
+function addStandaloneConfig(options) {
+    return function (host) {
+        var mainFile = (0, project_1.getProjectMainFile)(host, options);
+        if (host.exists(mainFile)) {
+            var providerFn = 'provideRouterStore';
+            if ((0, standalone_1.callsProvidersFunction)(host, mainFile, providerFn)) {
+                // exit because the store config is already provided
+                return host;
+            }
+            var providerOptions = [];
+            var patchedConfigFile = (0, standalone_1.addFunctionalProvidersToStandaloneBootstrap)(host, mainFile, providerFn, '@ngrx/router-store', providerOptions);
+            var recorder = host.beginUpdate(patchedConfigFile);
+            host.commitUpdate(recorder);
+            return host;
+        }
+        throw new schematics_1.SchematicsException("Main file not found for a project ".concat(options.project));
+    };
+}
 function default_1(options) {
     return function (host, context) {
         options.path = (0, schematics_core_1.getProjectPath)(host, options);
-        if (options.module) {
+        if (options.module && !options.standalone) {
             options.module = (0, schematics_core_1.findModuleFromOptions)(host, {
                 name: '',
                 module: options.module,
-                path: options.path
+                path: options.path,
             });
         }
         var parsedPath = (0, schematics_core_1.parseName)(options.path, '');
         options.path = parsedPath.path;
+        var configOrModuleUpdate = options.standalone
+            ? addStandaloneConfig(options)
+            : addImportToNgModule(options);
         return (0, schematics_1.chain)([
-            (0, schematics_1.branchAndMerge)((0, schematics_1.chain)([addImportToNgModule(options)])),
+            (0, schematics_1.branchAndMerge)((0, schematics_1.chain)([configOrModuleUpdate])),
             options && options.skipPackageJson
                 ? (0, schematics_1.noop)()
                 : addNgRxRouterStoreToPackageJson(),
         ])(host, context);
     };
 }
-exports["default"] = default_1;
+exports.default = default_1;
 //# sourceMappingURL=index.js.map

@@ -1,4 +1,4 @@
-import { RouterStateSnapshot, ActivatedRouteSnapshot } from '@angular/router';
+import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { BaseRouterStoreState, RouterStateSerializer } from './base';
 export interface MinimalActivatedRouteSnapshot {
     routeConfig: ActivatedRouteSnapshot['routeConfig'];
@@ -8,6 +8,7 @@ export interface MinimalActivatedRouteSnapshot {
     fragment: ActivatedRouteSnapshot['fragment'];
     data: ActivatedRouteSnapshot['data'];
     outlet: ActivatedRouteSnapshot['outlet'];
+    title: ActivatedRouteSnapshot['title'];
     firstChild?: MinimalActivatedRouteSnapshot;
     children: MinimalActivatedRouteSnapshot[];
 }

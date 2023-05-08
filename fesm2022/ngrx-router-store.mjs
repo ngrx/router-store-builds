@@ -1,7 +1,7 @@
 import * as i1 from '@ngrx/store';
 import { createAction, props, isNgrxMockEnvironment, select, ACTIVE_RUNTIME_CHECKS, createFeatureSelector, createSelector } from '@ngrx/store';
 import * as i0 from '@angular/core';
-import { InjectionToken, isDevMode, NgModule, Inject } from '@angular/core';
+import { InjectionToken, isDevMode, Injectable, Inject, makeEnvironmentProviders, ENVIRONMENT_INITIALIZER, inject, NgModule } from '@angular/core';
 import * as i2 from '@angular/router';
 import { NavigationStart, RoutesRecognized, NavigationCancel, NavigationError, NavigationEnd } from '@angular/router';
 import { withLatestFrom } from 'rxjs/operators';
@@ -48,10 +48,58 @@ function routerReducer(state, action) {
     }
 }
 
-class RouterStateSerializer {
+class MinimalRouterStateSerializer {
+    serialize(routerState) {
+        return {
+            root: this.serializeRoute(routerState.root),
+            url: routerState.url,
+        };
+    }
+    serializeRoute(route) {
+        const children = route.children.map((c) => this.serializeRoute(c));
+        return {
+            params: route.params,
+            data: route.data,
+            url: route.url,
+            outlet: route.outlet,
+            title: route.title,
+            routeConfig: route.routeConfig
+                ? {
+                    path: route.routeConfig.path,
+                    pathMatch: route.routeConfig.pathMatch,
+                    redirectTo: route.routeConfig.redirectTo,
+                    outlet: route.routeConfig.outlet,
+                    title: typeof route.routeConfig.title === 'string'
+                        ? route.routeConfig.title
+                        : undefined,
+                }
+                : null,
+            queryParams: route.queryParams,
+            fragment: route.fragment,
+            firstChild: children[0],
+            children,
+        };
+    }
 }
 
-class DefaultRouterStateSerializer {
+var NavigationActionTiming;
+(function (NavigationActionTiming) {
+    NavigationActionTiming[NavigationActionTiming["PreActivation"] = 1] = "PreActivation";
+    NavigationActionTiming[NavigationActionTiming["PostActivation"] = 2] = "PostActivation";
+})(NavigationActionTiming || (NavigationActionTiming = {}));
+const DEFAULT_ROUTER_FEATURENAME = 'router';
+const _ROUTER_CONFIG = new InjectionToken('@ngrx/router-store Internal Configuration');
+const ROUTER_CONFIG = new InjectionToken('@ngrx/router-store Configuration');
+function _createRouterConfig(config) {
+    return {
+        stateKey: DEFAULT_ROUTER_FEATURENAME,
+        serializer: MinimalRouterStateSerializer,
+        navigationActionTiming: NavigationActionTiming.PreActivation,
+        ...config,
+    };
+}
+
+class FullRouterStateSerializer {
     serialize(routerState) {
         return {
             root: this.serializeRoute(routerState.root),
@@ -66,6 +114,7 @@ class DefaultRouterStateSerializer {
             data: route.data,
             url: route.url,
             outlet: route.outlet,
+            title: route.title,
             routeConfig: route.routeConfig
                 ? {
                     component: route.routeConfig.component,
@@ -73,6 +122,7 @@ class DefaultRouterStateSerializer {
                     pathMatch: route.routeConfig.pathMatch,
                     redirectTo: route.routeConfig.redirectTo,
                     outlet: route.routeConfig.outlet,
+                    title: route.routeConfig.title,
                 }
                 : null,
             queryParams: route.queryParams,
@@ -90,47 +140,9 @@ class DefaultRouterStateSerializer {
     }
 }
 
-class MinimalRouterStateSerializer {
-    serialize(routerState) {
-        return {
-            root: this.serializeRoute(routerState.root),
-            url: routerState.url,
-        };
-    }
-    serializeRoute(route) {
-        const children = route.children.map((c) => this.serializeRoute(c));
-        return {
-            params: route.params,
-            data: route.data,
-            url: route.url,
-            outlet: route.outlet,
-            routeConfig: route.routeConfig
-                ? {
-                    path: route.routeConfig.path,
-                    pathMatch: route.routeConfig.pathMatch,
-                    redirectTo: route.routeConfig.redirectTo,
-                    outlet: route.routeConfig.outlet,
-                }
-                : null,
-            queryParams: route.queryParams,
-            fragment: route.fragment,
-            firstChild: children[0],
-            children,
-        };
-    }
+class RouterStateSerializer {
 }
 
-var NavigationActionTiming;
-(function (NavigationActionTiming) {
-    NavigationActionTiming[NavigationActionTiming["PreActivation"] = 1] = "PreActivation";
-    NavigationActionTiming[NavigationActionTiming["PostActivation"] = 2] = "PostActivation";
-})(NavigationActionTiming || (NavigationActionTiming = {}));
-const _ROUTER_CONFIG = new InjectionToken('@ngrx/router-store Internal Configuration');
-const ROUTER_CONFIG = new InjectionToken('@ngrx/router-store Configuration');
-const DEFAULT_ROUTER_FEATURENAME = 'router';
-function _createRouterConfig(config) {
-    return Object.assign({ stateKey: DEFAULT_ROUTER_FEATURENAME, serializer: MinimalRouterStateSerializer, navigationActionTiming: NavigationActionTiming.PreActivation }, config);
-}
 var RouterTrigger;
 (function (RouterTrigger) {
     RouterTrigger[RouterTrigger["NONE"] = 1] = "NONE";
@@ -138,48 +150,10 @@ var RouterTrigger;
     RouterTrigger[RouterTrigger["STORE"] = 3] = "STORE";
 })(RouterTrigger || (RouterTrigger = {}));
 /**
- * Connects RouterModule with StoreModule.
- *
- * During the navigation, before any guards or resolvers run, the router will dispatch
- * a ROUTER_NAVIGATION action, which has the following signature:
- *
- * ```
- * export type RouterNavigationPayload = {
- *   routerState: SerializedRouterStateSnapshot,
- *   event: RoutesRecognized
- * }
- * ```
- *
- * Either a reducer or an effect can be invoked in response to this action.
- * If the invoked reducer throws, the navigation will be canceled.
- *
- * If navigation gets canceled because of a guard, a ROUTER_CANCEL action will be
- * dispatched. If navigation results in an error, a ROUTER_ERROR action will be dispatched.
- *
- * Both ROUTER_CANCEL and ROUTER_ERROR contain the store state before the navigation
- * which can be used to restore the consistency of the store.
- *
- * Usage:
- *
- * ```typescript
- * @NgModule({
- *   declarations: [AppCmp, SimpleCmp],
- *   imports: [
- *     BrowserModule,
- *     StoreModule.forRoot(mapOfReducers),
- *     RouterModule.forRoot([
- *       { path: '', component: SimpleCmp },
- *       { path: 'next', component: SimpleCmp }
- *     ]),
- *     StoreRouterConnectingModule.forRoot()
- *   ],
- *   bootstrap: [AppCmp]
- * })
- * export class AppModule {
- * }
- * ```
+ * Shared router initialization logic used alongside both the StoreRouterConnectingModule and the provideRouterStore
+ * function
  */
-class StoreRouterConnectingModule {
+class StoreRouterConnectingService {
     constructor(store, router, serializer, errorHandler, config, activeRuntimeChecks) {
         this.store = store;
         this.router = router;
@@ -193,39 +167,17 @@ class StoreRouterConnectingModule {
         this.stateKey = this.config.stateKey;
         if (!isNgrxMockEnvironment() &&
             isDevMode() &&
-            ((activeRuntimeChecks === null || activeRuntimeChecks === void 0 ? void 0 : activeRuntimeChecks.strictActionSerializability) ||
-                (activeRuntimeChecks === null || activeRuntimeChecks === void 0 ? void 0 : activeRuntimeChecks.strictStateSerializability)) &&
-            this.serializer instanceof DefaultRouterStateSerializer) {
+            (activeRuntimeChecks?.strictActionSerializability ||
+                activeRuntimeChecks?.strictStateSerializability) &&
+            this.serializer instanceof FullRouterStateSerializer) {
             console.warn('@ngrx/router-store: The serializability runtime checks cannot be enabled ' +
-                'with the DefaultRouterStateSerializer. The default serializer ' +
+                'with the FullRouterStateSerializer. The FullRouterStateSerializer ' +
                 'has an unserializable router state and actions that are not serializable. ' +
                 'To use the serializability runtime checks either use ' +
-                'the MinimalRouterStateSerializer or implement a custom router state serializer. ' +
-                'This also applies to Ivy with immutability runtime checks.');
+                'the MinimalRouterStateSerializer or implement a custom router state serializer.');
         }
         this.setUpStoreStateListener();
         this.setUpRouterEventsListener();
-    }
-    static forRoot(config = {}) {
-        return {
-            ngModule: StoreRouterConnectingModule,
-            providers: [
-                { provide: _ROUTER_CONFIG, useValue: config },
-                {
-                    provide: ROUTER_CONFIG,
-                    useFactory: _createRouterConfig,
-                    deps: [_ROUTER_CONFIG],
-                },
-                {
-                    provide: RouterStateSerializer,
-                    useClass: config.serializer
-                        ? config.serializer
-                        : config.routerState === 0 /* Full */
-                            ? DefaultRouterStateSerializer
-                            : MinimalRouterStateSerializer,
-                },
-            ],
-        };
     }
     setUpStoreStateListener() {
         this.store
@@ -324,7 +276,10 @@ class StoreRouterConnectingModule {
         try {
             this.store.dispatch({
                 type,
-                payload: Object.assign(Object.assign({ routerState: this.routerState }, payload), { event: this.config.routerState === 0 /* Full */
+                payload: {
+                    routerState: this.routerState,
+                    ...payload,
+                    event: this.config.routerState === 0 /* RouterState.Full */
                         ? payload.event
                         : {
                             id: payload.event.id,
@@ -332,7 +287,8 @@ class StoreRouterConnectingModule {
                             // safe, as it will just be `undefined` for non-NavigationEnd router events
                             urlAfterRedirects: payload.event
                                 .urlAfterRedirects,
-                        } }),
+                        },
+                },
             });
         }
         finally {
@@ -344,22 +300,18 @@ class StoreRouterConnectingModule {
         this.storeState = null;
         this.routerState = null;
     }
+    /** @nocollapse */ static { this.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "16.0.0", ngImport: i0, type: StoreRouterConnectingService, deps: [{ token: i1.Store }, { token: i2.Router }, { token: RouterStateSerializer }, { token: i0.ErrorHandler }, { token: ROUTER_CONFIG }, { token: ACTIVE_RUNTIME_CHECKS }], target: i0.ɵɵFactoryTarget.Injectable }); }
+    /** @nocollapse */ static { this.ɵprov = i0.ɵɵngDeclareInjectable({ minVersion: "12.0.0", version: "16.0.0", ngImport: i0, type: StoreRouterConnectingService }); }
 }
-/** @nocollapse */ /** @nocollapse */ StoreRouterConnectingModule.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "13.0.0", ngImport: i0, type: StoreRouterConnectingModule, deps: [{ token: i1.Store }, { token: i2.Router }, { token: RouterStateSerializer }, { token: i0.ErrorHandler }, { token: ROUTER_CONFIG }, { token: ACTIVE_RUNTIME_CHECKS }], target: i0.ɵɵFactoryTarget.NgModule });
-/** @nocollapse */ /** @nocollapse */ StoreRouterConnectingModule.ɵmod = i0.ɵɵngDeclareNgModule({ minVersion: "12.0.0", version: "13.0.0", ngImport: i0, type: StoreRouterConnectingModule });
-/** @nocollapse */ /** @nocollapse */ StoreRouterConnectingModule.ɵinj = i0.ɵɵngDeclareInjector({ minVersion: "12.0.0", version: "13.0.0", ngImport: i0, type: StoreRouterConnectingModule });
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "13.0.0", ngImport: i0, type: StoreRouterConnectingModule, decorators: [{
-            type: NgModule,
-            args: [{}]
-        }], ctorParameters: function () {
-        return [{ type: i1.Store }, { type: i2.Router }, { type: RouterStateSerializer }, { type: i0.ErrorHandler }, { type: undefined, decorators: [{
-                        type: Inject,
-                        args: [ROUTER_CONFIG]
-                    }] }, { type: undefined, decorators: [{
-                        type: Inject,
-                        args: [ACTIVE_RUNTIME_CHECKS]
-                    }] }];
-    } });
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "16.0.0", ngImport: i0, type: StoreRouterConnectingService, decorators: [{
+            type: Injectable
+        }], ctorParameters: function () { return [{ type: i1.Store }, { type: i2.Router }, { type: RouterStateSerializer }, { type: i0.ErrorHandler }, { type: undefined, decorators: [{
+                    type: Inject,
+                    args: [ROUTER_CONFIG]
+                }] }, { type: undefined, decorators: [{
+                    type: Inject,
+                    args: [ACTIVE_RUNTIME_CHECKS]
+                }] }]; } });
 /**
  * Check if the URLs are matching. Accounts for the possibility of trailing "/" in url.
  */
@@ -367,16 +319,115 @@ function isSameUrl(first, second) {
     return stripTrailingSlash(first) === stripTrailingSlash(second);
 }
 function stripTrailingSlash(text) {
-    if ((text === null || text === void 0 ? void 0 : text.length) > 0 && text[text.length - 1] === '/') {
+    if (text?.length > 0 && text[text.length - 1] === '/') {
         return text.substring(0, text.length - 1);
     }
     return text;
 }
 
+/**
+ * Connects the Angular Router to the Store.
+ *
+ * @usageNotes
+ *
+ * ```ts
+ * bootstrapApplication(AppComponent, {
+ *   providers: [
+ *     provideStore({ router: routerReducer }),
+ *     provideRouterStore(),
+ *   ],
+ * });
+ * ```
+ */
+function provideRouterStore(config = {}) {
+    return makeEnvironmentProviders([
+        { provide: _ROUTER_CONFIG, useValue: config },
+        {
+            provide: ROUTER_CONFIG,
+            useFactory: _createRouterConfig,
+            deps: [_ROUTER_CONFIG],
+        },
+        {
+            provide: RouterStateSerializer,
+            useClass: config.serializer
+                ? config.serializer
+                : config.routerState === 0 /* RouterState.Full */
+                    ? FullRouterStateSerializer
+                    : MinimalRouterStateSerializer,
+        },
+        {
+            provide: ENVIRONMENT_INITIALIZER,
+            multi: true,
+            useFactory() {
+                return () => inject(StoreRouterConnectingService);
+            },
+        },
+        StoreRouterConnectingService,
+    ]);
+}
+
+/**
+ * Connects RouterModule with StoreModule.
+ *
+ * During the navigation, before any guards or resolvers run, the router will dispatch
+ * a ROUTER_NAVIGATION action, which has the following signature:
+ *
+ * ```
+ * export type RouterNavigationPayload = {
+ *   routerState: SerializedRouterStateSnapshot,
+ *   event: RoutesRecognized
+ * }
+ * ```
+ *
+ * Either a reducer or an effect can be invoked in response to this action.
+ * If the invoked reducer throws, the navigation will be canceled.
+ *
+ * If navigation gets canceled because of a guard, a ROUTER_CANCEL action will be
+ * dispatched. If navigation results in an error, a ROUTER_ERROR action will be dispatched.
+ *
+ * Both ROUTER_CANCEL and ROUTER_ERROR contain the store state before the navigation
+ * which can be used to restore the consistency of the store.
+ *
+ * Usage:
+ *
+ * ```typescript
+ * @NgModule({
+ *   declarations: [AppCmp, SimpleCmp],
+ *   imports: [
+ *     BrowserModule,
+ *     StoreModule.forRoot(mapOfReducers),
+ *     RouterModule.forRoot([
+ *       { path: '', component: SimpleCmp },
+ *       { path: 'next', component: SimpleCmp }
+ *     ]),
+ *     StoreRouterConnectingModule.forRoot()
+ *   ],
+ *   bootstrap: [AppCmp]
+ * })
+ * export class AppModule {
+ * }
+ * ```
+ */
+class StoreRouterConnectingModule {
+    static forRoot(config = {}) {
+        return {
+            ngModule: StoreRouterConnectingModule,
+            providers: [provideRouterStore(config)],
+        };
+    }
+    /** @nocollapse */ static { this.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "16.0.0", ngImport: i0, type: StoreRouterConnectingModule, deps: [], target: i0.ɵɵFactoryTarget.NgModule }); }
+    /** @nocollapse */ static { this.ɵmod = i0.ɵɵngDeclareNgModule({ minVersion: "14.0.0", version: "16.0.0", ngImport: i0, type: StoreRouterConnectingModule }); }
+    /** @nocollapse */ static { this.ɵinj = i0.ɵɵngDeclareInjector({ minVersion: "12.0.0", version: "16.0.0", ngImport: i0, type: StoreRouterConnectingModule }); }
+}
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "16.0.0", ngImport: i0, type: StoreRouterConnectingModule, decorators: [{
+            type: NgModule,
+            args: [{}]
+        }] });
+
 function createRouterSelector() {
     return createFeatureSelector(DEFAULT_ROUTER_FEATURENAME);
 }
-function getSelectors(selectState = createRouterSelector()) {
+function getRouterSelectors(selectState = createRouterSelector()) {
     const selectRouterState = createSelector(selectState, (router) => router && router.state);
     const selectRootRoute = createSelector(selectRouterState, (routerState) => routerState && routerState.root);
     const selectCurrentRoute = createSelector(selectRootRoute, (rootRoute) => {
@@ -395,7 +446,16 @@ function getSelectors(selectState = createRouterSelector()) {
     const selectRouteParams = createSelector(selectCurrentRoute, (route) => route && route.params);
     const selectRouteParam = (param) => createSelector(selectRouteParams, (params) => params && params[param]);
     const selectRouteData = createSelector(selectCurrentRoute, (route) => route && route.data);
+    const selectRouteDataParam = (param) => createSelector(selectRouteData, (data) => data && data[param]);
     const selectUrl = createSelector(selectRouterState, (routerState) => routerState && routerState.url);
+    const selectTitle = createSelector(selectCurrentRoute, (route) => {
+        if (!route?.routeConfig) {
+            return undefined;
+        }
+        return typeof route.routeConfig.title === 'string'
+            ? route.routeConfig.title // static title
+            : route.title; // resolved title
+    });
     return {
         selectCurrentRoute,
         selectFragment,
@@ -404,7 +464,9 @@ function getSelectors(selectState = createRouterSelector()) {
         selectRouteParams,
         selectRouteParam,
         selectRouteData,
+        selectRouteDataParam,
         selectUrl,
+        selectTitle,
     };
 }
 
@@ -418,5 +480,5 @@ function getSelectors(selectState = createRouterSelector()) {
  * Generated bundle index. Do not edit.
  */
 
-export { DEFAULT_ROUTER_FEATURENAME, DefaultRouterStateSerializer, MinimalRouterStateSerializer, NavigationActionTiming, ROUTER_CANCEL, ROUTER_CONFIG, ROUTER_ERROR, ROUTER_NAVIGATED, ROUTER_NAVIGATION, ROUTER_REQUEST, RouterStateSerializer, StoreRouterConnectingModule, createRouterSelector, getSelectors, routerCancelAction, routerErrorAction, routerNavigatedAction, routerNavigationAction, routerReducer, routerRequestAction };
+export { DEFAULT_ROUTER_FEATURENAME, FullRouterStateSerializer, MinimalRouterStateSerializer, NavigationActionTiming, ROUTER_CANCEL, ROUTER_CONFIG, ROUTER_ERROR, ROUTER_NAVIGATED, ROUTER_NAVIGATION, ROUTER_REQUEST, RouterStateSerializer, StoreRouterConnectingModule, createRouterSelector, getRouterSelectors, provideRouterStore, routerCancelAction, routerErrorAction, routerNavigatedAction, routerNavigationAction, routerReducer, routerRequestAction };
 //# sourceMappingURL=ngrx-router-store.mjs.map
