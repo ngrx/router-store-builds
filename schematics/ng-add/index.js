@@ -33,6 +33,7 @@ var ts = require("typescript");
 var schematics_core_1 = require("../../schematics-core");
 var standalone_1 = require("@schematics/angular/private/standalone");
 var project_1 = require("../../schematics-core/utility/project");
+var standalone_2 = require("../../schematics-core/utility/standalone");
 function addImportToNgModule(options) {
     return function (host) {
         var e_1, _a;
@@ -101,8 +102,10 @@ function addStandaloneConfig(options) {
 }
 function default_1(options) {
     return function (host, context) {
+        var mainFile = (0, project_1.getProjectMainFile)(host, options);
+        var isStandalone = (0, standalone_2.isStandaloneApp)(host, mainFile);
         options.path = (0, schematics_core_1.getProjectPath)(host, options);
-        if (options.module && !options.standalone) {
+        if (options.module && !isStandalone) {
             options.module = (0, schematics_core_1.findModuleFromOptions)(host, {
                 name: '',
                 module: options.module,
@@ -111,7 +114,7 @@ function default_1(options) {
         }
         var parsedPath = (0, schematics_core_1.parseName)(options.path, '');
         options.path = parsedPath.path;
-        var configOrModuleUpdate = options.standalone
+        var configOrModuleUpdate = isStandalone
             ? addStandaloneConfig(options)
             : addImportToNgModule(options);
         return (0, schematics_1.chain)([
