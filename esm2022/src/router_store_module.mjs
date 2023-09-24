@@ -50,11 +50,11 @@ export class StoreRouterConnectingModule {
             providers: [provideRouterStore(config)],
         };
     }
-    /** @nocollapse */ static { this.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "16.1.6", ngImport: i0, type: StoreRouterConnectingModule, deps: [], target: i0.ɵɵFactoryTarget.NgModule }); }
-    /** @nocollapse */ static { this.ɵmod = i0.ɵɵngDeclareNgModule({ minVersion: "14.0.0", version: "16.1.6", ngImport: i0, type: StoreRouterConnectingModule }); }
-    /** @nocollapse */ static { this.ɵinj = i0.ɵɵngDeclareInjector({ minVersion: "12.0.0", version: "16.1.6", ngImport: i0, type: StoreRouterConnectingModule }); }
+    /** @nocollapse */ static { this.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "16.2.3", ngImport: i0, type: StoreRouterConnectingModule, deps: [], target: i0.ɵɵFactoryTarget.NgModule }); }
+    /** @nocollapse */ static { this.ɵmod = i0.ɵɵngDeclareNgModule({ minVersion: "14.0.0", version: "16.2.3", ngImport: i0, type: StoreRouterConnectingModule }); }
+    /** @nocollapse */ static { this.ɵinj = i0.ɵɵngDeclareInjector({ minVersion: "12.0.0", version: "16.2.3", ngImport: i0, type: StoreRouterConnectingModule }); }
 }
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "16.1.6", ngImport: i0, type: StoreRouterConnectingModule, decorators: [{
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "16.2.3", ngImport: i0, type: StoreRouterConnectingModule, decorators: [{
             type: NgModule,
             args: [{}]
         }] });
