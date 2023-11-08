@@ -1,7 +1,7 @@
 import * as i1 from '@ngrx/store';
-import { createAction, props, isNgrxMockEnvironment, select, ACTIVE_RUNTIME_CHECKS, createFeatureSelector, createSelector } from '@ngrx/store';
+import { props, createAction, isNgrxMockEnvironment, select, ACTIVE_RUNTIME_CHECKS, createFeatureSelector, createSelector } from '@ngrx/store';
 import * as i0 from '@angular/core';
-import { InjectionToken, isDevMode, Injectable, Inject, makeEnvironmentProviders, ENVIRONMENT_INITIALIZER, inject, NgModule } from '@angular/core';
+import { InjectionToken, isDevMode, Injectable, Inject, ENVIRONMENT_INITIALIZER, inject, makeEnvironmentProviders, NgModule } from '@angular/core';
 import * as i2 from '@angular/router';
 import { NavigationStart, RoutesRecognized, NavigationCancel, NavigationError, NavigationEnd } from '@angular/router';
 import { withLatestFrom } from 'rxjs/operators';
@@ -300,10 +300,10 @@ class StoreRouterConnectingService {
         this.storeState = null;
         this.routerState = null;
     }
-    /** @nocollapse */ static { this.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "17.0.0-next.8", ngImport: i0, type: StoreRouterConnectingService, deps: [{ token: i1.Store }, { token: i2.Router }, { token: RouterStateSerializer }, { token: i0.ErrorHandler }, { token: ROUTER_CONFIG }, { token: ACTIVE_RUNTIME_CHECKS }], target: i0.ɵɵFactoryTarget.Injectable }); }
-    /** @nocollapse */ static { this.ɵprov = i0.ɵɵngDeclareInjectable({ minVersion: "12.0.0", version: "17.0.0-next.8", ngImport: i0, type: StoreRouterConnectingService }); }
+    /** @nocollapse */ static { this.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "17.0.0", ngImport: i0, type: StoreRouterConnectingService, deps: [{ token: i1.Store }, { token: i2.Router }, { token: RouterStateSerializer }, { token: i0.ErrorHandler }, { token: ROUTER_CONFIG }, { token: ACTIVE_RUNTIME_CHECKS }], target: i0.ɵɵFactoryTarget.Injectable }); }
+    /** @nocollapse */ static { this.ɵprov = i0.ɵɵngDeclareInjectable({ minVersion: "12.0.0", version: "17.0.0", ngImport: i0, type: StoreRouterConnectingService }); }
 }
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "17.0.0-next.8", ngImport: i0, type: StoreRouterConnectingService, decorators: [{
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "17.0.0", ngImport: i0, type: StoreRouterConnectingService, decorators: [{
             type: Injectable
         }], ctorParameters: () => [{ type: i1.Store }, { type: i2.Router }, { type: RouterStateSerializer }, { type: i0.ErrorHandler }, { type: undefined, decorators: [{
                     type: Inject,
@@ -415,11 +415,11 @@ class StoreRouterConnectingModule {
             providers: [provideRouterStore(config)],
         };
     }
-    /** @nocollapse */ static { this.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "17.0.0-next.8", ngImport: i0, type: StoreRouterConnectingModule, deps: [], target: i0.ɵɵFactoryTarget.NgModule }); }
-    /** @nocollapse */ static { this.ɵmod = i0.ɵɵngDeclareNgModule({ minVersion: "14.0.0", version: "17.0.0-next.8", ngImport: i0, type: StoreRouterConnectingModule }); }
-    /** @nocollapse */ static { this.ɵinj = i0.ɵɵngDeclareInjector({ minVersion: "12.0.0", version: "17.0.0-next.8", ngImport: i0, type: StoreRouterConnectingModule }); }
+    /** @nocollapse */ static { this.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "17.0.0", ngImport: i0, type: StoreRouterConnectingModule, deps: [], target: i0.ɵɵFactoryTarget.NgModule }); }
+    /** @nocollapse */ static { this.ɵmod = i0.ɵɵngDeclareNgModule({ minVersion: "14.0.0", version: "17.0.0", ngImport: i0, type: StoreRouterConnectingModule }); }
+    /** @nocollapse */ static { this.ɵinj = i0.ɵɵngDeclareInjector({ minVersion: "12.0.0", version: "17.0.0", ngImport: i0, type: StoreRouterConnectingModule }); }
 }
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "17.0.0-next.8", ngImport: i0, type: StoreRouterConnectingModule, decorators: [{
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "17.0.0", ngImport: i0, type: StoreRouterConnectingModule, decorators: [{
             type: NgModule,
             args: [{}]
         }] });

@@ -1,6 +1,6 @@
 import { ROUTER_NAVIGATION } from '@ngrx/router-store';
 import { isObservable, of } from 'rxjs';
-import { concatMap, groupBy, mergeMap, switchMap, filter, map, catchError } from 'rxjs/operators';
+import { concatMap, groupBy, switchMap, mergeMap, filter, map, catchError } from 'rxjs/operators';
 
 /**
  * @description
