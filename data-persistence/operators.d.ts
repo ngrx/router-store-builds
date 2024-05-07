@@ -274,4 +274,4 @@ export declare function fetch<T extends Array<unknown>, A extends Action>(opts: 
  * @param component
  * @param opts
  */
-export declare function navigation<T extends Array<unknown>, A extends Action>(component: Type<any>, opts: HandleNavigationOpts<T>): (source: ActionStatesStream<T, A>) => Observable<Action>;
+export declare function navigation<T extends Array<unknown>, A extends Action>(component: Type<any>, opts: HandleNavigationOpts<T>): (source: ActionStatesStream<T, A>) => Observable<Action<string>>;
