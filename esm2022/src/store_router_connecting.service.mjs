@@ -166,10 +166,10 @@ export class StoreRouterConnectingService {
         this.storeState = null;
         this.routerState = null;
     }
-    /** @nocollapse */ static { this.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "18.0.0", ngImport: i0, type: StoreRouterConnectingService, deps: [{ token: i1.Store }, { token: i2.Router }, { token: i3.RouterStateSerializer }, { token: i0.ErrorHandler }, { token: ROUTER_CONFIG }, { token: ACTIVE_RUNTIME_CHECKS }], target: i0.ɵɵFactoryTarget.Injectable }); }
-    /** @nocollapse */ static { this.ɵprov = i0.ɵɵngDeclareInjectable({ minVersion: "12.0.0", version: "18.0.0", ngImport: i0, type: StoreRouterConnectingService }); }
+    /** @nocollapse */ static { this.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "18.2.5", ngImport: i0, type: StoreRouterConnectingService, deps: [{ token: i1.Store }, { token: i2.Router }, { token: i3.RouterStateSerializer }, { token: i0.ErrorHandler }, { token: ROUTER_CONFIG }, { token: ACTIVE_RUNTIME_CHECKS }], target: i0.ɵɵFactoryTarget.Injectable }); }
+    /** @nocollapse */ static { this.ɵprov = i0.ɵɵngDeclareInjectable({ minVersion: "12.0.0", version: "18.2.5", ngImport: i0, type: StoreRouterConnectingService }); }
 }
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "18.0.0", ngImport: i0, type: StoreRouterConnectingService, decorators: [{
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "18.2.5", ngImport: i0, type: StoreRouterConnectingService, decorators: [{
             type: Injectable
         }], ctorParameters: () => [{ type: i1.Store }, { type: i2.Router }, { type: i3.RouterStateSerializer }, { type: i0.ErrorHandler }, { type: undefined, decorators: [{
                     type: Inject,
