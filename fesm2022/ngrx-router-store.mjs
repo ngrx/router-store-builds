@@ -90,6 +90,15 @@ var NavigationActionTiming;
 const DEFAULT_ROUTER_FEATURENAME = 'router';
 const _ROUTER_CONFIG = new InjectionToken('@ngrx/router-store Internal Configuration');
 const ROUTER_CONFIG = new InjectionToken('@ngrx/router-store Configuration');
+/**
+ * Minimal = Serializes the router event with MinimalRouterStateSerializer
+ * Full = Serializes the router event with FullRouterStateSerializer
+ */
+var RouterState;
+(function (RouterState) {
+    RouterState[RouterState["Full"] = 0] = "Full";
+    RouterState[RouterState["Minimal"] = 1] = "Minimal";
+})(RouterState || (RouterState = {}));
 function _createRouterConfig(config) {
     return {
         stateKey: DEFAULT_ROUTER_FEATURENAME,
@@ -279,7 +288,7 @@ class StoreRouterConnectingService {
                 payload: {
                     routerState: this.routerState,
                     ...payload,
-                    event: this.config.routerState === 0 /* RouterState.Full */
+                    event: this.config.routerState === RouterState.Full
                         ? payload.event
                         : {
                             id: payload.event.id,
@@ -351,7 +360,7 @@ function provideRouterStore(config = {}) {
             provide: RouterStateSerializer,
             useClass: config.serializer
                 ? config.serializer
-                : config.routerState === 0 /* RouterState.Full */
+                : config.routerState === RouterState.Full
                     ? FullRouterStateSerializer
                     : MinimalRouterStateSerializer,
         },
@@ -480,5 +489,5 @@ function getRouterSelectors(selectState = createRouterSelector()) {
  * Generated bundle index. Do not edit.
  */
 
-export { DEFAULT_ROUTER_FEATURENAME, FullRouterStateSerializer, MinimalRouterStateSerializer, NavigationActionTiming, ROUTER_CANCEL, ROUTER_CONFIG, ROUTER_ERROR, ROUTER_NAVIGATED, ROUTER_NAVIGATION, ROUTER_REQUEST, RouterStateSerializer, StoreRouterConnectingModule, createRouterSelector, getRouterSelectors, provideRouterStore, routerCancelAction, routerErrorAction, routerNavigatedAction, routerNavigationAction, routerReducer, routerRequestAction };
+export { DEFAULT_ROUTER_FEATURENAME, FullRouterStateSerializer, MinimalRouterStateSerializer, NavigationActionTiming, ROUTER_CANCEL, ROUTER_CONFIG, ROUTER_ERROR, ROUTER_NAVIGATED, ROUTER_NAVIGATION, ROUTER_REQUEST, RouterState, RouterStateSerializer, StoreRouterConnectingModule, createRouterSelector, getRouterSelectors, provideRouterStore, routerCancelAction, routerErrorAction, routerNavigatedAction, routerNavigationAction, routerReducer, routerRequestAction };
 //# sourceMappingURL=ngrx-router-store.mjs.map

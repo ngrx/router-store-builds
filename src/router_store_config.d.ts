@@ -15,7 +15,7 @@ export declare const ROUTER_CONFIG: InjectionToken<unknown>;
  * Minimal = Serializes the router event with MinimalRouterStateSerializer
  * Full = Serializes the router event with FullRouterStateSerializer
  */
-export declare const enum RouterState {
+export declare enum RouterState {
     Full = 0,
     Minimal = 1
 }
